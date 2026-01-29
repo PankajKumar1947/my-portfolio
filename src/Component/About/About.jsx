@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaCode, FaServer, FaLightbulb, FaRocket, FaGraduationCap } from 'react-icons/fa'
+import { ABOUT_CONTENT } from '../../constants';
 
 const About = () => {
   const [githubStats, setGithubStats] = useState({});
@@ -24,28 +24,6 @@ const About = () => {
     fetctGithubStats()
   }, [])
 
-  const aboutPoints = [
-    {
-      icon: <FaGraduationCap className="text-violet-400" />,
-      text: "B.Tech student in Computer Science at Asansol Engineering College, passionate about full-stack development."
-    },
-    {
-      icon: <FaServer className="text-blue-400" />,
-      text: "Skilled in backend technologies like Node.js, Express.js, and MongoDB."
-    },
-    {
-      icon: <FaCode className="text-emerald-400" />,
-      text: "Frontend expertise in React.js, Next.js, JavaScript, HTML, CSS, and Tailwind CSS."
-    },
-    {
-      icon: <FaLightbulb className="text-amber-400" />,
-      text: "Over 680+ data structures and algorithm problems solved on LeetCode."
-    },
-    {
-      icon: <FaRocket className="text-pink-400" />,
-      text: "Excited to contribute to impactful projects at the intersection of technology and creativity."
-    }
-  ];
 
   return (
     <section id="about" className="relative py-20 overflow-hidden">
@@ -69,17 +47,16 @@ const About = () => {
           <div className="lg:w-1/2 space-y-6" data-aos="fade-right">
             <div className="relative">
               <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-2">
-                Hello! I'm <span className="text-violet-500">Pankaj Kumar</span>
+                {ABOUT_CONTENT.intro.heading}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
-                A passionate developer who loves crafting elegant solutions to complex problems.
-                I believe in writing clean, efficient code and building applications that make a difference.
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                {ABOUT_CONTENT.intro.description}
               </p>
             </div>
 
             {/* About Points with Icons */}
             <div className="space-y-3">
-              {aboutPoints.map((point, index) => (
+              {ABOUT_CONTENT.points.map((point, index) => (
                 <div
                   key={index}
                   className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700/30 shadow-sm dark:shadow-none backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:border-violet-300 dark:hover:border-violet-500/30 transition-all duration-300 group"
@@ -87,7 +64,7 @@ const About = () => {
                   data-aos-delay={index * 100}
                 >
                   <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-900/50 flex items-center justify-center text-lg group-hover:scale-110 transition-transform duration-300">
-                    {point.icon}
+                    <point.icon className={point.color} />
                   </div>
                   <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed pt-1">
                     {point.text}
@@ -178,12 +155,7 @@ const About = () => {
 
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 gap-3 mt-4">
-              {[
-                { label: 'Projects', value: '15+', color: 'from-violet-500 to-purple-500' },
-                { label: 'Problems', value: '680+', color: 'from-blue-500 to-cyan-500' },
-                { label: 'Commits', value: '2.9k+', color: 'from-emerald-500 to-green-500' },
-                { label: 'Tech Stack', value: '20+', color: 'from-orange-500 to-pink-500' }
-              ].map((stat, index) => (
+              {ABOUT_CONTENT.stats.map((stat, index) => (
                 <div
                   key={index}
                   className="relative group overflow-hidden rounded-xl bg-white dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700/30 p-4 text-center shadow-sm dark:shadow-none backdrop-blur-sm hover:border-gray-300 dark:hover:border-gray-600/50 transition-all duration-300"

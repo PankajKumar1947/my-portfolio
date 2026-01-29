@@ -1,7 +1,7 @@
 import React from 'react'
-import projectData from '../Data/Project'
 import { FaRegHandPointRight } from "react-icons/fa";
 import { BiLinkExternal } from 'react-icons/bi';
+import { PROJECTS } from '../../constants';
 
 const Project = () => {
   return (
@@ -13,7 +13,7 @@ const Project = () => {
 
           <div className='space-y-8'>
             {
-              projectData?.map((project, i) => {
+              PROJECTS?.map((project, i) => {
                 return (
                   <div
                     key={i}

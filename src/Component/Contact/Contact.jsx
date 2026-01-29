@@ -2,6 +2,7 @@ import React from 'react'
 import ContactCard from './ContactCard'
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { CONTACT } from '../../constants';
 
 const Contact = () => {
   //send form data
@@ -31,9 +32,9 @@ const Contact = () => {
             {/* left */}
             <div className='flex flex-col gap-3'>
 
-              <ContactCard name="Phone Number" value="+91-XXXXXXXXXX" href="tel:+918101865933" icon="fa-solid fa-phone" />
-              <ContactCard name="Email Address" value="click.12345@gmail.com" href="mailto:pankaj.ky3007@gmailcom" icon="fa-solid fa-envelope" />
-              <ContactCard name="Address" value="Asansol, West Bengal" href="https://maps.app.goo.gl/LjXYu15FdMgo91aB7" icon="fa-solid fa-location-dot" />
+              <ContactCard name="Phone Number" value={CONTACT.phone.value} href={CONTACT.phone.href} icon="fa-solid fa-phone" />
+              <ContactCard name="Email Address" value={CONTACT.email.value} href={CONTACT.email.href} icon="fa-solid fa-envelope" />
+              <ContactCard name="Address" value={CONTACT.address.value} href={CONTACT.address.href} icon="fa-solid fa-location-dot" />
             </div>
 
             {/* right */}
