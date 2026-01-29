@@ -17,7 +17,7 @@ const Project = () => {
                 return (
                   <div
                     key={i}
-                    className="grid lg:grid-cols-2 gap-2 sm:gap-8 items-center bg-white dark:bg-gray-800 p-4 py-6 rounded-xl">
+                    className="grid lg:grid-cols-2 gap-2 sm:gap-8 items-center bg-white dark:bg-gray-800/40  p-4 py-6 rounded-xl">
                     <div className={`space-y-2 ${i % 2 === 0 ? 'order-last' : ''}`}>
                       <div className='flex justify-start items-center gap-2'>
                         <div className="inline-flex items-center gap-2 bg-gray-400 dark:bg-white/10 rounded-full px-4 py-2">

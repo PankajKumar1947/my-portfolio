@@ -4,7 +4,7 @@ const EducationCard = (props) => {
   return (
     <>
       <a href={props.link}
-        className='dark:bg-gray-900 bg-white flex w-full md:w-[50%] lg:w-[45%] p-2 rounded-xl mt-10  cursor-pointer border-2  shadow-2xl dark:border-gray-500 dark:hover:shadow-gray-500 hover:shadow-black'
+        className='bg-white dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700/30 rounded-2xl overflow-hidden shadow-lg dark:shadow-none backdrop-blur-sm hover:border-violet-300 dark:hover:border-violet-500/30 transition-all duration-500 flex w-full md:w-[50%] lg:w-[45%] p-2 mt-10 cursor-pointer'
         data-aos="zoom-in-down">
         <div className='w-[48%]'>
           <img src={props.image} alt="" className='w-[90%] rounded-l-xl h-full' />

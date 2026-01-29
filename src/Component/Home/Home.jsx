@@ -2,6 +2,7 @@ import React from 'react'
 import Hero from '../Hero/Hero'
 import About from '../About/About'
 import Education from '../Education/Education'
+import Experience from '../Experience/Experience'
 import Skill from '../Skills/Skill'
 import Project from '../Project/Project'
 import Contact from '../Contact/Contact'
@@ -14,18 +15,19 @@ import Mywork from '../Mywork/Mywork'
 
 const Home = () => {
   // animation
-  useEffect(()=>{
-    AOS.init({duration:1500})
-},[])
+  useEffect(() => {
+    AOS.init({ duration: 1500 })
+  }, [])
   return (
     <>
-        <Hero/>
-        <About/>
-        <Education/>
-        <Skill/>
-        <Mywork/>
-        <Project/>
-        <Contact/>
+      <Hero />
+      <About />
+      <Skill />
+      <Experience />
+      <Mywork />
+      <Project />
+      <Education />
+      <Contact />
     </>
   )
 }
