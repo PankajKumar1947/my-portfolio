@@ -12,7 +12,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-interface FormTextareaProps {
+interface FormTextareaProps extends Omit<React.ComponentProps<typeof Textarea>, "name"> {
   name: string;
   label: string;
   placeholder?: string;
@@ -26,6 +26,7 @@ export function FormTextarea({
   placeholder,
   description,
   className,
+  ...props
 }: FormTextareaProps) {
   const { control } = useFormContext() || {};
 
@@ -39,8 +40,9 @@ export function FormTextarea({
           <FormControl>
             <Textarea
               placeholder={placeholder}
-              className={cn("min-h-30 resize-none", className)}
+              className={cn("min-h-20 resize-none", className)}
               {...field}
+              {...props}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}

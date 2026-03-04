@@ -1,6 +1,7 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AdminSidebar } from "../_components/admin-sidebar";
 import { AdminHeader } from "../_components/admin-header";
+import { NuqsAdapter } from "nuqs/adapters/react";
 
 export default function AdminLayout({
   children,
@@ -12,7 +13,9 @@ export default function AdminLayout({
       <AdminSidebar />
       <SidebarInset>
         <AdminHeader />
-        <div className="flex-1 p-6">{children}</div>
+        <NuqsAdapter>
+          <div className="flex-1 p-6">{children}</div>
+        </NuqsAdapter>
       </SidebarInset>
     </SidebarProvider>
   );
