@@ -1,0 +1,161 @@
+:root {
+  /* ---- Brand Accent Gradient ---- */
+  --gradient-primary: linear-gradient(135deg, #003566, #0c3370, #faa40b);
+  --gradient-text: linear-gradient(135deg, #003566, #0c3370);
+  --gradient-subtle: linear-gradient(135deg, rgba(0, 53, 102, 0.08), rgba(12, 51, 112, 0.08));
+
+  /* ---- Brand Colors ---- */
+  --brand-primary: #003566;
+  --brand-primary-light: #0c3370;
+  --brand-secondary: #0c3370;
+  --brand-accent: #faa40b;
+  --brand-success: #22c55e;
+  --brand-warning: #f59e0b;
+  --brand-info: #06b6d4;
+
+  /* ---- Spacing Scale ---- */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* ---- Typography ---- */
+  --font-heading: var(--font-geist-sans), system-ui, sans-serif;
+  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --font-code: var(--font-geist-mono), monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* ---- Shadows & Glows ---- */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px rgba(0, 53, 102, 0.15);
+  --shadow-glow-strong: 0 0 40px rgba(0, 53, 102, 0.25);
+
+  /* ---- Border Radius ---- */
+  --radius-card: 1rem;
+  --radius-pill: 9999px;
+  --radius-input: 0.75rem;
+
+  /* ---- Transitions ---- */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+
+  /* ---- Layout ---- */
+  --max-width: 1200px;
+  --nav-height: 4rem;
+
+  /* ---- Theme Variables (Light) ---- */
+  --radius: 0.75rem;
+
+  --background: #eef0f4;
+  --foreground: #020817;
+
+  --card: #ffffff;
+  --card-foreground: #020817;
+  --popover: #ffffff;
+  --popover-foreground: #020817;
+
+  --primary: #003566;
+  --primary-foreground: #ffffff;
+
+  --secondary: #0c3370;
+  --secondary-foreground: #ffffff;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --accent: #faa40b;
+  --accent-foreground: #ffffff;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #003566;
+
+  --chart-1: #e76e50;
+  --chart-2: #2a9d8f;
+  --chart-3: #264653;
+  --chart-4: #f4a261;
+  --chart-5: #e9c46a;
+
+  --sidebar: #e6e9ef;
+  --sidebar-foreground: #020817;
+  --sidebar-primary: #003566;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #003566;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #003566;
+}
+
+/* ---- Dark Mode ---- */
+.dark {
+  --background: #020817;
+  --foreground: #f8fafc;
+
+  --card: #0f1729;
+  --card-foreground: #f8fafc;
+
+  --popover: #0f1729;
+  --popover-foreground: #f8fafc;
+
+  --primary: #faa40b;
+  --primary-foreground: #003566;
+
+  --secondary: #142444;
+  --secondary-foreground: #f8fafc;
+
+  --muted: #142444;
+  --muted-foreground: #94a3b8;
+
+  --accent: #1a2e4a;
+  --accent-foreground: #f8fafc;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+
+  --border: #1e3a5f;
+  --input: #1a2e4a;
+  --ring: #faa40b;
+
+  --chart-1: #2662d9;
+  --chart-2: #2eb88a;
+  --chart-3: #e88c30;
+  --chart-4: #af57db;
+  --chart-5: #e23670;
+
+  --sidebar: #0a1020;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #faa40b;
+  --sidebar-primary-foreground: #003566;
+  --sidebar-accent: #142444;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #1e3a5f;
+  --sidebar-ring: #faa40b;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(250, 164, 11, 0.08);
+  --shadow-glow: 0 0 25px rgba(250, 164, 11, 0.12);
+  --shadow-glow-strong: 0 0 50px rgba(250, 164, 11, 0.25);
+
+  --gradient-text: linear-gradient(135deg, #faa40b, #f4a261);
+  --gradient-primary: linear-gradient(135deg, #faa40b, #003566);
+}
