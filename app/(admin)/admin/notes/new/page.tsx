@@ -58,7 +58,11 @@ export default function NoteContentEditorPage() {
   React.useEffect(() => {
     const stored = sessionStorage.getItem("note-draft-meta");
     if (stored) {
-      setMeta(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      setMeta(parsed);
+      if (parsed.pages && parsed.pages.length > 0) {
+        setPages(parsed.pages);
+      }
     } else {
       router.replace("/admin/notes");
     }

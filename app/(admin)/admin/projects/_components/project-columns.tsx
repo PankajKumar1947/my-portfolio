@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -92,24 +92,40 @@ export const projectColumns: ColumnDef<Project>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} label="Actions" />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <ProjectForm
-          initialData={{
-            ...row.original,
-            tags: row.original.tags.join(", "),
-            featured: !!row.original.featured,
-          }}
-        />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 text-muted-foreground hover:text-destructive"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const project = row.original;
+      const initialData = {
+        ...project,
+        tags: project.tags.join(", "),
+        featured: !!project.featured,
+      };
+
+      return (
+        <div className="flex items-center gap-2">
+          <ProjectForm
+            initialData={initialData}
+            trigger={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-primary"
+              >
+                <Eye className="h-4 w-4" />
+                <span className="sr-only">View Details</span>
+              </Button>
+            }
+          />
+          <ProjectForm initialData={initialData} />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-destructive"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },

@@ -1,7 +1,8 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -89,18 +90,37 @@ export const noteColumns: ColumnDef<Note>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} label="Actions" />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <NoteForm initialData={{ ...row.original, status: row.original.published ? "published" : "draft" }} />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 text-muted-foreground hover:text-destructive"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+      const note = row.original;
+
+      const handleEditContent = () => {
+        sessionStorage.setItem("note-draft-meta", JSON.stringify(note));
+        router.push("/admin/notes/new");
+      };
+
+      return (
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-primary"
+            onClick={handleEditContent}
+          >
+            <Eye className="h-4 w-4" />
+            <span className="sr-only">Edit Content</span>
+          </Button>
+          <NoteForm initialData={{ ...note, status: note.published ? "published" : "draft" }} />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-destructive"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },

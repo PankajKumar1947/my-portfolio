@@ -25,7 +25,11 @@ export default function BlogContentEditorPage() {
   React.useEffect(() => {
     const stored = sessionStorage.getItem("blog-draft-meta");
     if (stored) {
-      setMeta(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      setMeta(parsed);
+      if (parsed.content) {
+        setContent(parsed.content);
+      }
     } else {
       router.replace("/admin/blogs");
     }
