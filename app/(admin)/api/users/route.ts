@@ -1,19 +1,14 @@
 import { NextResponse } from "next/server"
 import { createUserSchema } from "@/validations/user.schema"
 import { createUserService, getUsersService } from "@/services/user.service"
-import { connectDB } from "@/lib/db"
+import { apiHandler } from "@/lib/api-handler"
 
-export async function GET() {
-  await connectDB()
-
+export const GET = apiHandler(async () => {
   const users = await getUsersService()
-
   return NextResponse.json(users)
-}
+})
 
-export async function POST(req: Request) {
-  await connectDB()
-
+export const POST = apiHandler(async (req: Request) => {
   const body = await req.json()
 
   const parsed = createUserSchema.safeParse(body)
@@ -28,4 +23,4 @@ export async function POST(req: Request) {
   const user = await createUserService(parsed.data)
 
   return NextResponse.json(user)
-}
+})
