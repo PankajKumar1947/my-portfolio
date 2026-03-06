@@ -538,9 +538,12 @@ The aggregation pipeline is a framework for data aggregation modeled as a pipeli
 // ---- Profile Info ----
 export const profileInfo = {
   name: "Pankaj",
+  profileImage: "/profile-picture.png",
   tagline: "Full Stack Web Developer",
   bio: "Passionate full-stack developer with expertise in building scalable web applications. I love turning complex problems into simple, elegant solutions using modern technologies.",
   email: "hello@pankaj.dev",
+  phone: "+91 12345 67890",
+  address: "123, Tech Park, Bangalore, India",
   location: "India",
   socials: {
     github: "https://github.com/pankaj",
