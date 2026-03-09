@@ -1,21 +1,33 @@
+"use client";
+
+import * as React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { blogPosts, profileInfo } from "@/lib/mock-data";
+import { profileInfo } from "@/lib/mock-data";
+import { useBlog } from "@/hooks/query/use-blog";
 
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+export default function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = React.use(params);
+  const { data: post, isLoading, error } = useBlog(slug);
 
-  if (!post) {
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error || !post) {
     notFound();
   }
 

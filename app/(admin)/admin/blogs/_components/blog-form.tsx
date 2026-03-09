@@ -15,10 +15,12 @@ import { FormSelect } from "@/components/form-field/form-select";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
 
-import { blogSchema, type BlogFormValues } from "@/schema/blog";
+import { blogSchema, type BlogFormValues } from "@/validations/blogs.schema";
+import { IBlog } from "@/types/blog.types";
+import { useUpdateBlog } from "@/hooks/mutation/use-blog";
 
 interface BlogFormProps {
-  initialData?: BlogFormValues;
+  initialData?: IBlog;
   onSubmit?: (data: BlogFormValues) => void;
   trigger?: React.ReactNode;
 }
@@ -31,39 +33,55 @@ export function BlogForm({
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const isEdit = !!initialData;
+  const { mutate: updateBlog } = useUpdateBlog(initialData?._id.toString() || "");
 
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
-    defaultValues: initialData || {
-      title: "",
-      slug: "",
-      excerpt: "",
-      coverImage: "",
-      readTime: "",
-      status: "draft",
+    defaultValues: {
+      title: initialData?.title || "",
+      slug: initialData?.slug || "",
+      excerpt: initialData?.excerpt || "",
+      coverImg: initialData?.coverImg || "",
+      readTime: initialData?.readTime || "",
+      status: initialData?.status || "draft",
+      content: initialData?.content || "",
+      author: initialData?.author?.toString() || "",
     },
   });
 
   // Reset form when dialog opens
   React.useEffect(() => {
-    if (open && initialData) {
-      form.reset(initialData);
-    } else if (open && !initialData) {
-      form.reset({
-        title: "",
-        slug: "",
-        excerpt: "",
-        coverImage: "",
-        readTime: "",
-        status: "draft",
-      });
+    if (open) {
+      if (initialData) {
+        form.reset({
+          title: initialData.title,
+          slug: initialData.slug,
+          excerpt: initialData.excerpt,
+          coverImg: initialData.coverImg,
+          readTime: initialData.readTime,
+          status: initialData.status,
+          content: initialData.content,
+          author: initialData.author?.toString(),
+        });
+      } else {
+        form.reset({
+          title: "",
+          slug: "",
+          excerpt: "",
+          coverImg: "",
+          readTime: "",
+          status: "draft",
+          content: "",
+          author: "",
+        });
+      }
     }
   }, [open, initialData, form]);
 
   // Auto-generate slug from title
   const watchTitle = form.watch("title");
   React.useEffect(() => {
-    if (watchTitle) {
+    if (watchTitle && !isEdit) {
       const slug = watchTitle
         .toLowerCase()
         .replace(/[^a-z0-9\s-]/g, "")
@@ -72,13 +90,16 @@ export function BlogForm({
         .trim();
       form.setValue("slug", slug);
     }
-  }, [watchTitle, form]);
+  }, [watchTitle, form, isEdit]);
 
-  function handleSubmit(data: BlogFormValues) {
+  async function handleSubmit(data: BlogFormValues) {
     if (onSubmitProp) {
       onSubmitProp(data);
+    } else if (isEdit) {
+      // @ts-ignore - Author string to ObjectId mismatch in frontend types
+      updateBlog(data);
     } else {
-      // Default behavior: store in session and navigate to content editor
+      // Default behavior for new: store in session and navigate to content editor
       sessionStorage.setItem("blog-draft-meta", JSON.stringify(data));
       router.push("/admin/blogs/new");
     }
@@ -145,7 +166,7 @@ export function BlogForm({
             <InfoSection title="Settings">
               <InfoGrid cols={2}>
                 <FormInput
-                  name="coverImage"
+                  name="coverImg"
                   label="Cover Image URL"
                   placeholder="https://..."
                 />
@@ -163,6 +184,7 @@ export function BlogForm({
                   options={[
                     { label: "Draft", value: "draft" },
                     { label: "Published", value: "published" },
+                    { label: "Inactive", value: "inactive" },
                   ]}
                 />
               </InfoGrid>

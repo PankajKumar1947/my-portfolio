@@ -2,25 +2,23 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Save } from "lucide-react";
+import { Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 
-interface BlogMeta {
-  title: string;
-  slug: string;
-  excerpt: string;
-  coverImage?: string;
-  readTime: string;
-  status: string;
-}
+import { useCreateBlog, useUpdateBlog } from "@/hooks/mutation/use-blog";
+import { BlogFormValues } from "@/validations/blogs.schema";
+import { IBlog } from "@/types/blog.types";
 
 export default function BlogContentEditorPage() {
   const router = useRouter();
-  const [meta, setMeta] = React.useState<BlogMeta | null>(null);
+  const [meta, setMeta] = React.useState<(BlogFormValues & { _id?: string }) | null>(null);
   const [content, setContent] = React.useState("");
+
+  const { mutate: createBlog, isPending: isCreating } = useCreateBlog();
+  const { mutate: updateBlog, isPending: isUpdating } = useUpdateBlog(meta?._id || "");
 
   React.useEffect(() => {
     const stored = sessionStorage.getItem("blog-draft-meta");
@@ -44,11 +42,26 @@ export default function BlogContentEditorPage() {
   }
 
   const handleSave = () => {
-    const blogData = { ...meta, content };
-    console.log("Saving blog:", blogData);
-    sessionStorage.removeItem("blog-draft-meta");
-    router.push("/admin/blogs");
+    const blogData = { ...meta, content } as any;
+
+    if (meta._id) {
+      updateBlog(blogData, {
+        onSuccess: () => {
+          sessionStorage.removeItem("blog-draft-meta");
+          router.push("/admin/blogs");
+        }
+      });
+    } else {
+      createBlog(blogData, {
+        onSuccess: () => {
+          sessionStorage.removeItem("blog-draft-meta");
+          router.push("/admin/blogs");
+        }
+      });
+    }
   };
+
+  const isSaving = isCreating || isUpdating;
 
   return (
     <div className="space-y-6">
@@ -67,14 +80,18 @@ export default function BlogContentEditorPage() {
                   : ""
               }
             >
-              {meta.status === "published" ? "Published" : "Draft"}
+              {meta.status}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground">{meta.excerpt}</p>
         </div>
-        <Button onClick={handleSave}>
-          <Save className="mr-2 h-4 w-4" />
-          Save Post
+        <Button onClick={handleSave} disabled={isSaving}>
+          {isSaving ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="mr-2 h-4 w-4" />
+          )}
+          {meta._id ? "Update Post" : "Save Post"}
         </Button>
       </div>
 
@@ -88,11 +105,11 @@ export default function BlogContentEditorPage() {
           <span className="text-muted-foreground">Read Time: </span>
           <span>{meta.readTime}</span>
         </div>
-        {meta.coverImage && (
+        {meta.coverImg && (
           <div className="text-sm">
             <span className="text-muted-foreground">Cover: </span>
             <span className="max-w-48 truncate font-mono text-xs">
-              {meta.coverImage}
+              {meta.coverImg}
             </span>
           </div>
         )}

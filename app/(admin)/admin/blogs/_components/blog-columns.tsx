@@ -1,22 +1,17 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Eye, MoreHorizontal, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { BlogForm } from "./blog-form";
-import type { BlogPost } from "@/lib/mock-data";
+import { IBlog } from "@/types/blog.types";
+import { useDeleteBlog } from "@/hooks/mutation/use-blog";
 
-export const blogColumns: ColumnDef<BlogPost>[] = [
+export const blogColumns: ColumnDef<IBlog>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => (
@@ -28,22 +23,22 @@ export const blogColumns: ColumnDef<BlogPost>[] = [
     meta: { label: "Title" },
   },
   {
-    accessorKey: "published",
+    accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} label="Status" />
     ),
     cell: ({ row }) => {
-      const published = row.getValue("published") as boolean;
+      const status = row.getValue("status") as string;
       return (
         <Badge
-          variant={published ? "default" : "secondary"}
+          variant={status === "published" ? "default" : "secondary"}
           className={
-            published
+            status === "published"
               ? "bg-green-500/10 text-green-500 hover:bg-green-500/20"
               : ""
           }
         >
-          {published ? "Published" : "Draft"}
+          {status.charAt(0).toUpperCase() + status.slice(1)}
         </Badge>
       );
     },
@@ -51,8 +46,9 @@ export const blogColumns: ColumnDef<BlogPost>[] = [
       label: "Status",
       variant: "select" as const,
       options: [
-        { label: "Published", value: "true" },
-        { label: "Draft", value: "false" },
+        { label: "Published", value: "published" },
+        { label: "Draft", value: "draft" },
+        { label: "Inactive", value: "inactive" },
       ],
     },
     enableColumnFilter: true,
@@ -88,10 +84,17 @@ export const blogColumns: ColumnDef<BlogPost>[] = [
     cell: ({ row }) => {
       const router = useRouter();
       const blog = row.original;
+      const { mutate: deleteBlog } = useDeleteBlog();
 
       const handleEditContent = () => {
         sessionStorage.setItem("blog-draft-meta", JSON.stringify(blog));
         router.push("/admin/blogs/new");
+      };
+
+      const handleDelete = () => {
+        if (window.confirm("Are you sure you want to delete this blog post?")) {
+          deleteBlog(blog._id.toString());
+        }
       };
 
       return (
@@ -105,11 +108,12 @@ export const blogColumns: ColumnDef<BlogPost>[] = [
             <Eye className="h-4 w-4" />
             <span className="sr-only">Edit Content</span>
           </Button>
-          <BlogForm initialData={{ ...blog, status: blog.published ? "published" : "draft" }} />
+          <BlogForm initialData={blog} />
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8 text-muted-foreground hover:text-destructive"
+            onClick={handleDelete}
           >
             <Trash2 className="h-4 w-4" />
           </Button>

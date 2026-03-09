@@ -15,18 +15,6 @@ export interface Project {
   createdAt: string;
 }
 
-export interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  coverImage: string;
-  readTime: string;
-  published: boolean;
-  createdAt: string;
-}
-
 export interface NotePage {
   id: string;
   title: string;
@@ -222,120 +210,6 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/username/devops-pipeline",
     featured: false,
     createdAt: "2024-01-20",
-  },
-];
-
-// ---- Blog Posts ----
-export const blogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Building Scalable APIs with NestJS and PostgreSQL",
-    slug: "building-scalable-apis-nestjs",
-    excerpt:
-      "Learn how to architect and build production-ready REST APIs using NestJS framework with PostgreSQL database, covering best practices for validation, error handling, and testing.",
-    content: `# Building Scalable APIs with NestJS and PostgreSQL
-
-NestJS provides an excellent framework for building server-side applications. Combined with PostgreSQL, you get a robust foundation for any backend service.
-
-## Setting Up the Project
-
-First, install NestJS CLI globally and create a new project...
-
-## Database Configuration
-
-Configure TypeORM with PostgreSQL for seamless database operations...
-
-## Creating Modules
-
-Structure your application using NestJS modules for better organization...
-
-## Best Practices
-
-- Use DTOs for request validation
-- Implement proper error handling with exception filters
-- Write unit and e2e tests
-- Use environment variables for configuration`,
-    coverImage: "/blog/nestjs-api.jpg",
-    readTime: "8 min read",
-    published: true,
-    createdAt: "2024-12-01",
-  },
-  {
-    id: "2",
-    title: "Modern State Management with TanStack Query",
-    slug: "modern-state-management-tanstack-query",
-    excerpt:
-      "Ditch complex state management libraries. Learn how TanStack Query simplifies server state management in React applications with caching, background refetching, and optimistic updates.",
-    content: `# Modern State Management with TanStack Query
-
-TanStack Query (formerly React Query) has revolutionized how we handle server state in React apps.
-
-## Why TanStack Query?
-
-Traditional state management treats server data like client state. TanStack Query understands that server state is fundamentally different...
-
-## Core Concepts
-
-### Queries
-Fetch and cache data effortlessly...
-
-### Mutations
-Handle create, update, and delete operations...
-
-### Invalidation
-Keep your UI in sync with server state...`,
-    coverImage: "/blog/tanstack-query.jpg",
-    readTime: "6 min read",
-    published: true,
-    createdAt: "2024-10-15",
-  },
-  {
-    id: "3",
-    title: "Docker for Full Stack Developers",
-    slug: "docker-for-fullstack-developers",
-    excerpt:
-      "A practical guide to containerizing your full-stack applications with Docker, from development environment setup to production deployment.",
-    content: `# Docker for Full Stack Developers
-
-Docker simplifies the development workflow by providing consistent environments across all stages.
-
-## Getting Started
-
-Understanding images, containers, and volumes...
-
-## Docker Compose
-
-Orchestrate your full-stack application services...
-
-## Production Best Practices
-
-Multi-stage builds, security considerations, and optimization tips...`,
-    coverImage: "/blog/docker-guide.jpg",
-    readTime: "10 min read",
-    published: true,
-    createdAt: "2024-08-22",
-  },
-  {
-    id: "4",
-    title: "Turborepo: Managing Monorepos at Scale",
-    slug: "turborepo-monorepos-at-scale",
-    excerpt:
-      "Explore how Turborepo can supercharge your monorepo workflow with intelligent caching, parallel execution, and seamless package management.",
-    content: `# Turborepo: Managing Monorepos at Scale
-
-Monorepos have become the go-to approach for managing related projects. Turborepo makes it effortless.
-
-## Setup and Configuration
-
-Initialize a Turborepo workspace and configure pipelines...
-
-## Caching Strategies
-
-Leverage local and remote caching for faster builds...`,
-    coverImage: "/blog/turborepo.jpg",
-    readTime: "7 min read",
-    published: true,
-    createdAt: "2024-06-10",
   },
 ];
 

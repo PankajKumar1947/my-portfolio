@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { BlogPost } from "@/lib/mock-data";
+import { IBlog } from "@/types/blog.types";
 
 interface BlogCardProps {
-  post: BlogPost;
+  post: IBlog;
 }
 
 export function BlogCard({ post }: BlogCardProps) {
