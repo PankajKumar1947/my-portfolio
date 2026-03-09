@@ -11,7 +11,7 @@ export interface IBlog {
   readTime: string;
   status: BlogStatus;
   content: string;
-  author: Types.ObjectId;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
 }

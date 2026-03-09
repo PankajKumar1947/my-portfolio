@@ -34,9 +34,8 @@ const blogSchema = new Schema<IBlog>(
       default: "",
     },
     author: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: false
+      type: String,
+      default: "Admin"
     },
   },
   { timestamps: true }

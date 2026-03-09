@@ -27,9 +27,9 @@ export const getBlogs = async (): Promise<IBlog[]> => {
 export const getBlog = async (
   blogId: Types.ObjectId
 ): Promise<IBlog | null> => {
-  return await BlogModel.findById(blogId).populate("author");
+  return await BlogModel.findById(blogId);
 };
 
 export const getBlogBySlug = async (slug: string): Promise<IBlog | null> => {
-  return await BlogModel.findOne({ slug }).populate("author");
+  return await BlogModel.findOne({ slug });
 };

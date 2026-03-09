@@ -22,6 +22,8 @@ export const POST = apiHandler(async (req: Request) => {
     );
   }
 
-  const blog = await createBlogService(parsed.data as any);
+  // Add the author as a string, overriding any potential author from the request body
+  const blogData = { ...parsed.data, author: process.env.ADMIN_NAME || "Admin" };
+  const blog = await createBlogService(blogData as any);
   return NextResponse.json(blog, { status: 201 });
 });

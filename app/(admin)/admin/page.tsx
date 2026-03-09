@@ -1,6 +1,6 @@
 import { FileText, BookOpen, FolderKanban, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { blogPosts, notes, projects } from "@/lib/mock-data";
+import { notes, projects } from "@/lib/mock-data";
 
 const stats = [
   {
@@ -11,9 +11,9 @@ const stats = [
   },
   {
     title: "Blog Posts",
-    value: blogPosts.length,
+    value: 0,
     icon: FileText,
-    description: `${blogPosts.filter((p) => p.published).length} published`,
+    description: `0 published`,
   },
   {
     title: "Notes",
@@ -60,8 +60,8 @@ export default function AdminDashboard() {
           <CardHeader>
             <CardTitle className="text-base">Recent Blog Posts</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
-            {blogPosts.slice(0, 3).map((post) => (
+          {/* <CardContent className="space-y-3">
+            {[].slice(0, 3).map((post) => (
               <div
                 key={post.id}
                 className="flex items-center justify-between rounded-lg border border-border/30 p-3"
@@ -82,7 +82,7 @@ export default function AdminDashboard() {
                 </span>
               </div>
             ))}
-          </CardContent>
+          </CardContent> */}
         </Card>
 
         {/* Recent Notes */}
@@ -105,8 +105,8 @@ export default function AdminDashboard() {
                 </div>
                 <span
                   className={`ml-3 rounded-full px-2 py-0.5 text-xs ${note.published
-                      ? "bg-green-500/10 text-green-500"
-                      : "bg-yellow-500/10 text-yellow-500"
+                    ? "bg-green-500/10 text-green-500"
+                    : "bg-yellow-500/10 text-yellow-500"
                     }`}
                 >
                   {note.published ? "Published" : "Draft"}

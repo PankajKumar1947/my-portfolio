@@ -1,36 +1,25 @@
 import { NextResponse } from "next/server"
-import bcrypt from "bcryptjs"
 import { signToken } from "@/lib/jwt"
-import { UserModel } from "@/models/user.model"
 import { apiHandler, ApiError } from "@/lib/api-handler"
 
 export const POST = apiHandler(async (req: Request) => {
   const { email, password } = await req.json()
 
+  const adminEmail = process.env.ADMIN_EMAIL
+  const adminPassword = process.env.ADMIN_PASSWORD
+
   if (!email || !password) {
     throw new ApiError("Email and password are required", 400);
   }
 
-  const user = await UserModel.findOne({ email }).select("+password")
-
-  if (!user) {
-    throw new ApiError("Invalid credentials", 401);
-  }
-
-  if (!user.password) {
-    console.error(`Error: User ${email} exists but has no password hash in database. Re-create this user.`);
-    throw new ApiError("Invalid credentials", 401);
-  }
-
-  const validPassword = await bcrypt.compare(password, user.password)
-
-  if (!validPassword) {
+  if (email !== adminEmail || password !== adminPassword) {
     throw new ApiError("Invalid credentials", 401);
   }
 
   const token = signToken({
-    userId: user._id.toString(),
-    email: user.email
+    userId: "admin",
+    email: adminEmail as string,
+    name: process.env.ADMIN_NAME as string
   })
 
   const response = NextResponse.json({ success: true })
