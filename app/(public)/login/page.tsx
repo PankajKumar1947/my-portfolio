@@ -2,25 +2,17 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import Link from "next/link";
-import { ArrowLeft, Loader2, Lock } from "lucide-react";
+import { Loader2, Lock } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormInput } from "@/components/form-field/form-input";
-import { useState } from "react";
-
-const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type LoginValues = z.infer<typeof loginSchema>;
+import { loginSchema, LoginValues } from "@/validations/auth.schema";
+import { AlertCircle } from "lucide-react";
+import { useLogin } from "@/hooks/mutation/use-auth";
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
-
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,12 +21,10 @@ export default function LoginPage() {
     },
   });
 
-  async function onSubmit(data: LoginValues) {
-    setIsLoading(true);
-    // Simulate API call
-    console.log("Login data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsLoading(false);
+  const { mutate: login, isPending, error } = useLogin();
+
+  function onSubmit(data: LoginValues) {
+    login(data);
   }
 
   return (
@@ -58,6 +48,13 @@ export default function LoginPage() {
             <CardDescription className="text-center">
               Provide your information below to continue
             </CardDescription>
+
+            {error && (
+              <div className="mt-4 flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive animate-in fade-in slide-in-from-top-1 duration-300">
+                <AlertCircle className="h-4 w-4" />
+                <p>{(error as any).message || "An error occurred"}</p>
+              </div>
+            )}
           </CardHeader>
 
           <CardContent className="relative">
@@ -69,7 +66,7 @@ export default function LoginPage() {
                   placeholder="name@example.com"
                   type="email"
                   autoComplete="email"
-                  disabled={isLoading}
+                  disabled={isPending}
                 />
                 <FormInput
                   name="password"
@@ -77,14 +74,14 @@ export default function LoginPage() {
                   placeholder="••••••••"
                   type="password"
                   autoComplete="current-password"
-                  disabled={isLoading}
+                  disabled={isPending}
                 />
                 <Button
                   type="submit"
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                  disabled={isLoading}
+                  disabled={isPending}
                 >
-                  {isLoading ? (
+                  {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Signing In...
