@@ -41,5 +41,10 @@ const blogSchema = new Schema<IBlog>(
   { timestamps: true }
 );
 
+// Force delete the model to ensure schema changes are applied
+if (mongoose.models.Blog) {
+  delete mongoose.models.Blog;
+}
+
 export const BlogModel: Model<IBlog> =
   mongoose.models.Blog || mongoose.model<IBlog>("Blog", blogSchema);

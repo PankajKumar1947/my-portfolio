@@ -23,3 +23,13 @@ export const useBlog = (slug: string) => {
     enabled: !!slug,
   });
 };
+export const useBlogById = (id: string) => {
+  return useQuery({
+    queryKey: blogQueries.byId(id).key,
+    queryFn: async () => {
+      const response = await axiosInstance.get<IBlog>(blogQueries.byId(id).endpoint);
+      return response.data;
+    },
+    enabled: !!id,
+  });
+};

@@ -7,7 +7,7 @@ export const blogSchema = z.object({
   coverImg: z.string().optional(),
   readTime: z.string().min(1, "Read time is required"),
   status: z.enum(["draft", "published", "inactive"]),
-  content: z.string().default(""),
+  content: z.string(),
   author: z.string().optional(),
 });
 

@@ -19,4 +19,8 @@ export const blogQueries = {
     key: ["blogs", "delete", id],
     endpoint: `/blogs/${id}`,
   }),
+  byId: (id: string) => ({
+    key: ["blogs", "id", id],
+    endpoint: `/blogs/id/${id}`,
+  }),
 };

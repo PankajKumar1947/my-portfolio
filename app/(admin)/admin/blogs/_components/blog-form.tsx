@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Plus, Edit2 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { BaseDialog } from "@/components/layout/base-dialog";
@@ -14,10 +13,9 @@ import { FormTextarea } from "@/components/form-field/form-textarea";
 import { FormSelect } from "@/components/form-field/form-select";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
-
 import { blogSchema, type BlogFormValues } from "@/validations/blogs.schema";
 import { IBlog } from "@/types/blog.types";
-import { useUpdateBlog } from "@/hooks/mutation/use-blog";
+import { useCreateBlog, useUpdateBlog } from "@/hooks/mutation/use-blog";
 
 interface BlogFormProps {
   initialData?: IBlog;
@@ -33,7 +31,8 @@ export function BlogForm({
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const isEdit = !!initialData;
-  const { mutate: updateBlog } = useUpdateBlog(initialData?._id.toString() || "");
+  const { mutate: updateBlog, isPending: isUpdating } = useUpdateBlog(initialData?._id.toString() || "");
+  const { mutate: createBlog, isPending: isCreating } = useCreateBlog();
 
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
@@ -45,7 +44,7 @@ export function BlogForm({
       readTime: initialData?.readTime || "",
       status: initialData?.status || "draft",
       content: initialData?.content || "",
-      author: initialData?.author?.toString() || "",
+      author: initialData?.author || "",
     },
   });
 
@@ -60,8 +59,8 @@ export function BlogForm({
           coverImg: initialData.coverImg,
           readTime: initialData.readTime,
           status: initialData.status,
-          content: initialData.content,
-          author: initialData.author?.toString(),
+          content: initialData.content || "",
+          author: initialData.author,
         });
       } else {
         form.reset({
@@ -92,20 +91,29 @@ export function BlogForm({
     }
   }, [watchTitle, form, isEdit]);
 
-  async function handleSubmit(data: BlogFormValues) {
+  async function handleSubmit(values: BlogFormValues) {
     if (onSubmitProp) {
-      onSubmitProp(data);
-    } else if (isEdit) {
-      // @ts-ignore - Author string to ObjectId mismatch in frontend types
-      updateBlog(data);
-    } else {
-      // Default behavior for new: store in session and navigate to content editor
-      sessionStorage.setItem("blog-draft-meta", JSON.stringify(data));
-      router.push("/admin/blogs/new");
+      onSubmitProp(values);
+      setOpen(false);
+      return;
     }
-    setOpen(false);
-    if (!isEdit) {
-      form.reset();
+
+    const data = values as any;
+
+    if (isEdit) {
+      updateBlog(data, {
+        onSuccess: (updatedBlog) => {
+          setOpen(false);
+          router.push(`/admin/blogs/edit/${updatedBlog._id}`);
+        }
+      });
+    } else {
+      createBlog(data, {
+        onSuccess: (newBlog) => {
+          setOpen(false);
+          router.push(`/admin/blogs/edit/${newBlog._id}`);
+        }
+      });
     }
   }
 
@@ -128,16 +136,20 @@ export function BlogForm({
     <BaseDialog
       open={open}
       onOpenChange={setOpen}
-      title={isEdit ? "Edit Blog Post" : "Create New Blog Post"}
+      title={isEdit ? "Edit Blog Post Info" : "Create New Blog Post"}
       description={
         isEdit
-          ? "Update the details of this blog post."
+          ? "Update the details of this blog post. You can edit the content afterwards."
           : "Fill in the blog details. You'll write the content on the next page."
       }
       trigger={trigger || defaultTrigger}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <form
+          // @ts-ignore
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="space-y-6"
+        >
           <InfoGrid cols={1} className="gap-6">
             <InfoSection title="Post Details">
               <InfoGrid cols={1} className="mb-4">

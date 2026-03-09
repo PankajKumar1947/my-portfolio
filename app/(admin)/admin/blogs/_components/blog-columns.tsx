@@ -3,7 +3,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Eye, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
@@ -87,8 +86,7 @@ export const blogColumns: ColumnDef<IBlog>[] = [
       const { mutate: deleteBlog } = useDeleteBlog();
 
       const handleEditContent = () => {
-        sessionStorage.setItem("blog-draft-meta", JSON.stringify(blog));
-        router.push("/admin/blogs/new");
+        router.push(`/admin/blogs/edit/${blog._id}`);
       };
 
       const handleDelete = () => {
