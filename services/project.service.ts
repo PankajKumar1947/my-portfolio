@@ -25,6 +25,10 @@ export const getProjectsService = async (): Promise<IProject[]> => {
   return projectRepo.getProjects();
 };
 
+export const getPublishedProjectsService = async (): Promise<IProject[]> => {
+  return projectRepo.getPublishedProjects();
+};
+
 export const getProjectService = async (
   projectId: Types.ObjectId
 ): Promise<IProject | null> => {

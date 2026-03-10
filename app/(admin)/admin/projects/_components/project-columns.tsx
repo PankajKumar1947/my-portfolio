@@ -70,6 +70,41 @@ export const projectColumns: ColumnDef<IProject>[] = [
     enableColumnFilter: true,
   },
   {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} label="Status" />
+    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+      return (
+        <Badge
+          variant={status === "published" ? "default" : "secondary"}
+          className={
+            status === "published"
+              ? "bg-green-500/10 text-green-500 hover:bg-green-500/20 border-green-500/20"
+              : status === "draft"
+              ? "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 border-yellow-500/20"
+              : ""
+          }
+        >
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Badge>
+      );
+    },
+    meta: {
+      label: "Status",
+      variant: "select" as const,
+      options: [
+        { label: "Draft", value: "draft" },
+        { label: "Published", value: "published" },
+        { label: "Inactive", value: "inactive" },
+      ],
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} label="Date" />

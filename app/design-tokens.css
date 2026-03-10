@@ -108,54 +108,49 @@
 
 /* ---- Dark Mode ---- */
 .dark {
-  --background: #020817;
-  --foreground: #f8fafc;
+  --background: #1e1e1e; /* VS Code Default Dark+ Background */
+  --foreground: #d4d4d4; /* VS Code Default Foreground */
 
-  --card: #0f1729;
-  --card-foreground: #f8fafc;
+  --card: #252526; /* VS Code Sidebar/Editor Background */
+  --card-foreground: #d4d4d4;
 
-  --popover: #0f1729;
-  --popover-foreground: #f8fafc;
+  --popover: #252526;
+  --popover-foreground: #d4d4d4;
 
-  --primary: #faa40b;
-  --primary-foreground: #003566;
+  --primary: #007acc; /* VS Code Blue */
+  --primary-foreground: #ffffff;
 
-  --secondary: #142444;
-  --secondary-foreground: #f8fafc;
+  --secondary: #333333; /* VS Code Activity Bar Background */
+  --secondary-foreground: #ffffff;
 
-  --muted: #142444;
-  --muted-foreground: #94a3b8;
+  --muted: #2d2d2d;
+  --muted-foreground: #858585;
 
-  --accent: #1a2e4a;
-  --accent-foreground: #f8fafc;
+  --accent: #37373d;
+  --accent-foreground: #ffffff;
 
-  --destructive: #ef4444;
-  --destructive-foreground: #f8fafc;
+  --destructive: #f14c4c;
+  --destructive-foreground: #ffffff;
 
-  --border: #1e3a5f;
-  --input: #1a2e4a;
-  --ring: #faa40b;
+  --border: #3e3e42;
+  --input: #3c3c3c;
+  --ring: #007acc;
 
-  --chart-1: #2662d9;
-  --chart-2: #2eb88a;
-  --chart-3: #e88c30;
-  --chart-4: #af57db;
-  --chart-5: #e23670;
+  --sidebar: #252526;
+  --sidebar-foreground: #cccccc;
+  --sidebar-primary: #007acc;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #37373d;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #3e3e42;
+  --sidebar-ring: #007acc;
 
-  --sidebar: #0a1020;
-  --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #faa40b;
-  --sidebar-primary-foreground: #003566;
-  --sidebar-accent: #142444;
-  --sidebar-accent-foreground: #f8fafc;
-  --sidebar-border: #1e3a5f;
-  --sidebar-ring: #faa40b;
+  --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 15px rgba(0, 122, 204, 0.1);
+  --shadow-glow-strong: 0 0 30px rgba(0, 122, 204, 0.2);
 
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(250, 164, 11, 0.08);
-  --shadow-glow: 0 0 25px rgba(250, 164, 11, 0.12);
-  --shadow-glow-strong: 0 0 50px rgba(250, 164, 11, 0.25);
-
-  --gradient-text: linear-gradient(135deg, #faa40b, #f4a261);
-  --gradient-primary: linear-gradient(135deg, #faa40b, #003566);
+  --gradient-text: none;
+  --gradient-primary: none;
+  --gradient-mesh: none;
 }

@@ -9,6 +9,7 @@ export interface IProject {
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
+  status: "draft" | "published" | "inactive";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +23,7 @@ export type CreateProjectDTO = Pick<
   | "githubUrl"
   | "liveUrl"
   | "featured"
+  | "status"
 >;
 
 export type UpdateProjectDTO = Partial<CreateProjectDTO>;

@@ -2,13 +2,14 @@
 
 import { PageHeader } from "@/components/common/page-header";
 import { BlogCard } from "@/components/common/blog-card";
-import { useBlogs } from "@/hooks/query/use-blog";
+import { usePublishedBlogs } from "@/hooks/query/use-blog";
 import { Loader2 } from "lucide-react";
+import { IBlog } from "@/types/blog.types";
 
 export default function BlogPage() {
-  const { data: blogs, isLoading, error } = useBlogs();
+  const { data: blogs, isLoading, error } = usePublishedBlogs();
 
-  const publishedPosts = blogs?.filter((p) => p.status === "published") || [];
+  const publishedPosts: IBlog[] = blogs || [];
 
   return (
     <>

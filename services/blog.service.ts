@@ -38,6 +38,10 @@ export const getBlogsService = async (): Promise<IBlog[]> => {
   return blogRepo.getBlogs();
 };
 
+export const getPublishedBlogsService = async (): Promise<IBlog[]> => {
+  return blogRepo.getPublishedBlogs();
+};
+
 export const getBlogService = async (
   blogId: Types.ObjectId
 ): Promise<IBlog | null> => {

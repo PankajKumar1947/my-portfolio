@@ -21,7 +21,13 @@ export const deleteBlog = async (
 };
 
 export const getBlogs = async (): Promise<IBlog[]> => {
-  return await BlogModel.find({}).select("-content");
+  return await BlogModel.find({}).select("-content").sort({ createdAt: -1 });
+};
+
+export const getPublishedBlogs = async (): Promise<IBlog[]> => {
+  return await BlogModel.find({ status: "published" })
+    .select("-content")
+    .sort({ createdAt: -1 });
 };
 
 export const getBlog = async (

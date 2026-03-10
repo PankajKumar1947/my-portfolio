@@ -1,22 +1,26 @@
 export const projectQueries = {
   all: {
-    key: ["projects", "all"],
+    key: ["projects", "admin"],
+    endpoint: "/admin/projects",
+  },
+  published: {
+    key: ["projects", "published"],
     endpoint: "/projects",
   },
   details: (id: string) => ({
     key: ["projects", "details", id],
-    endpoint: `/projects/${id}`,
+    endpoint: `/admin/projects/${id}`,
   }),
   create: {
     key: ["projects", "create"],
-    endpoint: "/projects",
+    endpoint: "/admin/projects",
   },
   update: (id: string) => ({
     key: ["projects", "update", id],
-    endpoint: `/projects/${id}`,
+    endpoint: `/admin/projects/${id}`,
   }),
   delete: (id: string) => ({
     key: ["projects", "delete", id],
-    endpoint: `/projects/${id}`,
+    endpoint: `/admin/projects/${id}`,
   }),
 };

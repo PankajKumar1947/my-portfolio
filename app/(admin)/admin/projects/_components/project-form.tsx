@@ -11,6 +11,7 @@ import { BaseDialog } from "@/components/layout/base-dialog";
 import { FormInput } from "@/components/form-field/form-input";
 import { FormTextarea } from "@/components/form-field/form-textarea";
 import { FormSwitch } from "@/components/form-field/form-switch";
+import { FormSelect } from "@/components/form-field/form-select";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
 import { projectSchema, type ProjectFormValues } from "@/validations/projects.schema";
@@ -42,6 +43,7 @@ export function ProjectForm({
       githubUrl: initialData?.githubUrl || "",
       liveUrl: initialData?.liveUrl || "",
       featured: initialData?.featured || false,
+      status: initialData?.status || "draft",
     },
   });
 
@@ -56,6 +58,7 @@ export function ProjectForm({
         githubUrl: initialData?.githubUrl || "",
         liveUrl: initialData?.liveUrl || "",
         featured: initialData?.featured || false,
+        status: initialData?.status || "draft",
       });
     }
   }, [open, initialData, form]);
@@ -160,11 +163,23 @@ export function ProjectForm({
             </InfoSection>
 
             <InfoSection title="Settings">
-              <FormSwitch
-                name="featured"
-                label="Featured Project"
-                description="Featured projects are shown prominently on the home page."
-              />
+              <InfoGrid cols={2}>
+                <FormSwitch
+                  name="featured"
+                  label="Featured Project"
+                  description="Featured projects are shown prominently on the home page."
+                />
+                <FormSelect
+                  name="status"
+                  label="Status"
+                  placeholder="Select status"
+                  options={[
+                    { label: "Draft", value: "draft" },
+                    { label: "Published", value: "published" },
+                    { label: "Inactive", value: "inactive" },
+                  ]}
+                />
+              </InfoGrid>
             </InfoSection>
           </InfoGrid>
 

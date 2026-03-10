@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ExternalLink, Github } from "lucide-react";
 import {
   Card,
@@ -8,10 +7,10 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Project } from "@/lib/mock-data";
+import { IProject } from "@/types/project.types";
 
 interface ProjectCardProps {
-  project: Project;
+  project: IProject;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
@@ -40,15 +39,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.description}
         </p>
         <div className="flex flex-wrap gap-1.5">
-          {project.tags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="secondary"
-              className="text-xs font-normal"
-            >
-              {tag}
-            </Badge>
-          ))}
+          {(project.tags || "")
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+            .map((tag) => (
+              <Badge
+                key={tag}
+                variant="secondary"
+                className="text-xs font-normal"
+              >
+                {tag}
+              </Badge>
+            ))}
         </div>
       </CardContent>
 

@@ -8,6 +8,7 @@ export const projectSchema = z.object({
   githubUrl: z.string().url("Invalid GitHub URL").or(z.literal("")).optional(),
   liveUrl: z.string().url("Invalid Live URL").or(z.literal("")).optional(),
   featured: z.boolean(),
+  status: z.enum(["draft", "published", "inactive"]),
 });
 
 export const updateProjectSchema = projectSchema.partial();

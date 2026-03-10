@@ -54,7 +54,9 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased font-sans;
+    position: relative;
+    min-height: 100vh;
   }
 
   html {
@@ -62,14 +64,14 @@
   }
 
   ::selection {
-    background-color: rgba(250, 164, 11, 0.2);
+    background-color: #264f78; /* VS Code Default Selection */
     color: inherit;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar - VS Code style */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -77,60 +79,47 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(0, 53, 102, 0.3);
-    border-radius: 9999px;
+    background: rgba(121, 121, 121, 0.4);
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 53, 102, 0.5);
-  }
-
-  .dark ::-webkit-scrollbar-thumb {
-    background: rgba(250, 164, 11, 0.3);
-  }
-
-  .dark ::-webkit-scrollbar-thumb:hover {
-    background: rgba(250, 164, 11, 0.5);
+    background: rgba(100, 100, 100, 0.7);
   }
 }
 
-/* Gradient text utility */
+/* Premium Utilities (Simplified for VS Code look) */
+
+/* Gradient text utility - Disabled for VS Code theme but kept for class compatibility */
 .gradient-text {
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--foreground);
 }
 
-/* Card glow hover effect */
+/* Card glow hover effect - Simplified */
 .card-glow {
-  transition: box-shadow var(--duration-normal) var(--ease-smooth);
+  transition: background-color var(--duration-normal) var(--ease-smooth);
 }
 
 .card-glow:hover {
-  box-shadow: var(--shadow-glow);
+  background-color: var(--accent);
 }
 
-/* Glass effect */
+/* Premium Glass effect - Simplified to simple background */
 .glass {
-  backdrop-filter: blur(12px) saturate(1.5);
-  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 
-/* Animated gradient border */
+/* Animated gradient border - Disabled for VS Code theme but kept for class compatibility */
 .gradient-border {
-  position: relative;
+  border: 1px solid var(--border);
 }
 
-.gradient-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: var(--gradient-primary);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  pointer-events: none;
+/* Subtle Hover Lift */
+.hover-lift {
+  transition: transform var(--duration-normal) var(--ease-smooth);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
 }

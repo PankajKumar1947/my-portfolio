@@ -1,26 +1,26 @@
 export const blogQueries = {
   all: {
-    key: ["blogs"],
+    key: ["blogs", "admin"],
+    endpoint: "/admin/blogs",
+  },
+  published: {
+    key: ["blogs", "published"],
     endpoint: "/blogs",
   },
   details: (slug: string) => ({
-    key: ["blogs", slug],
-    endpoint: `/blogs/${slug}`,
+    key: ["blogs", "details", slug],
+    endpoint: `/blogs/slug/${slug}`,
   }),
   create: {
     key: ["blogs", "create"],
-    endpoint: "/blogs",
+    endpoint: "/admin/blogs",
   },
   update: (id: string) => ({
     key: ["blogs", "update", id],
-    endpoint: `/blogs/${id}`,
+    endpoint: `/admin/blogs/${id}`,
   }),
   delete: (id: string) => ({
     key: ["blogs", "delete", id],
-    endpoint: `/blogs/${id}`,
-  }),
-  byId: (id: string) => ({
-    key: ["blogs", "id", id],
-    endpoint: `/blogs/id/${id}`,
+    endpoint: `/admin/blogs/${id}`,
   }),
 };

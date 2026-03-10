@@ -13,6 +13,16 @@ export const useBlogs = () => {
   });
 };
 
+export const usePublishedBlogs = () => {
+  return useQuery({
+    queryKey: blogQueries.published.key,
+    queryFn: async () => {
+      const response = await axiosInstance.get<IBlog[]>(blogQueries.published.endpoint);
+      return response.data;
+    },
+  });
+};
+
 export const useBlog = (slug: string) => {
   return useQuery({
     queryKey: blogQueries.details(slug).key,
@@ -23,11 +33,12 @@ export const useBlog = (slug: string) => {
     enabled: !!slug,
   });
 };
-export const useBlogById = (id: string) => {
+
+export const useAdminBlog = (id: string) => {
   return useQuery({
-    queryKey: blogQueries.byId(id).key,
+    queryKey: blogQueries.update(id).key,
     queryFn: async () => {
-      const response = await axiosInstance.get<IBlog>(blogQueries.byId(id).endpoint);
+      const response = await axiosInstance.get<IBlog>(blogQueries.update(id).endpoint);
       return response.data;
     },
     enabled: !!id,

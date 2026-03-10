@@ -11,12 +11,12 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 import { useUpdateBlog } from "@/hooks/mutation/use-blog";
-import { useBlogById } from "@/hooks/query/use-blog";
+import { useAdminBlog } from "@/hooks/query/use-blog";
 
 export default function BlogEditPage() {
   const router = useRouter();
   const { id } = useParams() as { id: string };
-  const { data: blog, isLoading, error } = useBlogById(id);
+  const { data: blog, isLoading, error } = useAdminBlog(id);
   const [content, setContent] = React.useState("");
 
   const { mutate: updateBlog, isPending: isUpdating } = useUpdateBlog(id);

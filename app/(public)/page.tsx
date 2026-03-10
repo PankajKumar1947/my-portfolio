@@ -10,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   profileInfo,
   skillCategories,
-  projects,
   experiences,
   educations,
 } from "@/lib/mock-data";

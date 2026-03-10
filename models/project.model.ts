@@ -27,6 +27,11 @@ const projectSchema = new Schema<IProject>(
       type: Boolean,
       default: false,
     },
+    status: {
+      type: String,
+      enum: ["draft", "published", "inactive"],
+      default: "draft",
+    },
   },
   { timestamps: true }
 );

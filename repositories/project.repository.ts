@@ -26,6 +26,12 @@ export const getProjects = async (): Promise<IProject[]> => {
   return await ProjectModel.find({}).sort({ createdAt: -1 });
 };
 
+export const getPublishedProjects = async (): Promise<IProject[]> => {
+  return await ProjectModel.find({ status: "published" }).sort({
+    createdAt: -1,
+  });
+};
+
 export const getProject = async (
   projectId: Types.ObjectId
 ): Promise<IProject | null> => {
