@@ -15,10 +15,13 @@ import { FormSelect } from "@/components/form-field/form-select";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
 
-import { noteSchema, type NoteFormValues } from "@/schema/note";
+import { toast } from "sonner";
+import { noteSchema, type NoteFormValues } from "@/validations/notes.schema";
+import { useCreateNote, useUpdateNote } from "@/hooks/mutation/use-note";
+import { INote } from "@/types/note.types";
 
 interface NoteFormProps {
-  initialData?: NoteFormValues;
+  initialData?: INote;
   onSubmit?: (data: NoteFormValues) => void;
   trigger?: React.ReactNode;
 }
@@ -32,26 +35,37 @@ export function NoteForm({
   const router = useRouter();
   const isEdit = !!initialData;
 
+  const { mutate: createNote, isPending: isCreating } = useCreateNote();
+  const { mutate: updateNote, isPending: isUpdating } = useUpdateNote(initialData?._id.toString() || "");
+
   const form = useForm<NoteFormValues>({
     resolver: zodResolver(noteSchema),
-    defaultValues: initialData || {
-      title: "",
-      slug: "",
-      description: "",
-      status: "draft",
+    defaultValues: {
+      title: initialData?.title || "",
+      slug: initialData?.slug || "",
+      description: initialData?.description || "",
+      status: (initialData?.status as "draft" | "published") || "draft",
+      pages: initialData?.pages || [],
     },
   });
 
   // Reset form when dialog opens
   React.useEffect(() => {
     if (open && initialData) {
-      form.reset(initialData);
+      form.reset({
+        title: initialData.title,
+        slug: initialData.slug,
+        description: initialData.description,
+        status: initialData.status,
+        pages: initialData.pages,
+      });
     } else if (open && !initialData) {
       form.reset({
         title: "",
         slug: "",
         description: "",
         status: "draft",
+        pages: [],
       });
     }
   }, [open, initialData, form]);
@@ -73,13 +87,32 @@ export function NoteForm({
   function handleSubmit(data: NoteFormValues) {
     if (onSubmitProp) {
       onSubmitProp(data);
-    } else {
-      sessionStorage.setItem("note-draft-meta", JSON.stringify(data));
-      router.push("/admin/notes/new");
+      setOpen(false);
+      return;
     }
-    setOpen(false);
-    if (!isEdit) {
-      form.reset();
+
+    if (isEdit && initialData) {
+      updateNote(data, {
+        onSuccess: () => {
+          toast.success("Note updated successfully");
+          setOpen(false);
+        },
+        onError: (error) => {
+          toast.error(error.message || "Failed to update note");
+        }
+      });
+    } else {
+      createNote(data, {
+        onSuccess: (newNote) => {
+          toast.success("Note created successfully");
+          router.push(`/admin/notes/${newNote._id}`);
+          setOpen(false);
+          form.reset();
+        },
+        onError: (error) => {
+          toast.error(error.message || "Failed to create note");
+        }
+      });
     }
   }
 
@@ -153,7 +186,7 @@ export function NoteForm({
           </InfoGrid>
 
           <InfoGrid cols={1} className="justify-items-end pt-2">
-            <Button type="submit" className="w-full sm:w-auto">
+            <Button type="submit" className="w-full sm:w-auto" disabled={isCreating || isUpdating}>
               {isEdit ? "Update Note" : "Continue to Editor"}
             </Button>
           </InfoGrid>

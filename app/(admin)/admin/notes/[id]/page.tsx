@@ -6,19 +6,18 @@ import {
   Save,
   Plus,
   X,
-  FileText,
   ChevronUp,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Copy,
+  ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -35,40 +34,37 @@ import {
 } from "@/components/ui/tooltip";
 import { INote, INotePage } from "@/types/note.types";
 import { useUpdateNote } from "@/hooks/mutation/use-note";
+import { useNoteById } from "@/hooks/query/use-note";
 import { toast } from "sonner";
 
-export default function NoteContentEditorPage() {
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
+
+export default function NoteContentEditorPage({ params }: RouteParams) {
   const router = useRouter();
-  const [note, setNote] = React.useState<INote | null>(null);
+  const { id } = React.use(params);
+
+  const { data: note, isLoading: isLoadingNote } = useNoteById(id);
   const [pages, setPages] = React.useState<INotePage[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
-  const { mutate: updateNote, isPending: isSaving } = useUpdateNote(note?._id.toString() || "");
+  const { mutate: updateNote, isPending: isSaving } = useUpdateNote(id);
 
   React.useEffect(() => {
-    const stored = sessionStorage.getItem("note-draft-meta");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as INote;
-        setNote(parsed);
-        if (parsed.pages && parsed.pages.length > 0) {
-          setPages(parsed.pages);
-        } else {
-          setPages([{ id: `page-${Date.now()}`, title: "Page 1", content: "", order: 1 }]);
-        }
-      } catch (e) {
-        console.error("Failed to parse stored note meta", e);
-        router.replace("/admin/notes");
+    if (note) {
+      if (note.pages && note.pages.length > 0) {
+        setPages(note.pages);
+      } else {
+        setPages([{ id: `page-${Date.now()}`, title: "Page 1", content: "", order: 1 }]);
       }
-    } else {
-      router.replace("/admin/notes");
     }
-  }, [router]);
+  }, [note]);
 
-  if (!note) {
+  if (isLoadingNote || !note) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground">Loading note...</p>
       </div>
     );
   }
@@ -96,7 +92,6 @@ export default function NoteContentEditorPage() {
     };
     const newPages = [...pages];
     newPages.splice(currentIndex + 1, 0, newPage);
-    // Update orders
     const orderedPages = newPages.map((p, i) => ({ ...p, order: i + 1 }));
     setPages(orderedPages);
     setCurrentIndex(currentIndex + 1);
@@ -119,27 +114,23 @@ export default function NoteContentEditorPage() {
       newPages[newIndex],
       newPages[currentIndex],
     ];
-    // Update orders
     const orderedPages = newPages.map((p, i) => ({ ...p, order: i + 1 }));
     setPages(orderedPages);
     setCurrentIndex(newIndex);
   };
 
-  const updateCurrentPage = (field: keyof INotePage, value: string) => {
+  const updateCurrentPage = (field: keyof INotePage, value: string | number) => {
     setPages((prev) =>
       prev.map((p, i) => (i === currentIndex ? { ...p, [field]: value } : p))
     );
   };
 
   const handleSaveAll = () => {
-    if (!note) return;
     updateNote(
       { pages },
       {
         onSuccess: () => {
           toast.success("Note contents saved successfully");
-          sessionStorage.removeItem("note-draft-meta");
-          router.push("/admin/notes");
         },
         onError: (error: any) => {
           toast.error(error.message || "Failed to save note contents");
@@ -151,6 +142,13 @@ export default function NoteContentEditorPage() {
   return (
     <TooltipProvider delayDuration={300}>
       <div className="space-y-5">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => router.push("/admin/notes")}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <h1 className="text-xl font-semibold">{note.title}</h1>
+        </div>
+
         {/* Toolbar */}
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-4 py-2.5">
           {/* Left: Page navigation */}

@@ -1,22 +1,17 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { NoteForm } from "./note-form";
-import type { Note } from "@/lib/mock-data";
+import type { INote } from "@/types/note.types";
+import { useDeleteNote } from "@/hooks/mutation/use-note";
 
-export const noteColumns: ColumnDef<Note>[] = [
+export const noteColumns: ColumnDef<INote>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => (
@@ -44,22 +39,23 @@ export const noteColumns: ColumnDef<Note>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "published",
+    accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} label="Status" />
     ),
     cell: ({ row }) => {
-      const published = row.getValue("published") as boolean;
+      const status = row.getValue("status") as string;
+      const isPublished = status === "published";
       return (
         <Badge
-          variant={published ? "default" : "secondary"}
+          variant={isPublished ? "default" : "secondary"}
           className={
-            published
+            isPublished
               ? "bg-green-500/10 text-green-500 hover:bg-green-500/20"
               : ""
           }
         >
-          {published ? "Published" : "Draft"}
+          {status.charAt(0).toUpperCase() + status.slice(1)}
         </Badge>
       );
     },
@@ -67,8 +63,8 @@ export const noteColumns: ColumnDef<Note>[] = [
       label: "Status",
       variant: "select" as const,
       options: [
-        { label: "Published", value: "true" },
-        { label: "Draft", value: "false" },
+        { label: "Published", value: "published" },
+        { label: "Draft", value: "draft" },
       ],
     },
     enableColumnFilter: true,
@@ -93,10 +89,19 @@ export const noteColumns: ColumnDef<Note>[] = [
     cell: ({ row }) => {
       const router = useRouter();
       const note = row.original;
+      const { mutate: deleteNote } = useDeleteNote();
 
       const handleEditContent = () => {
-        sessionStorage.setItem("note-draft-meta", JSON.stringify(note));
-        router.push("/admin/notes/new");
+        router.push(`/admin/notes/${note._id}`);
+      };
+
+      const handleDelete = () => {
+        if (confirm("Are you sure you want to delete this note?")) {
+          deleteNote(note._id.toString(), {
+            onSuccess: () => toast.success("Note deleted successfully"),
+            onError: (error) => toast.error(error.message || "Failed to delete note"),
+          });
+        }
       };
 
       return (
@@ -110,11 +115,12 @@ export const noteColumns: ColumnDef<Note>[] = [
             <Eye className="h-4 w-4" />
             <span className="sr-only">Edit Content</span>
           </Button>
-          <NoteForm initialData={{ ...note, status: note.published ? "published" : "draft" }} />
+          <NoteForm initialData={note} />
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8 text-muted-foreground hover:text-destructive"
+            onClick={handleDelete}
           >
             <Trash2 className="h-4 w-4" />
           </Button>
