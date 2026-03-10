@@ -7,7 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { blogColumns } from "./_components/blog-columns";
 import { BlogForm } from "./_components/blog-form";
 import { useBlogs } from "@/hooks/query/use-blog";
-import { Loader2 } from "lucide-react";
+import { Loader } from "@/components/common/loader";
 
 export default function AdminBlogsPage() {
   const { data: blogs, isLoading } = useBlogs();
@@ -19,11 +19,7 @@ export default function AdminBlogsPage() {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

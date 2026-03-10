@@ -36,6 +36,7 @@ import { INote, INotePage } from "@/types/note.types";
 import { useUpdateNote } from "@/hooks/mutation/use-note";
 import { useNoteById } from "@/hooks/query/use-note";
 import { toast } from "sonner";
+import { Loader } from "@/components/common/loader";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -62,11 +63,7 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
   }, [note]);
 
   if (isLoadingNote || !note) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <p className="text-muted-foreground">Loading note...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   const currentPage = pages[currentIndex] || { id: "empty", title: "", content: "", order: 0 };

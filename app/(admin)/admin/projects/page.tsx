@@ -7,7 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { projectColumns } from "./_components/project-columns";
 import { ProjectForm } from "./_components/project-form";
 import { useProjects } from "@/hooks/query/use-project";
-import { Loader2 } from "lucide-react";
+import { Loader } from "@/components/common/loader";
 
 export default function AdminProjectsPage() {
   const { data: projects, isLoading, error } = useProjects();
@@ -19,11 +19,7 @@ export default function AdminProjectsPage() {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {

@@ -7,6 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { noteColumns } from "./_components/note-columns";
 import { NoteForm } from "./_components/note-form";
 import { useNotes } from "@/hooks/query/use-note";
+import { Loader } from "@/components/common/loader";
 
 export default function AdminNotesPage() {
   const { data: notes = [], isLoading } = useNotes();
@@ -17,7 +18,7 @@ export default function AdminNotesPage() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
