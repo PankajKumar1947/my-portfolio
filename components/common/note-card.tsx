@@ -3,10 +3,10 @@ import { FileText, Calendar, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Note } from "@/lib/mock-data";
+import type { INote } from "@/types/note.types";
 
 interface NoteCardProps {
-  note: Note;
+  note: INote;
 }
 
 export function NoteCard({ note }: NoteCardProps) {

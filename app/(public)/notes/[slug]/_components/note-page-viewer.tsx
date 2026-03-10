@@ -13,18 +13,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ThemeToggle } from "@/components/common/theme-toggle";
-import type { Note } from "@/lib/mock-data";
+import type { INote, INotePage } from "@/types/note.types";
 import { cn } from "@/lib/utils";
+import { useNotePage } from "@/hooks/query/use-note";
+import { Loader } from "@/components/common/loader";
 
 interface NotePageViewerProps {
-  note: Note;
+  note: INote;
 }
 
 export function NotePageViewer({ note }: NotePageViewerProps) {
   const sortedPages = [...note.pages].sort((a, b) => a.order - b.order);
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const currentPage = sortedPages[currentIndex];
+  const pageMeta = sortedPages[currentIndex] as INotePage;
   const totalPages = sortedPages.length;
+
+  const { data: pageContent, isLoading: isLoadingPage } = useNotePage(
+    note.slug,
+    pageMeta?.id
+  );
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -71,7 +78,7 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
           {/* Page title + prev/next navigation */}
           <div className="mb-6 flex items-center justify-between gap-4">
             <h2 className="text-2xl font-bold tracking-tight">
-              {currentPage.title}
+              {pageMeta.title}
             </h2>
             <div className="flex items-center gap-2">
               <Button
@@ -105,10 +112,14 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
 
           {/* Page content */}
           <Card className="border-border bg-card">
-            <CardContent className="prose prose-sm dark:prose-invert max-w-none p-6 sm:p-8">
-              <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
-                {currentPage.content}
-              </div>
+            <CardContent className="prose prose-sm dark:prose-invert max-w-none p-6 sm:p-8 min-h-64 flex items-center justify-center">
+              {isLoadingPage ? (
+                <Loader />
+              ) : (
+                <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90 w-full self-start">
+                  {pageContent?.content || "No content found for this page."}
+                </div>
+              )}
             </CardContent>
           </Card>
 

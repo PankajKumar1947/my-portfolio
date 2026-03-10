@@ -3,7 +3,7 @@ import { z } from "zod";
 export const notePageSchema = z.object({
   id: z.string(),
   title: z.string().min(1, "Page title is required"),
-  content: z.string(),
+  content: z.string().optional(),
   order: z.number(),
 });
 

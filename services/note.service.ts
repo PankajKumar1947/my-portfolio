@@ -38,6 +38,10 @@ export const getNotesService = async (): Promise<INote[]> => {
   return noteRepo.getNotes();
 };
 
+export const getPublishedNotesService = async (): Promise<INote[]> => {
+  return noteRepo.getPublishedNotes();
+};
+
 export const getNoteService = async (
   noteId: Types.ObjectId
 ): Promise<INote | null> => {

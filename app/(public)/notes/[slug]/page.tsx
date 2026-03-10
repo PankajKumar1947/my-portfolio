@@ -1,16 +1,24 @@
+"use client";
+
+import * as React from "react";
 import { notFound } from "next/navigation";
 import { NotePageViewer } from "./_components/note-page-viewer";
-import { notes } from "@/lib/mock-data";
+import { useNote } from "@/hooks/query/use-note";
+import { Loader } from "@/components/common/loader";
 
 interface NoteDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function NoteDetailPage({ params }: NoteDetailPageProps) {
-  const { slug } = await params;
-  const note = notes.find((n) => n.slug === slug);
+export default function NoteDetailPage({ params }: NoteDetailPageProps) {
+  const { slug } = React.use(params);
+  const { data: note, isLoading, error } = useNote(slug);
 
-  if (!note) {
+  if (isLoading) {
+    return <Loader fullPage />;
+  }
+
+  if (error || !note) {
     notFound();
   }
 

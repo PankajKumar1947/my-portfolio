@@ -24,7 +24,15 @@ export const deleteNote = async (
 };
 
 export const getNotes = async (): Promise<INote[]> => {
-  return await NoteModel.find({}).sort({ createdAt: -1 });
+  return await NoteModel.find({})
+    .select("-pages.content")
+    .sort({ createdAt: -1 });
+};
+
+export const getPublishedNotes = async (): Promise<INote[]> => {
+  return await NoteModel.find({ status: "published" })
+    .select("-pages.content")
+    .sort({ createdAt: -1 });
 };
 
 export const getNote = async (
@@ -34,5 +42,16 @@ export const getNote = async (
 };
 
 export const getNoteBySlug = async (slug: string): Promise<INote | null> => {
-  return await NoteModel.findOne({ slug });
+  return await NoteModel.findOne({ slug }).select("-pages.content");
+};
+
+export const getNotePage = async (
+  slug: string,
+  pageId: string
+): Promise<INote | null> => {
+  // We return the whole note but only with the requested page in the pages array
+  return await NoteModel.findOne(
+    { slug, "pages.id": pageId },
+    { "pages.$": 1, title: 1, slug: 1 }
+  );
 };
