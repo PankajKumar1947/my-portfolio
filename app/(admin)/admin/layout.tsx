@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AdminSidebar } from "../_components/admin-sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 import { AdminHeader } from "../_components/admin-header";
 import { NuqsAdapter } from "nuqs/adapters/react";
 
@@ -10,7 +10,7 @@ export default function AdminLayout({
 }) {
   return (
     <SidebarProvider>
-      <AdminSidebar />
+      <AppSidebar />
       <SidebarInset>
         <AdminHeader />
         <NuqsAdapter>

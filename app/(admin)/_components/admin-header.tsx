@@ -20,8 +20,19 @@ export function setBreadcrumbOverride(segment: string, label: string) {
   BREADCRUMB_OVERRIDES[segment] = label;
 }
 
+import { NavUser } from "@/components/nav-user";
+import { profileInfo } from "@/lib/mock-data";
+
 export function AdminHeader() {
   const pathname = usePathname();
+
+  const data = {
+    user: {
+      name: profileInfo.name,
+      email: profileInfo.email,
+      avatar: profileInfo.profileImage,
+    },
+  };
 
   // Build breadcrumb segments
   const segments = pathname
@@ -91,8 +102,10 @@ export function AdminHeader() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="ml-auto">
+      <div className="ml-auto flex items-center gap-4">
         <ThemeToggle />
+        <Separator orientation="vertical" className="h-4" />
+        <NavUser user={data.user} side="bottom" onlyAvatar={true} />
       </div>
     </header>
   );
