@@ -1,22 +1,15 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-
+import { Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { ProjectForm } from "./project-form";
-import type { Project } from "@/lib/mock-data";
+import { IProject } from "@/types/project.types";
+import { useDeleteProject } from "@/hooks/mutation/use-project";
 
-export const projectColumns: ColumnDef<Project>[] = [
+export const projectColumns: ColumnDef<IProject>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => (
@@ -33,7 +26,8 @@ export const projectColumns: ColumnDef<Project>[] = [
       <DataTableColumnHeader column={column} label="Tags" />
     ),
     cell: ({ row }) => {
-      const tags = row.original.tags;
+      const tagsString = row.original.tags || "";
+      const tags = tagsString.split(",").map(t => t.trim()).filter(Boolean);
       return (
         <div className="flex flex-wrap gap-1">
           {tags.slice(0, 3).map((tag) => (
@@ -94,32 +88,32 @@ export const projectColumns: ColumnDef<Project>[] = [
     ),
     cell: ({ row }) => {
       const project = row.original;
-      const initialData = {
-        ...project,
-        tags: project.tags.join(", "),
-        featured: !!project.featured,
-      };
+      const { mutate: deleteProject } = useDeleteProject();
 
       return (
         <div className="flex items-center gap-2">
           <ProjectForm
-            initialData={initialData}
+            initialData={project}
             trigger={
               <Button
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 text-muted-foreground hover:text-primary"
               >
-                <Eye className="h-4 w-4" />
-                <span className="sr-only">View Details</span>
+                <Pencil className="h-4 w-4" />
+                <span className="sr-only">Edit</span>
               </Button>
             }
           />
-          <ProjectForm initialData={initialData} />
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8 text-muted-foreground hover:text-destructive"
+            onClick={() => {
+              if (confirm("Are you sure you want to delete this project?")) {
+                deleteProject(project._id.toString());
+              }
+            }}
           >
             <Trash2 className="h-4 w-4" />
           </Button>

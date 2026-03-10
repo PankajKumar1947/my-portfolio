@@ -3,9 +3,8 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { Plus, Edit2 } from "lucide-react";
-
+import { useForm } from "react-hook-form";
+import { Plus, Edit2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { BaseDialog } from "@/components/layout/base-dialog";
@@ -14,63 +13,67 @@ import { FormTextarea } from "@/components/form-field/form-textarea";
 import { FormSwitch } from "@/components/form-field/form-switch";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
-
-import { projectSchema, type ProjectFormValues } from "@/schema/project";
+import { projectSchema, type ProjectFormValues } from "@/validations/projects.schema";
+import { IProject } from "@/types/project.types";
+import { useCreateProject, useUpdateProject } from "@/hooks/mutation/use-project";
 
 interface ProjectFormProps {
-  initialData?: ProjectFormValues;
-  onSubmit?: (data: ProjectFormValues) => void;
+  initialData?: IProject;
   trigger?: React.ReactNode;
 }
 
 export function ProjectForm({
   initialData,
-  onSubmit: onSubmitProp,
   trigger,
 }: ProjectFormProps) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const isEdit = !!initialData;
+  const { mutate: createProject, isPending: isCreating } = useCreateProject();
+  const { mutate: updateProject, isPending: isUpdating } = useUpdateProject(initialData?._id.toString() || "");
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
-    defaultValues: initialData || {
-      title: "",
-      description: "",
-      image: "",
-      tags: "",
-      githubUrl: "",
-      liveUrl: "",
-      featured: false,
+    defaultValues: {
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      image: initialData?.image || "",
+      tags: initialData?.tags || "",
+      githubUrl: initialData?.githubUrl || "",
+      liveUrl: initialData?.liveUrl || "",
+      featured: initialData?.featured || false,
     },
   });
 
   // Reset form when dialog opens
   React.useEffect(() => {
-    if (open && initialData) {
-      form.reset(initialData);
-    } else if (open && !initialData) {
+    if (open) {
       form.reset({
-        title: "",
-        description: "",
-        image: "",
-        tags: "",
-        githubUrl: "",
-        liveUrl: "",
-        featured: false,
+        title: initialData?.title || "",
+        description: initialData?.description || "",
+        image: initialData?.image || "",
+        tags: initialData?.tags || "",
+        githubUrl: initialData?.githubUrl || "",
+        liveUrl: initialData?.liveUrl || "",
+        featured: initialData?.featured || false,
       });
     }
   }, [open, initialData, form]);
 
-  const handleSubmit: SubmitHandler<ProjectFormValues> = (data) => {
-    if (onSubmitProp) {
-      onSubmitProp(data);
+  const handleSubmit = (data: ProjectFormValues) => {
+    if (isEdit) {
+      updateProject(data, {
+        onSuccess: () => {
+          setOpen(false);
+        }
+      });
     } else {
-      console.log("Saving project:", data);
-    }
-    setOpen(false);
-    if (!isEdit) {
-      form.reset();
+      createProject(data, {
+        onSuccess: () => {
+          setOpen(false);
+          form.reset();
+        }
+      });
     }
   };
 
@@ -102,7 +105,11 @@ export function ProjectForm({
       trigger={trigger || defaultTrigger}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <form
+          // @ts-ignore
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="space-y-6"
+        >
           <InfoGrid cols={1} className="gap-6">
             <InfoSection title="Project Details">
               <InfoGrid cols={1} className="mb-4">
@@ -162,7 +169,10 @@ export function ProjectForm({
           </InfoGrid>
 
           <InfoGrid cols={1} className="justify-items-end pt-2">
-            <Button type="submit" className="w-full sm:w-auto px-8">
+            <Button type="submit" className="w-full sm:w-auto px-8" disabled={isCreating || isUpdating}>
+              {(isCreating || isUpdating) ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
               {isEdit ? "Update Project" : "Create Project"}
             </Button>
           </InfoGrid>
