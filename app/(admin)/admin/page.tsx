@@ -1,13 +1,11 @@
 import { FileText, BookOpen, FolderKanban, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { notes, projects } from "@/lib/mock-data";
-
 const stats = [
   {
     title: "Total Projects",
-    value: projects.length,
+    value: 0,
     icon: FolderKanban,
-    description: `${projects.filter((p) => p.featured).length} featured`,
+    description: `0 featured`,
   },
   {
     title: "Blog Posts",
@@ -17,9 +15,9 @@ const stats = [
   },
   {
     title: "Notes",
-    value: notes.length,
+    value: 0,
     icon: BookOpen,
-    description: `${notes.reduce((acc, n) => acc + n.pages.length, 0)} total pages`,
+    description: `0 total pages`,
   },
 ];
 
@@ -60,29 +58,9 @@ export default function AdminDashboard() {
           <CardHeader>
             <CardTitle className="text-base">Recent Blog Posts</CardTitle>
           </CardHeader>
-          {/* <CardContent className="space-y-3">
-            {[].slice(0, 3).map((post) => (
-              <div
-                key={post.id}
-                className="flex items-center justify-between rounded-lg border border-border/30 p-3"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{post.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {new Date(post.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-                <span
-                  className={`ml-3 rounded-full px-2 py-0.5 text-xs ${post.published
-                      ? "bg-green-500/10 text-green-500"
-                      : "bg-yellow-500/10 text-yellow-500"
-                    }`}
-                >
-                  {post.published ? "Published" : "Draft"}
-                </span>
-              </div>
-            ))}
-          </CardContent> */}
+          <CardContent className="flex h-32 items-center justify-center text-muted-foreground">
+            <p className="text-sm">No recent posts</p>
+          </CardContent>
         </Card>
 
         {/* Recent Notes */}
@@ -90,29 +68,8 @@ export default function AdminDashboard() {
           <CardHeader>
             <CardTitle className="text-base">Recent Notes</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
-            {notes.slice(0, 3).map((note) => (
-              <div
-                key={note.id}
-                className="flex items-center justify-between rounded-lg border border-border/30 p-3"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{note.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {note.pages.length} pages •{" "}
-                    {new Date(note.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-                <span
-                  className={`ml-3 rounded-full px-2 py-0.5 text-xs ${note.published
-                    ? "bg-green-500/10 text-green-500"
-                    : "bg-yellow-500/10 text-yellow-500"
-                    }`}
-                >
-                  {note.published ? "Published" : "Draft"}
-                </span>
-              </div>
-            ))}
+          <CardContent className="flex h-32 items-center justify-center text-muted-foreground">
+            <p className="text-sm">No recent notes</p>
           </CardContent>
         </Card>
       </div>
