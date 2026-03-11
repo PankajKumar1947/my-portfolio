@@ -3,6 +3,9 @@
 @import "shadcn/tailwind.css";
 @import "./design-tokens.css";
 
+/* Path to your installed `@blocknote/shadcn` package. */
+@source "../node_modules/@blocknote/shadcn";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -64,7 +67,8 @@
   }
 
   ::selection {
-    background-color: #264f78; /* VS Code Default Selection */
+    background-color: #264f78;
+    /* VS Code Default Selection */
     color: inherit;
   }
 

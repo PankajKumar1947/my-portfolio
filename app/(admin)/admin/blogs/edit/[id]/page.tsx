@@ -1,31 +1,37 @@
 "use client";
 
-import * as React from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Save, Loader2, ArrowLeft } from "lucide-react";
 import { Loader } from "@/components/common/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-
 import { useUpdateBlog } from "@/hooks/mutation/use-blog";
 import { useAdminBlog } from "@/hooks/query/use-blog";
+import { Editor } from "@/components/text-editor/dynamic-editor";
+import { useState } from "react";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 
 export default function BlogEditPage() {
   const router = useRouter();
   const { id } = useParams() as { id: string };
   const { data: blog, isLoading, error } = useAdminBlog(id);
-  const [content, setContent] = React.useState("");
+  const [content, setContent] = useState("");
+  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "unsaved">("saved");
 
   const { mutate: updateBlog, isPending: isUpdating } = useUpdateBlog(id);
 
-  React.useEffect(() => {
-    if (blog) {
-      setContent(blog.content || "");
-    }
-  }, [blog]);
+  const debouncedSave = useDebouncedCallback((newContent: string) => {
+    setSaveStatus("saving");
+    updateBlog(
+      { content: newContent },
+      {
+        onSuccess: () => setSaveStatus("saved"),
+        onError: () => setSaveStatus("unsaved"),
+      }
+    );
+  }, 2000);
 
   if (isLoading) {
     return <Loader />;
@@ -43,11 +49,14 @@ export default function BlogEditPage() {
   }
 
   const handleSave = () => {
-    updateBlog({ ...blog, content } as any, {
-      onSuccess: () => {
-        router.push("/admin/blogs");
+    setSaveStatus("saving");
+    updateBlog(
+      { content },
+      {
+        onSuccess: () => setSaveStatus("saved"),
+        onError: () => setSaveStatus("unsaved"),
       }
-    });
+    );
   };
 
   return (
@@ -79,14 +88,21 @@ export default function BlogEditPage() {
             <p className="text-sm text-muted-foreground">{blog.excerpt}</p>
           </div>
         </div>
-        <Button onClick={handleSave} disabled={isUpdating}>
-          {isUpdating ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Save className="mr-2 h-4 w-4" />
-          )}
-          Update Post
-        </Button>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground mr-2">
+            {saveStatus === "saving" && "Saving..."}
+            {saveStatus === "unsaved" && "Unsaved changes"}
+            {saveStatus === "saved" && "Saved"}
+          </span>
+          <Button onClick={handleSave} disabled={isUpdating || saveStatus === "saving" || saveStatus === "saved"}>
+            {isUpdating || saveStatus === "saving" ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="mr-2 h-4 w-4" />
+            )}
+            {saveStatus === "saving" ? "Saving..." : saveStatus === "saved" ? "Saved" : "Save"}
+          </Button>
+        </div>
       </div>
 
       {/* Meta summary */}
@@ -115,11 +131,15 @@ export default function BlogEditPage() {
           <CardTitle className="text-base">Blog Content</CardTitle>
         </CardHeader>
         <CardContent>
-          <Textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your blog content here... (Markdown supported)"
-            className="min-h-125 font-mono text-sm leading-relaxed"
+          <Editor
+            initialContent={blog.content}
+            onChange={(val) => {
+              if (val !== content) {
+                setSaveStatus("unsaved");
+              }
+              setContent(val);
+              debouncedSave(val);
+            }}
           />
         </CardContent>
       </Card>
