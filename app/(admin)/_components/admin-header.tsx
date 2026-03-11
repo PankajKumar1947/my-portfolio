@@ -79,8 +79,10 @@ export function AdminHeader() {
       return {
         label,
         href: "/" + arr.slice(0, index + 1).join("/"),
+        _raw: seg,
       };
-    });
+    })
+    .filter((s) => s._raw !== "admin");
 
   return (
     <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border/50 px-4">

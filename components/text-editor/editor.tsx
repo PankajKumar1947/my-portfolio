@@ -5,13 +5,17 @@ import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
 import { PartialBlock } from "@blocknote/core";
+import { useTheme } from "next-themes";
 
 interface EditorProps {
   initialContent?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
+  editable?: boolean;
 }
 
-export default function Editor({ initialContent, onChange }: EditorProps) {
+export default function Editor({ initialContent, onChange, editable = true }: EditorProps) {
+  const { resolvedTheme } = useTheme();
+
   const initialBlocks: PartialBlock[] | undefined = (() => {
     if (!initialContent) return undefined;
     try {
@@ -29,9 +33,15 @@ export default function Editor({ initialContent, onChange }: EditorProps) {
   return (
     <BlockNoteView
       editor={editor}
+      editable={editable}
+      className={editable ? "" : "read-only-editor"}
+      theme={resolvedTheme === "dark" ? "dark" : "light"}
       onChange={() => {
-        onChange(JSON.stringify(editor.document, null, 2));
+        if (onChange) {
+          onChange(JSON.stringify(editor.document, null, 2));
+        }
       }}
+      style={{ "--bn-colors-editor-background": "transparent" } as React.CSSProperties}
     />
   );
 }
