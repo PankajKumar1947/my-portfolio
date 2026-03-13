@@ -9,6 +9,7 @@ import {
   FolderKanban,
   CalendarDays,
   ArrowLeft,
+  Mail,
 } from "lucide-react";
 
 import {
@@ -33,6 +34,7 @@ const adminNavItems = [
   { title: "Blogs", icon: FileText, href: "/admin/blogs" },
   { title: "Notes", icon: BookOpen, href: "/admin/notes" },
   { title: "Projects", icon: FolderKanban, href: "/admin/projects" },
+  { title: "Messages", icon: Mail, href: "/admin/contacts" },
 ];
 
 export function AdminSidebar() {

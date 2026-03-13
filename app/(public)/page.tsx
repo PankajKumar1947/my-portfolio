@@ -13,6 +13,7 @@ import {
   experiences,
   educations,
 } from "@/lib/mock-data";
+import { ContactForm } from "./_components/contact-form";
 
 export default function HomePage() {
 
@@ -284,60 +285,7 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: Contact Form */}
-            <Card className="border-border/50 bg-card overflow-hidden">
-              <CardContent className="p-8">
-                <form className="space-y-6">
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Name
-                      </label>
-                      <Input
-                        id="name"
-                        placeholder="Your name"
-                        className="bg-muted/30 border-border/50 focus-visible:ring-primary"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Email
-                      </label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="Your email address"
-                        className="bg-muted/30 border-border/50 focus-visible:ring-primary"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Subject
-                    </label>
-                    <Input
-                      id="subject"
-                      placeholder="What is this about?"
-                      className="bg-muted/30 border-border/50 focus-visible:ring-primary"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Message
-                    </label>
-                    <Textarea
-                      id="message"
-                      placeholder="Your message details..."
-                      rows={6}
-                      className="bg-muted/30 border-border/50 focus-visible:ring-primary resize-none"
-                    />
-                  </div>
-                  <Button type="submit" size="lg" className="w-full">
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+            <ContactForm />
           </div>
         </div>
       </section>

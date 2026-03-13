@@ -9,6 +9,7 @@ import {
   Settings,
   ArrowLeft,
   CalendarDays,
+  MessageCircle,
 } from "lucide-react"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -58,6 +59,11 @@ const data = {
       title: "Projects",
       url: "/admin/projects",
       icon: FolderKanban,
+    },
+    {
+      title: "Contacts",
+      url: "/admin/contacts",
+      icon: MessageCircle,
     },
   ],
   secondaryNav: [
