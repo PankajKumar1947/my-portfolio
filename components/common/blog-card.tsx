@@ -9,42 +9,44 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <Link href={`/blog/${post.slug}`}>
-      <Card className="card-glow group h-full border-border bg-card transition-all duration-300 hover:-translate-y-1">
-        {/* Cover placeholder */}
-        <div className="relative h-40 overflow-hidden rounded-t-lg bg-linear-to-br from-primary/15 via-primary/5 to-transparent">
+    <Link href={`/blog/${post.slug}`} className="group h-full">
+      <Card className="relative h-full overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-primary/5 active:scale-[0.98]">
+        {/* Cover placeholder with hover effect */}
+        <div className="relative h-44 overflow-hidden rounded-t-lg bg-linear-to-br from-primary/10 via-primary/5 to-transparent transition-all duration-500 group-hover:scale-[1.02]">
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-5xl font-bold text-primary/15">
+            <span className="text-6xl font-bold text-primary/10 transition-all duration-500 group-hover:scale-110 group-hover:text-primary/15">
               {post.title.charAt(0)}
             </span>
           </div>
+
         </div>
 
-        <CardHeader className="pb-2">
-          <h3 className="line-clamp-2 text-lg font-semibold transition-colors group-hover:text-primary">
+        <CardHeader className="pb-3 px-6">
+          <h3 className="line-clamp-2 text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
             {post.title}
           </h3>
         </CardHeader>
 
-        <CardContent>
-          <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
+        <CardContent className="px-6 -mt-8">
+          <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground/80 transition-colors group-hover:text-muted-foreground">
             {post.excerpt}
           </p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
+          <div className="flex items-center gap-4 border-t border-border/40 pt-4 text-[11px] font-medium uppercase tracking-widest text-muted-foreground/60 transition-colors group-hover:text-muted-foreground/80">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5" />
               {new Date(post.createdAt).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
               })}
             </span>
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" />
               {post.readTime}
             </span>
           </div>
         </CardContent>
+
       </Card>
     </Link>
   );

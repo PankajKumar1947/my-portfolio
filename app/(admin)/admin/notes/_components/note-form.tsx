@@ -16,7 +16,7 @@ import { InfoSection } from "@/components/layout/info-section";
 import { toast } from "sonner";
 import { noteSchema, type NoteFormValues } from "@/validations/notes.schema";
 import { useCreateNote, useUpdateNote } from "@/hooks/mutation/use-note";
-import { INote } from "@/types/note.types";
+import { INote, CreateNoteDTO, UpdateNoteDTO } from "@/types/note.types";
 
 interface NoteFormProps {
   initialData?: INote;
@@ -87,7 +87,7 @@ export function NoteForm({
     }
 
     if (isEdit && initialData) {
-      updateNote(data as any, {
+      updateNote(data as UpdateNoteDTO, {
         onSuccess: () => {
           toast.success("Note updated successfully");
           setOpen(false);
@@ -97,12 +97,12 @@ export function NoteForm({
         }
       });
     } else {
-      createNote(data as any, {
+      createNote(data as CreateNoteDTO, {
         onSuccess: (newNote) => {
           toast.success("Note created successfully");
           const firstPage = newNote.pages?.[0];
           const pageId = firstPage
-            ? ((firstPage as any)._id?.toString() || firstPage.toString())
+            ? (typeof firstPage === "string" ? firstPage : firstPage._id?.toString())
             : null;
 
           if (pageId) {
