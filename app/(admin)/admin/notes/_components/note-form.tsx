@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Plus, Edit2 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { BaseDialog } from "@/components/layout/base-dialog";
@@ -14,7 +13,6 @@ import { FormTextarea } from "@/components/form-field/form-textarea";
 import { FormSelect } from "@/components/form-field/form-select";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
-
 import { toast } from "sonner";
 import { noteSchema, type NoteFormValues } from "@/validations/notes.schema";
 import { useCreateNote, useUpdateNote } from "@/hooks/mutation/use-note";
@@ -45,7 +43,6 @@ export function NoteForm({
       slug: initialData?.slug || "",
       description: initialData?.description || "",
       status: (initialData?.status as "draft" | "published") || "draft",
-      pages: initialData?.pages || [],
     },
   });
 
@@ -57,7 +54,6 @@ export function NoteForm({
         slug: initialData.slug,
         description: initialData.description,
         status: initialData.status,
-        pages: initialData.pages,
       });
     } else if (open && !initialData) {
       form.reset({
@@ -65,7 +61,6 @@ export function NoteForm({
         slug: "",
         description: "",
         status: "draft",
-        pages: [],
       });
     }
   }, [open, initialData, form]);
@@ -92,7 +87,7 @@ export function NoteForm({
     }
 
     if (isEdit && initialData) {
-      updateNote(data, {
+      updateNote(data as any, {
         onSuccess: () => {
           toast.success("Note updated successfully");
           setOpen(false);
@@ -102,10 +97,19 @@ export function NoteForm({
         }
       });
     } else {
-      createNote(data, {
+      createNote(data as any, {
         onSuccess: (newNote) => {
           toast.success("Note created successfully");
-          router.push(`/admin/notes/${newNote._id}`);
+          const firstPage = newNote.pages?.[0];
+          const pageId = firstPage
+            ? ((firstPage as any)._id?.toString() || firstPage.toString())
+            : null;
+
+          if (pageId) {
+            router.push(`/admin/notes/${pageId}`);
+          } else {
+            router.push("/admin/notes");
+          }
           setOpen(false);
           form.reset();
         },

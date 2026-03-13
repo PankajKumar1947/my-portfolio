@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const notePageSchema = z.object({
-  id: z.string(),
+  _id: z.string().optional(),
   title: z.string().min(1, "Page title is required"),
   content: z.string().optional(),
   order: z.number(),
@@ -12,7 +12,7 @@ export const noteSchema = z.object({
   slug: z.string().min(1, "Slug is required"),
   description: z.string().min(1, "Description is required"),
   status: z.enum(["draft", "published"]),
-  pages: z.array(notePageSchema),
+  pages: z.array(notePageSchema).optional(),
 });
 
 export const updateNoteSchema = noteSchema.partial();

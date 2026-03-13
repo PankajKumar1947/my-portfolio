@@ -1,12 +1,5 @@
-import { INote, INotePage } from "@/types/note.types";
+import { INote } from "@/types/note.types";
 import mongoose, { Model, Schema } from "mongoose";
-
-const notePageSchema = new Schema<INotePage>({
-  id: { type: String, required: true },
-  title: { type: String, required: true },
-  content: { type: String, default: "" },
-  order: { type: Number, required: true },
-});
 
 const noteSchema = new Schema<INote>(
   {
@@ -23,10 +16,12 @@ const noteSchema = new Schema<INote>(
       type: String,
       required: true,
     },
-    pages: {
-      type: [notePageSchema],
-      default: [],
-    },
+    pages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "NotePage",
+      },
+    ],
     status: {
       type: String,
       enum: ["draft", "published"],

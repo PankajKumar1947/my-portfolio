@@ -1,4 +1,4 @@
-import { CreateNoteDTO, INote, UpdateNoteDTO } from "@/types/note.types";
+import { CreateNoteDTO, INote, INoteListItem, UpdateNoteDTO, INotePage } from "@/types/note.types";
 import * as noteRepo from "@/repositories/note.repository";
 import { Types } from "mongoose";
 
@@ -34,7 +34,7 @@ export const deleteNoteService = async (
   return noteRepo.deleteNote(noteId);
 };
 
-export const getNotesService = async (): Promise<INote[]> => {
+export const getNotesService = async (): Promise<INoteListItem[]> => {
   return noteRepo.getNotes();
 };
 
@@ -52,4 +52,46 @@ export const getNoteBySlugService = async (
   slug: string
 ): Promise<INote | null> => {
   return noteRepo.getNoteBySlug(slug);
+};
+
+export const updateNotePageService = async (
+  noteId: Types.ObjectId,
+  pageId: string,
+  data: Partial<INotePage>
+): Promise<INote | null> => {
+  return noteRepo.updateNotePage(noteId, pageId, data);
+};
+
+export const getNotePageByIdService = async (
+  noteId: Types.ObjectId,
+  pageId: string
+): Promise<INote | null> => {
+  return noteRepo.getNotePageById(noteId, pageId);
+};
+
+export const getNoteIdByPageIdService = async (
+  pageId: string
+): Promise<Types.ObjectId | null> => {
+  return noteRepo.getNoteIdByPageId(pageId);
+};
+
+export const createNotePageService = async (
+  noteId: Types.ObjectId,
+  data: Partial<INotePage>
+): Promise<INotePage> => {
+  return noteRepo.createNotePage(noteId, data);
+};
+
+export const deleteNotePageService = async (
+  noteId: Types.ObjectId,
+  pageId: string
+): Promise<boolean> => {
+  return noteRepo.deleteNotePage(noteId, pageId);
+};
+
+export const reorderNotePagesService = async (
+  noteId: Types.ObjectId,
+  updates: { pageId: string; order: number }[]
+): Promise<void> => {
+  return noteRepo.reorderNotePages(noteId, updates);
 };

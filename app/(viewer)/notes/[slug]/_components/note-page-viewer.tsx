@@ -17,6 +17,7 @@ import type { INote, INotePage } from "@/types/note.types";
 import { cn } from "@/lib/utils";
 import { useNotePage } from "@/hooks/query/use-note";
 import { Loader } from "@/components/common/loader";
+import { Editor } from "@/components/text-editor/dynamic-editor";
 
 interface NotePageViewerProps {
   note: INote;
@@ -111,17 +112,19 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
           </div>
 
           {/* Page content */}
-          <Card className="border-border bg-card">
-            <CardContent className="prose prose-sm dark:prose-invert max-w-none p-6 sm:p-8 min-h-64 flex items-center justify-center">
-              {isLoadingPage ? (
+          <div className="mt-8 -mx-10 sm:-mx-12 min-h-64 flex flex-col justify-start">
+            {isLoadingPage ? (
+              <div className="flex h-full items-center justify-center p-8">
                 <Loader />
-              ) : (
-                <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90 w-full self-start">
-                  {pageContent?.content || "No content found for this page."}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              </div>
+            ) : (
+              <Editor
+                key={`viewer-${pageMeta?.id}`}
+                initialContent={pageContent?.content || ""}
+                editable={false}
+              />
+            )}
+          </div>
 
           {/* Pagination */}
           <div className="mt-8 flex items-center justify-center gap-2">

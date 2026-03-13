@@ -38,7 +38,7 @@ export const PATCH = apiHandler(async (req: Request, { params }: { params: Promi
     );
   }
 
-  const note = await updateNoteService(new Types.ObjectId(id), parsed.data);
+  const note = await updateNoteService(new Types.ObjectId(id), parsed.data as any);
   if (!note) {
     return NextResponse.json({ error: "Note not found" }, { status: 404 });
   }

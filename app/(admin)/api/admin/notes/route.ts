@@ -19,6 +19,6 @@ export const POST = apiHandler(async (req: Request) => {
     );
   }
 
-  const note = await createNoteService(parsed.data);
+  const note = await createNoteService(parsed.data as any);
   return NextResponse.json(note, { status: 201 });
 });

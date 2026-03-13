@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { NoteForm } from "./note-form";
-import type { INote } from "@/types/note.types";
+import type { INoteListItem } from "@/types/note.types";
 import { useDeleteNote } from "@/hooks/mutation/use-note";
 
-export const noteColumns: ColumnDef<INote>[] = [
+export const noteColumns: ColumnDef<INoteListItem>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => (
@@ -23,15 +23,15 @@ export const noteColumns: ColumnDef<INote>[] = [
     meta: { label: "Title" },
   },
   {
-    accessorKey: "pages",
+    accessorKey: "noPages",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} label="Pages" />
     ),
     cell: ({ row }) => {
-      const pages = row.original.pages;
+      const count = row.original.noPages;
       return (
         <span className="text-muted-foreground">
-          {pages.length} {pages.length === 1 ? "page" : "pages"}
+          {count} {count === 1 ? "page" : "pages"}
         </span>
       );
     },
@@ -92,7 +92,12 @@ export const noteColumns: ColumnDef<INote>[] = [
       const { mutate: deleteNote } = useDeleteNote();
 
       const handleEditContent = () => {
-        router.push(`/admin/notes/${note._id}`);
+        const firstPageId = note.firstPageId;
+        if (firstPageId) {
+          router.push(`/admin/notes/${firstPageId}`);
+        } else {
+          toast.error("No pages found for this note");
+        }
       };
 
       const handleDelete = () => {
@@ -115,7 +120,7 @@ export const noteColumns: ColumnDef<INote>[] = [
             <Eye className="h-4 w-4" />
             <span className="sr-only">Edit Content</span>
           </Button>
-          <NoteForm initialData={note} />
+          <NoteForm initialData={note as any} />
           <Button
             variant="ghost"
             size="icon"

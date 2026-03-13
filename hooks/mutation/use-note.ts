@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/services/api/axios";
 import { noteQueries } from "@/react-query/note";
-import { CreateNoteDTO, UpdateNoteDTO, INote } from "@/types/note.types";
+import { CreateNoteDTO, UpdateNoteDTO, INote, INotePage } from "@/types/note.types";
 
 export const useCreateNote = () => {
   const queryClient = useQueryClient();
@@ -13,7 +13,6 @@ export const useCreateNote = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
-      console.log("Note created successfully");
     },
     onError: (error: any) => {
       console.error("Failed to create note", error);
@@ -35,10 +34,70 @@ export const useUpdateNote = (id: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
       queryClient.invalidateQueries({ queryKey: noteQueries.details(id).key });
-      console.log("Note updated successfully");
     },
-    onError: (error: any) => {
-      console.error("Failed to update note", error);
+  });
+};
+
+export const useUpdateNotePage = (noteId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ pageId, data }: { pageId: string; data: Partial<INotePage> }) => {
+      const response = await axiosInstance.patch<INote>(
+        noteQueries.updatePage(noteId, pageId).endpoint,
+        data
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
+      queryClient.invalidateQueries({ queryKey: noteQueries.details(noteId).key });
+    },
+  });
+};
+
+export const useCreateNotePage = (noteId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Partial<INotePage>) => {
+      const response = await axiosInstance.post<INotePage>(
+        noteQueries.createPage(noteId).endpoint,
+        data
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
+      queryClient.invalidateQueries({ queryKey: noteQueries.details(noteId).key });
+    },
+  });
+};
+
+export const useDeleteNotePage = (noteId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (pageId: string) => {
+      await axiosInstance.delete(
+        noteQueries.updatePage(noteId, pageId).endpoint
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
+      queryClient.invalidateQueries({ queryKey: noteQueries.details(noteId).key });
+    },
+  });
+};
+
+export const useReorderNotePages = (noteId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (updates: { pageId: string; order: number }[]) => {
+      await axiosInstance.patch(
+        noteQueries.reorderPages(noteId).endpoint,
+        updates
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noteQueries.details(noteId).key });
     },
   });
 };
@@ -51,10 +110,6 @@ export const useDeleteNote = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
-      console.log("Note deleted successfully");
-    },
-    onError: (error: any) => {
-      console.error("Failed to delete note", error);
     },
   });
 };
