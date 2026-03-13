@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Settings,
   ArrowLeft,
+  CalendarDays,
 } from "lucide-react"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -41,6 +42,11 @@ const data = {
       url: "/admin",
       icon: LayoutDashboard,
       isActive: true,
+    },
+    {
+      title: "Planner",
+      url: "/admin/planner",
+      icon: CalendarDays,
     },
     {
       title: "Blogs",

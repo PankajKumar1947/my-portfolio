@@ -7,8 +7,10 @@ import {
   FileText,
   BookOpen,
   FolderKanban,
+  CalendarDays,
   ArrowLeft,
 } from "lucide-react";
+
 import {
   Sidebar,
   SidebarContent,
@@ -25,6 +27,7 @@ import { Button } from "@/components/ui/button";
 
 const adminNavItems = [
   { title: "Dashboard", icon: LayoutDashboard, href: "/admin" },
+  { title: "Planner", icon: CalendarDays, href: "/admin/planner" },
   { title: "Blogs", icon: FileText, href: "/admin/blogs" },
   { title: "Notes", icon: BookOpen, href: "/admin/notes" },
   { title: "Projects", icon: FolderKanban, href: "/admin/projects" },
