@@ -12,6 +12,8 @@ import {
 } from "lucide-react"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
+import { useAuthSession } from "@/hooks/query/use-auth"
+import { profileInfo } from "@/lib/mock-data"
 import {
   Sidebar,
   SidebarContent,
@@ -21,14 +23,8 @@ import {
   SidebarMenu,
   SidebarMenuItem
 } from "@/components/ui/sidebar"
-import { profileInfo } from "@/lib/mock-data"
 
 const data = {
-  user: {
-    name: profileInfo.name,
-    email: profileInfo.email,
-    avatar: profileInfo.profileImage,
-  },
   teams: [
     {
       name: "Portfolio Admin",
@@ -79,7 +75,14 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useAuthSession();
   const Logo = data.teams[0].logo
+
+  const user = {
+    name: session?.user?.name || "Loading...",
+    email: session?.user?.email || "...",
+    avatar: session?.user?.avatar || profileInfo.profileImage,
+  };
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -102,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

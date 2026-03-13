@@ -7,4 +7,12 @@ export const authQueries = {
     key: ["register"],
     endpoint: "/auth/register",
   },
-}
+  me: {
+    key: ["me"],
+    endpoint: "/auth/me",
+  },
+  logout: {
+    key: ["logout"],
+    endpoint: "/auth/logout",
+  },
+};

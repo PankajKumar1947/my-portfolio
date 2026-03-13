@@ -21,17 +21,17 @@ export function setBreadcrumbOverride(segment: string, label: string) {
 }
 
 import { NavUser } from "@/components/nav-user";
+import { useAuthSession } from "@/hooks/query/use-auth";
 import { profileInfo } from "@/lib/mock-data";
 
 export function AdminHeader() {
   const pathname = usePathname();
+  const { data: session, isLoading } = useAuthSession();
 
-  const data = {
-    user: {
-      name: profileInfo.name,
-      email: profileInfo.email,
-      avatar: profileInfo.profileImage,
-    },
+  const user = {
+    name: session?.user?.name || "Loading...",
+    email: session?.user?.email || "...",
+    avatar: session?.user?.avatar || profileInfo.profileImage,
   };
 
   // Build breadcrumb segments
@@ -107,7 +107,7 @@ export function AdminHeader() {
       <div className="ml-auto flex items-center gap-4">
         <ThemeToggle />
         <Separator orientation="vertical" className="h-4" />
-        <NavUser user={data.user} side="bottom" onlyAvatar={true} />
+        <NavUser user={user} side="bottom" onlyAvatar={true} />
       </div>
     </header>
   );

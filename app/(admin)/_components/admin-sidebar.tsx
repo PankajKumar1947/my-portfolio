@@ -24,6 +24,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { NavUser } from "@/components/nav-user";
+import { useAuthSession } from "@/hooks/query/use-auth";
 
 const adminNavItems = [
   { title: "Dashboard", icon: LayoutDashboard, href: "/admin" },
@@ -35,6 +37,13 @@ const adminNavItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const { data: session } = useAuthSession();
+
+  const user = session?.user || {
+    name: "Loading...",
+    email: "...",
+    avatar: "",
+  };
 
   return (
     <Sidebar>
@@ -74,13 +83,14 @@ export function AdminSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-border/50 p-4">
-        <Button variant="ghost" size="sm" asChild className="w-full justify-start">
+      <SidebarFooter className="border-t border-border/50 p-2 space-y-2">
+        <Button variant="ghost" size="sm" asChild className="w-full justify-start h-9 px-2">
           <Link href="/">
-            <ArrowLeft className="mr-2 h-3.5 w-3.5" />
-            Back to Site
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            <span className="text-sm">Back to Site</span>
           </Link>
         </Button>
+        <NavUser user={user} side="right" />
       </SidebarFooter>
     </Sidebar>
   );

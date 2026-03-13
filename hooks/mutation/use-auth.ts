@@ -23,3 +23,21 @@ export const useLogin = () => {
     }
   })
 }
+
+export const useLogout = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationKey: authQueries.logout.key,
+    mutationFn: async () => {
+      const response = await axiosInstance.post(authQueries.logout.endpoint);
+      return response.data;
+    },
+    onSuccess: () => {
+      console.log("Logout successful, redirecting to /login...");
+      router.push("/login");
+    },
+    onError: (error) => {
+      console.error("Logout mutation error:", error);
+    }
+  })
+}
