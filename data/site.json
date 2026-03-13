@@ -1,0 +1,26 @@
+{
+  "description": "Full Stack Web Developer portfolio — projects, notes, and blog. Specializing in React, Next.js, Node.js, and modern web technologies.",
+  "keywords": [
+    "Full Stack Developer",
+    "Web Developer",
+    "React",
+    "Next.js",
+    "Node.js",
+    "TypeScript",
+    "Portfolio"
+  ],
+  "ogImage": "/og-image.png",
+  "locale": "en_US",
+  "blog": {
+    "title": "Blog",
+    "description": "Thoughts, tutorials, and insights on web development — React, Next.js, TypeScript, and more."
+  },
+  "notes": {
+    "title": "Notes",
+    "description": "Organized notes on various topics — multi-page references on React, Node.js, databases, and more."
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "A collection of projects I've built and contributed to — full-stack web apps, open-source tools, and more."
+  }
+}

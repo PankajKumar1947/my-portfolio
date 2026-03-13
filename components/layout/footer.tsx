@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { profileInfo } from "@/lib/mock-data";
+import { profile } from "@/config/profile";
 
 const socialLinks = [
-  { icon: Github, href: profileInfo.socials.github, label: "GitHub" },
-  { icon: Linkedin, href: profileInfo.socials.linkedin, label: "LinkedIn" },
-  { icon: Twitter, href: profileInfo.socials.twitter, label: "Twitter" },
-  { icon: Mail, href: `mailto:${profileInfo.email}`, label: "Email" },
+  { icon: Github, href: profile.socials.github, label: "GitHub" },
+  { icon: Linkedin, href: profile.socials.linkedin, label: "LinkedIn" },
+  { icon: Twitter, href: profile.socials.twitter, label: "Twitter" },
+  { icon: Mail, href: `mailto:${profile.email}`, label: "Email" },
 ];
 
 export function Footer() {
@@ -21,10 +21,10 @@ export function Footer() {
               href="/"
               className="gradient-text text-lg font-bold tracking-tight"
             >
-              &lt;Pankaj /&gt;
+              &lt;{profile.logoText} /&gt;
             </Link>
             <p className="mt-1 text-sm text-muted-foreground">
-              {profileInfo.tagline}
+              {profile.tagline}
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export function Footer() {
         <Separator className="my-6 opacity-50" />
 
         <p className="text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} {profileInfo.name}. Built with
+          &copy; {new Date().getFullYear()} {profile.name}. Built with
           Next.js & shadcn/ui.
         </p>
       </div>

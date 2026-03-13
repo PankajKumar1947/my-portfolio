@@ -1,32 +1,36 @@
-"use client";
-
+import type { Metadata } from "next";
 import { PageHeader } from "@/components/common/page-header";
 import { NoteCard } from "@/components/common/note-card";
-import { usePublishedNotes } from "@/hooks/query/use-note";
-import { Loader } from "@/components/common/loader";
+import { connectDB } from "@/lib/db";
+import { getPublishedNotesService } from "@/services/note.service";
+import { siteConfig } from "@/config/site";
 
-export default function NotesPage() {
-  const { data: notes, isLoading, error } = usePublishedNotes();
-  const publishedNotes = notes || [];
+export const metadata: Metadata = {
+  title: siteConfig.notes.title,
+  description: siteConfig.notes.description,
+  openGraph: {
+    title: siteConfig.notes.title,
+    description: siteConfig.notes.description,
+  },
+};
+
+export default async function NotesPage() {
+  await connectDB();
+  const notes = await getPublishedNotesService();
+  const publishedNotes = JSON.parse(JSON.stringify(notes));
 
   return (
     <>
       <PageHeader
-        title="Notes"
-        subtitle="Organized notes on various topics — multi-page references I keep handy."
+        title={siteConfig.notes.title}
+        subtitle={siteConfig.notes.description}
         gradient
       />
 
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <div className="flex h-64 items-center justify-center text-destructive">
-            <p>Failed to load notes. Please try again later.</p>
-          </div>
-        ) : publishedNotes.length > 0 ? (
+        {publishedNotes.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2">
-            {publishedNotes.map((note) => (
+            {publishedNotes.map((note: any) => (
               <NoteCard key={note._id.toString()} note={note} />
             ))}
           </div>

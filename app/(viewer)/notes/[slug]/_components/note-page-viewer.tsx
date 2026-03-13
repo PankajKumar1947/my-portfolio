@@ -26,12 +26,12 @@ interface NotePageViewerProps {
 export function NotePageViewer({ note }: NotePageViewerProps) {
   const sortedPages = [...note.pages].sort((a, b) => a.order - b.order);
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const pageMeta = sortedPages[currentIndex] as INotePage;
+  const currentPage = sortedPages[currentIndex] as INotePage;
   const totalPages = sortedPages.length;
 
   const { data: pageContent, isLoading: isLoadingPage } = useNotePage(
     note.slug,
-    pageMeta?.id
+    currentPage?._id as string
   );
 
   return (
@@ -62,7 +62,7 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
               </SelectTrigger>
               <SelectContent>
                 {sortedPages.map((page, index) => (
-                  <SelectItem key={page.id} value={String(index)}>
+                  <SelectItem key={String(page._id)} value={String(index)}>
                     {page.title}
                   </SelectItem>
                 ))}
@@ -79,7 +79,7 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
           {/* Page title + prev/next navigation */}
           <div className="mb-6 flex items-center justify-between gap-4">
             <h2 className="text-2xl font-bold tracking-tight">
-              {pageMeta.title}
+              {currentPage.title}
             </h2>
             <div className="flex items-center gap-2">
               <Button
@@ -119,7 +119,7 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
               </div>
             ) : (
               <Editor
-                key={`viewer-${pageMeta?.id}`}
+                key={`viewer-${currentPage?._id}`}
                 initialContent={pageContent?.content || ""}
                 editable={false}
               />

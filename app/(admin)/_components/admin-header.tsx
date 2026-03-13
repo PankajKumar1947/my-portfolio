@@ -22,7 +22,7 @@ export function setBreadcrumbOverride(segment: string, label: string) {
 
 import { NavUser } from "@/components/nav-user";
 import { useAuthSession } from "@/hooks/query/use-auth";
-import { profileInfo } from "@/lib/mock-data";
+import { profile } from "@/config/profile";
 
 export function AdminHeader() {
   const pathname = usePathname();
@@ -31,7 +31,7 @@ export function AdminHeader() {
   const user = {
     name: session?.user?.name || "Loading...",
     email: session?.user?.email || "...",
-    avatar: session?.user?.avatar || profileInfo.profileImage,
+    avatar: session?.user?.avatar || profile.profileImage,
   };
 
   // Build breadcrumb segments

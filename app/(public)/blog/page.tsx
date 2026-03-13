@@ -1,36 +1,36 @@
-"use client";
-
+import type { Metadata } from "next";
 import { PageHeader } from "@/components/common/page-header";
 import { BlogCard } from "@/components/common/blog-card";
-import { usePublishedBlogs } from "@/hooks/query/use-blog";
-import { Loader2 } from "lucide-react";
-import { IBlog } from "@/types/blog.types";
+import { connectDB } from "@/lib/db";
+import { getPublishedBlogsService } from "@/services/blog.service";
+import { siteConfig } from "@/config/site";
 
-export default function BlogPage() {
-  const { data: blogs, isLoading, error } = usePublishedBlogs();
+export const metadata: Metadata = {
+  title: siteConfig.blog.title,
+  description: siteConfig.blog.description,
+  openGraph: {
+    title: siteConfig.blog.title,
+    description: siteConfig.blog.description,
+  },
+};
 
-  const publishedPosts: IBlog[] = blogs || [];
+export default async function BlogPage() {
+  await connectDB();
+  const blogs = await getPublishedBlogsService();
+  const publishedPosts = JSON.parse(JSON.stringify(blogs));
 
   return (
     <>
       <PageHeader
-        title="Blog"
-        subtitle="Thoughts, tutorials, and insights on web development."
+        title={siteConfig.blog.title}
+        subtitle={siteConfig.blog.description}
         gradient
       />
 
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
-        {isLoading ? (
-          <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        ) : error ? (
-          <div className="flex h-64 items-center justify-center text-destructive">
-            <p>Failed to load blog posts. Please try again later.</p>
-          </div>
-        ) : publishedPosts.length > 0 ? (
+        {publishedPosts.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {publishedPosts.map((post) => (
+            {publishedPosts.map((post: any) => (
               <BlogCard key={post._id.toString()} post={post} />
             ))}
           </div>

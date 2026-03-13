@@ -1,26 +1,57 @@
-"use client";
-
-import * as React from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NotePageViewer } from "./_components/note-page-viewer";
-import { useNote } from "@/hooks/query/use-note";
-import { Loader } from "@/components/common/loader";
+import { connectDB } from "@/lib/db";
+import { getNoteBySlugService } from "@/services/note.service";
+import { profile } from "@/config/profile";
 
 interface NoteDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function NoteDetailPage({ params }: NoteDetailPageProps) {
-  const { slug } = React.use(params);
-  const { data: note, isLoading, error } = useNote(slug);
+export async function generateMetadata({
+  params,
+}: NoteDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  await connectDB();
+  const note = await getNoteBySlugService(slug);
 
-  if (isLoading) {
-    return <Loader fullPage />;
+  if (!note) {
+    return { title: "Note Not Found" };
   }
 
-  if (error || !note) {
+  const title = note.title;
+  const description =
+    note.description || `Read "${note.title}" — notes by ${profile.name}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${title} | ${profile.name}`,
+      description,
+      type: "article",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
+}
+
+export default async function NoteDetailPage({
+  params,
+}: NoteDetailPageProps) {
+  const { slug } = await params;
+  await connectDB();
+  const note = await getNoteBySlugService(slug);
+
+  if (!note) {
     notFound();
   }
 
-  return <NotePageViewer note={note} />;
+  const serializedNote = JSON.parse(JSON.stringify(note));
+
+  return <NotePageViewer note={serializedNote} />;
 }

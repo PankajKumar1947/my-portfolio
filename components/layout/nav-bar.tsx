@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { cn } from "@/lib/utils";
+import { profile } from "@/config/profile";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -28,7 +29,7 @@ export function Navbar() {
           href="/"
           className="gradient-text text-xl font-bold tracking-tight"
         >
-          &lt;Pankaj /&gt;
+          &lt;{profile.logoText} /&gt;
         </Link>
 
         {/* Desktop Nav */}

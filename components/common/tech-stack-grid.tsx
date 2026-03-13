@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { SkillCategory } from "@/lib/mock-data";
+import type { SkillCategory } from "@/config/resume";
 import { cn } from "@/lib/utils";
 
 interface SkillBadgeProps {

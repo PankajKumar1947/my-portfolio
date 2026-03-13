@@ -1,18 +1,17 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { profileInfo } from "@/lib/mock-data";
+import { profile } from "@/config/profile";
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { Editor } from "@/components/text-editor/dynamic-editor";
+import { IBlog } from "@/types/blog.types";
 
 interface BlogViewerProps {
-  post: any;
+  post: IBlog;
 }
 
 export function BlogViewer({ post }: BlogViewerProps) {
@@ -52,11 +51,11 @@ export function BlogViewer({ post }: BlogViewerProps) {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10">
                       <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
-                        {profileInfo.name.charAt(0)}
+                        {profile.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="text-sm font-medium">{profileInfo.name}</p>
+                      <p className="text-sm font-medium">{profile.name}</p>
                       <div className="flex items-center gap-3 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />

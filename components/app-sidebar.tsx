@@ -14,7 +14,7 @@ import {
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import { useAuthSession } from "@/hooks/query/use-auth"
-import { profileInfo } from "@/lib/mock-data"
+import { profile } from "@/config/profile";
 import {
   Sidebar,
   SidebarContent,
@@ -87,7 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = {
     name: session?.user?.name || "Loading...",
     email: session?.user?.email || "...",
-    avatar: session?.user?.avatar || profileInfo.profileImage,
+    avatar: session?.user?.avatar || profile.profileImage,
   };
 
   return (

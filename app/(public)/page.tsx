@@ -2,18 +2,19 @@ import Link from "next/link";
 import { ArrowRight, Mail, MapPin, Download, Briefcase, GraduationCap, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { SectionHeading } from "@/components/common/section-heading";
 import { TechStackGrid } from "@/components/common/tech-stack-grid";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  profileInfo,
-  skillCategories,
-  experiences,
-  educations,
-} from "@/lib/mock-data";
+import { profile } from "@/config/profile";
+import { skillCategories, experiences, educations } from "@/config/resume";
 import { ContactForm } from "./_components/contact-form";
+import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
+
+export const metadata: Metadata = {
+  title: siteConfig.name,
+  description: siteConfig.description,
+};
+
 
 export default function HomePage() {
 
@@ -43,15 +44,15 @@ export default function HomePage() {
 
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl leading-[1.1]">
                 Hi, I&apos;m{" "}
-                <span className="gradient-text">{profileInfo.name}</span>
+                <span className="gradient-text">{profile.name}</span>
               </h1>
 
               <p className="mt-2 text-xl font-medium text-muted-foreground sm:text-2xl">
-                {profileInfo.tagline}
+                {profile.tagline}
               </p>
 
               <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg leading-relaxed">
-                {profileInfo.bio}
+                {profile.bio}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -62,7 +63,7 @@ export default function HomePage() {
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <a href={`mailto:${profileInfo.email}`}>
+                  <a href={`mailto:${profile.email}`}>
                     <Mail className="mr-2 h-4 w-4" />
                     Get in Touch
                   </a>
@@ -72,7 +73,7 @@ export default function HomePage() {
               <div className="mt-6 flex items-center gap-4 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5" />
-                  {profileInfo.location}
+                  {profile.location}
                 </span>
               </div>
             </div>
@@ -87,8 +88,8 @@ export default function HomePage() {
                 {/* Main Image Container */}
                 <div className="relative h-full w-full overflow-hidden rounded-3xl border-2 border-border/50 bg-card shadow-2xl">
                   <img
-                    src={profileInfo.profileImage}
-                    alt={profileInfo.name}
+                    src={profile.profileImage}
+                    alt={profile.name}
                     className="h-full w-full object-cover grayscale-[0.2] transition-all hover:grayscale-0 duration-500"
                   />
 
@@ -228,10 +229,10 @@ export default function HomePage() {
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Email</p>
                     <a
-                      href={`mailto:${profileInfo.email}`}
+                      href={`mailto:${profile.email}`}
                       className="text-lg font-semibold hover:text-primary transition-colors"
                     >
-                      {profileInfo.email}
+                      {profile.email}
                     </a>
                   </div>
                 </div>
@@ -243,10 +244,10 @@ export default function HomePage() {
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Phone</p>
                     <a
-                      href={`tel:${profileInfo.phone}`}
+                      href={`tel:${profile.phone}`}
                       className="text-lg font-semibold hover:text-primary transition-colors"
                     >
-                      {profileInfo.phone}
+                      {profile.phone}
                     </a>
                   </div>
                 </div>
@@ -257,7 +258,7 @@ export default function HomePage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Address</p>
-                    <p className="text-lg font-semibold">{profileInfo.address}</p>
+                    <p className="text-lg font-semibold">{profile.address}</p>
                   </div>
                 </div>
               </div>
@@ -266,7 +267,7 @@ export default function HomePage() {
               <div className="pt-8 border-t border-border/50">
                 <p className="text-sm font-medium text-muted-foreground mb-4">Follow Me</p>
                 <div className="flex gap-4">
-                  {Object.entries(profileInfo.socials).map(([name, url]) => (
+                  {Object.entries(profile.socials).map(([name, url]) => (
                     <a
                       key={name}
                       href={url}
