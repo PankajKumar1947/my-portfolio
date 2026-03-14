@@ -13,11 +13,11 @@ interface TodoItemProps {
 }
 
 export function TodoItem({ todo, variant = "small", onDelete }: TodoItemProps) {
-  const { mutate: updateTodo } = useUpdateTodo(todo._id);
+  const { mutate: updateTodo } = useUpdateTodo();
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    updateTodo({ completed: !todo.completed });
+    updateTodo({ _id: todo._id, completed: !todo.completed });
   };
 
   if (variant === "small") {

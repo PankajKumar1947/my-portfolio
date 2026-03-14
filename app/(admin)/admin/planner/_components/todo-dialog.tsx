@@ -14,12 +14,21 @@ import { Button } from "@/components/ui/button";
 import { ITodo } from "@/types/todo.types";
 import { TodoItem } from "./todo-item";
 import { useCreateTodo, useDeleteTodo } from "@/hooks/mutation/use-todo";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface TodoDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   selectedDay: Date | null;
   todos: ITodo[];
+  initialStatus?: "planned_today" | "ongoing" | "completed" | "tomorrow_plan";
 }
 
 export function TodoDialog({
@@ -27,8 +36,13 @@ export function TodoDialog({
   onOpenChange,
   selectedDay,
   todos,
+  initialStatus,
 }: TodoDialogProps) {
   const [newTodoTitle, setNewTodoTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState<"low" | "medium" | "high">("medium");
+  const [status, setStatus] = useState<"planned_today" | "ongoing" | "completed" | "tomorrow_plan" | undefined>(initialStatus);
+
   const { mutate: createTodo, isPending: isCreating } = useCreateTodo();
   const { mutate: deleteTodo } = useDeleteTodo();
 
@@ -38,13 +52,18 @@ export function TodoDialog({
     createTodo(
       {
         title: newTodoTitle,
+        description,
         date: format(selectedDay, "yyyy-MM-dd"),
         completed: false,
-        priority: "medium",
+        priority,
+        status,
       },
       {
         onSuccess: () => {
           setNewTodoTitle("");
+          setDescription("");
+          setPriority("medium");
+          setStatus(initialStatus);
           onOpenChange(false);
         },
       }
@@ -83,6 +102,64 @@ export function TodoDialog({
                 className="bg-muted/50 border-0 focus-visible:ring-1"
               />
             </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="description"
+                className="text-xs uppercase tracking-wider text-muted-foreground"
+              >
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                placeholder="Add more details..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="bg-muted/50 border-0 focus-visible:ring-1 min-h-20"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Priority
+                </Label>
+                <Select
+                  value={priority}
+                  onValueChange={(value: any) => setPriority(value)}
+                >
+                  <SelectTrigger className="bg-muted/50 border-0 focus:ring-1">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Status
+                </Label>
+                <Select
+                  value={status || "planned_today"}
+                  onValueChange={(value: any) => setStatus(value)}
+                >
+                  <SelectTrigger className="bg-muted/50 border-0 focus:ring-1">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="planned_today">Planned Today</SelectItem>
+                    <SelectItem value="ongoing">Ongoing</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="tomorrow_plan">Tomorrow Plan</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             <Button
               className="w-full"
               onClick={handleCreateTodo}

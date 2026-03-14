@@ -25,10 +25,15 @@ const todoSchema = new Schema<ITodo>(
       enum: ["low", "medium", "high"],
       default: "medium",
     },
+    status: {
+      type: String,
+      enum: ["planned_today", "ongoing", "completed", "tomorrow_plan"],
+    },
   },
   { timestamps: true }
 );
 
 // Prevent model overwrite on HMR
+if (mongoose.models.Todo) delete mongoose.models.Todo;
 export const TodoModel: Model<ITodo> =
   mongoose.models.Todo || mongoose.model<ITodo>("Todo", todoSchema);
