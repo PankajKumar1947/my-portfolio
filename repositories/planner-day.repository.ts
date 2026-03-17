@@ -1,5 +1,5 @@
 import { PlannerDayModel } from "@/models/planner-day.model";
-import { IPlannerDay, UpsertPlannerDayDTO } from "@/types/todo.types";
+import { IPlannerDay, UpsertPlannerDayDTO } from "@/types/planner-day.types";
 
 export const appendRemark = async (data: UpsertPlannerDayDTO): Promise<IPlannerDay> => {
   const plannerDay = await PlannerDayModel.findOneAndUpdate(

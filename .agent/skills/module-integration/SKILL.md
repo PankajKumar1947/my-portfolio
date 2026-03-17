@@ -63,11 +63,16 @@ export const [Module]Model = mongoose.models.[Module] || mongoose.model("[Module
 
 ### 4. Repository (DAL)
 **Path:** `repositories/[module].repository.ts`
-Pure database operations.
+Pure database operations. Use `Record<string, unknown>` for flexible queries.
 
 ```tsx
-export const get[Module]s = async () => [Module]Model.find({}).sort({ createdAt: -1 });
-export const create[Module] = async (data: Create[Module]DTO) => [Module]Model.create(data);
+export const get[Module]s = async (query: Record<string, unknown> = {}) => {
+  return [Module]Model.find(query).sort({ createdAt: -1 });
+};
+
+export const create[Module] = async (data: Create[Module]DTO) => {
+  return [Module]Model.create(data);
+};
 ```
 
 ### 5. Service (Logic)
@@ -111,10 +116,12 @@ export const [module]Queries = {
 
 ### 8. custom hooks
 **Path:** `hooks/query/use-[module].ts` & `hooks/mutation/use-[module].ts`
-Abstract hooks for UI usage.
+Abstract hooks for UI usage. Ensure return types are explicitly defined.
 
 ```tsx
-export const useGet[Module]s = () => useQuery({
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+
+export const useGet[Module]s = (): UseQueryResult<I[Module][], Error> => useQuery({
   queryKey: [module]Queries.all.key,
   queryFn: async () => (await axiosInstance.get([module]Queries.all.endpoint)).data
 });

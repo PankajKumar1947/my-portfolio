@@ -25,19 +25,21 @@ import {
 import { KanbanColumn } from "./kanban-column";
 import { KanbanCard } from "./kanban-card";
 import { useUpdateTodo } from "@/hooks/mutation/use-todo";
-import { usePlannerDay, useUpsertPlannerDay } from "@/hooks/query/use-planner-day";
+import { usePlannerDay } from "@/hooks/query/use-planner-day";
+import { useUpsertPlannerDay } from "@/hooks/mutation/use-planner-day";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { TodoDialog } from "./todo-dialog";
 import { RemarkDialog } from "./remark-dialog";
+import { IPlannerDay, IDayData, IRemark } from "@/types/planner-day.types";
 
 interface KanbanViewProps {
   date: Date;
   todos: ITodo[];
 }
 
-const COLUMNS = [
+const COLUMNS: { id: NonNullable<ITodo["status"]> | "remarks"; title: string; draggable: boolean }[] = [
   { id: "planned_today", title: "Planned Today", draggable: true },
   { id: "ongoing", title: "Ongoing", draggable: true },
   { id: "completed", title: "Completed", draggable: true },
@@ -55,7 +57,7 @@ export function KanbanView({ date, todos: monthTodos }: KanbanViewProps) {
   const [localTodos, setLocalTodos] = useState<ITodo[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isRemarkDialogOpen, setIsRemarkDialogOpen] = useState(false);
-  const [dialogStatus, setDialogStatus] = useState<any>(undefined);
+  const [dialogStatus, setDialogStatus] = useState<NonNullable<ITodo["status"]> | "remarks" | undefined>(undefined);
 
   // Sync local todos when dayData arrives
   useEffect(() => {
@@ -119,12 +121,12 @@ export function KanbanView({ date, todos: monthTodos }: KanbanViewProps) {
     // Check if dropping over a column or another card
     const overColumnId = COLUMNS.find(c => c.id === overId)?.id;
     const overTodo = localTodos.find((t) => t._id === overId);
-    const newStatus = overColumnId || overTodo?.status || "date";
+    const newStatus = overColumnId || overTodo?.status;
 
-    if (activeTodo.status !== newStatus) {
+    if (newStatus && newStatus !== "remarks" && activeTodo.status !== newStatus) {
       setLocalTodos((prev) => {
         return prev.map((t) => 
-          t._id === activeId ? { ...t, status: newStatus as any } : t
+          t._id === activeId ? { ...t, status: newStatus } : t
         );
       });
     }
@@ -144,18 +146,18 @@ export function KanbanView({ date, todos: monthTodos }: KanbanViewProps) {
 
     const overColumnId = COLUMNS.find(c => c.id === overId)?.id;
     const overTodo = localTodos.find((t) => t._id === overId);
-    const finalStatus = overColumnId || overTodo?.status || "date";
+    const finalStatus = overColumnId || overTodo?.status;
 
-    // Update backend
-    const updatedStatus = finalStatus === "date" ? undefined : finalStatus;
-    updateTodo({ 
-      _id: activeId, // Note: I need to ensure useUpdateTodo hook supports passing ID or I use a clever way
-      status: updatedStatus as any,
-      completed: updatedStatus === "completed"
-    } as any);
+    if (finalStatus && finalStatus !== "remarks") {
+      updateTodo({ 
+        _id: activeId,
+        status: finalStatus,
+        completed: finalStatus === "completed"
+      });
+    }
   };
 
-  const openAddTask = (status: string) => {
+  const openAddTask = (status: NonNullable<ITodo["status"]> | "remarks") => {
     if (status === "remarks") {
       setIsRemarkDialogOpen(true);
     } else {
@@ -248,7 +250,7 @@ export function KanbanView({ date, todos: monthTodos }: KanbanViewProps) {
         onOpenChange={setIsDialogOpen}
         selectedDay={date}
         todos={monthTodos}
-        initialStatus={dialogStatus}
+        initialStatus={dialogStatus === "remarks" ? undefined : dialogStatus}
       />
 
       <RemarkDialog

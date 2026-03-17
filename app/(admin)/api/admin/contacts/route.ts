@@ -1,25 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import { ContactModel } from "@/models/contact.model";
+import { apiHandler } from "@/lib/api-handler";
+import * as contactService from "@/services/contact.service";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  try {
-    await connectDB();
-    const { searchParams } = new URL(req.url);
-    const status = searchParams.get("status");
+export const GET = apiHandler(async (req) => {
+  const { searchParams } = new URL(req.url);
+  const status = searchParams.get("status") || undefined;
 
-    const query: { status?: { $in: string[] } } = {};
-    if (status) {
-      query.status = { $in: status.split(",") };
-    }
-
-    const contacts = await ContactModel.find(query).sort({ createdAt: -1 });
-    return NextResponse.json(contacts);
-  } catch (error) {
-    console.error("Fetch contacts error:", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-}
+  const contacts = await contactService.getContactsService(status);
+  return NextResponse.json(contacts);
+});

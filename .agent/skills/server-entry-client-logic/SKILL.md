@@ -66,10 +66,11 @@ import { blogColumns } from "./blog-columns";
 import { BlogForm } from "./blog-form";
 import { useBlogs } from "@/hooks/query/use-blog";
 import { DataTableShell } from "@/components/data-table/data-table-shell";
+import { IBlog } from "@/types/blog.types";
 
 export function BlogTable() {
   return (
-    <DataTableShell
+    <DataTableShell<IBlog>
       title="Blog Posts"
       description="Manage your blog posts."
       columns={blogColumns}
@@ -86,17 +87,22 @@ export function BlogTable() {
 
 import { useAdminBlog, useUpdateBlog } from "@/hooks/query/use-blog";
 import { Editor } from "@/components/text-editor/dynamic-editor";
+import { Loader } from "@/components/common/loader";
 
 export function BlogEditorShell({ id }: { id: string }) {
   const { data: blog, isLoading } = useAdminBlog(id);
-  const { mutate: updateBlog } = useUpdateBlog(id);
+  const { mutate: updateBlog } = useUpdateBlog();
 
   if (isLoading) return <Loader />;
+  if (!blog) return <div>Blog not found</div>;
 
   return (
     <div className="space-y-6">
-      <h1>{blog.title}</h1>
-      <Editor initialContent={blog.content} onChange={(val) => updateBlog({ content: val })} />
+      <h1 className="text-2xl font-bold">{blog.title}</h1>
+      <Editor 
+        initialContent={blog.content} 
+        onChange={(val: string) => updateBlog({ _id: id, content: val })} 
+      />
     </div>
   );
 }

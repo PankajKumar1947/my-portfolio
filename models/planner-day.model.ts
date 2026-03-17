@@ -1,4 +1,4 @@
-import { IPlannerDay } from "@/types/todo.types";
+import { IPlannerDay } from "@/types/planner-day.types";
 import mongoose, { Model, Schema } from "mongoose";
 
 const remarkSchema = new Schema(

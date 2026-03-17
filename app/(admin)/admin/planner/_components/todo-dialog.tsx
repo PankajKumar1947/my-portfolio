@@ -126,7 +126,7 @@ export function TodoDialog({
                 </Label>
                 <Select
                   value={priority}
-                  onValueChange={(value: any) => setPriority(value)}
+                  onValueChange={(value: ITodo["priority"]) => setPriority(value)}
                 >
                   <SelectTrigger className="bg-muted/50 border-0 focus:ring-1">
                     <SelectValue placeholder="Select priority" />
@@ -145,7 +145,7 @@ export function TodoDialog({
                 </Label>
                 <Select
                   value={status || "planned_today"}
-                  onValueChange={(value: any) => setStatus(value)}
+                  onValueChange={(value: NonNullable<ITodo["status"]>) => setStatus(value)}
                 >
                   <SelectTrigger className="bg-muted/50 border-0 focus:ring-1">
                     <SelectValue placeholder="Select status" />

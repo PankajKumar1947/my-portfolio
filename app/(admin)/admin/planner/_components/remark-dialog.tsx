@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useUpsertPlannerDay } from "@/hooks/query/use-planner-day";
+import { useUpsertPlannerDay } from "@/hooks/mutation/use-planner-day";
 
 interface RemarkDialogProps {
   isOpen: boolean;

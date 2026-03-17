@@ -9,11 +9,11 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface KanbanColumnProps {
-  id: string;
+  id: NonNullable<ITodo["status"]> | "remarks";
   title: string;
   todos: ITodo[];
   isDraggable?: boolean;
-  onAddTask?: (status: any) => void;
+  onAddTask?: (status: NonNullable<ITodo["status"]> | "remarks") => void;
   children?: React.ReactNode;
 }
 
