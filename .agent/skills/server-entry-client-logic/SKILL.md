@@ -54,8 +54,31 @@ A client component that acts as the "bridge" between data hooks and the UI.
 **Key Responsibilities:**
 - Use the `"use client"` directive.
 - Handle data fetching via client-side hooks (React Query).
-- Handle interactive state (forms, filters, pagination).
 - Pass logic to generalized components (e.g., `DataTableShell` or `Editor`).
+
+#### Example: Standardized Table Wrapper
+This is the "bridge" component. It connects specific data (via `queryHook`) and column definitions to the reusable `DataTableShell`.
+
+```tsx
+"use client";
+
+import { blogColumns } from "./blog-columns";
+import { BlogForm } from "./blog-form";
+import { useBlogs } from "@/hooks/query/use-blog";
+import { DataTableShell } from "@/components/data-table/data-table-shell";
+
+export function BlogTable() {
+  return (
+    <DataTableShell
+      title="Blog Posts"
+      description="Manage your blog posts."
+      columns={blogColumns}
+      queryHook={useBlogs}
+      ActionComponent={<BlogForm />}
+    />
+  );
+}
+```
 
 **Example (Editor Shell):**
 ```tsx
@@ -82,8 +105,19 @@ export function BlogEditorShell({ id }: { id: string }) {
 ### 3. The Generalized UI Shell
 Reusable core components that handle standard UI patterns.
 
-- **`DataTableShell`**: Encapsulates `useDataTable`, headers, and toolbars.
-- **Form/Editor Layouts**: Standardized headers and sticky save bars.
+#### `DataTableShell` Props
+The `DataTableShell` is the engine for all admin tables. Always provide the following:
+- `title` & `description`: Page-level headers.
+- `columns`: TanStack table column definitions.
+- `queryHook`: The React Query hook (e.g., `useBlogs`) that returns `{ data, isLoading }`.
+- `ActionComponent`: (Optional) A button or form for the "Create New" action.
+- `searchColumn`: (Optional) The column key to filter by text (defaults to "title").
+
+#### Form/Editor Layouts
+Standardized containers for interactive logic.
+- **Headers**: Use `PageHeader`.
+- **Spacing**: Use `space-y-6`.
+- **Feedback**: Use `Sonner` for success/error notifications.
 
 ## When to Use
 - **Tables**: Admin lists with sorting/filtering/pagination.
