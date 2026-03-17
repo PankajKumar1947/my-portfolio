@@ -61,6 +61,11 @@ const data = {
       icon: FolderKanban,
     },
     {
+      title: "Board",
+      url: "/admin/board",
+      icon: LayoutDashboard,
+    },
+    {
       title: "Contacts",
       url: "/admin/contacts",
       icon: MessageCircle,
