@@ -70,7 +70,7 @@ export function NoteCard({ note }: NoteCardProps) {
       className={cn(
         "group relative flex border-border/40 bg-card transition-all duration-500",
         hasPages
-          ? "hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] cursor-pointer"
+          ? "hover:-translate-y-1 hover:border-primary/30 hover:shadow-card-hover cursor-pointer"
           : "opacity-80 grayscale-[0.3]"
       )}
     >

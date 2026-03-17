@@ -10,7 +10,7 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="group h-full">
-      <Card className="relative h-full overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-primary/5 active:scale-[0.98]">
+      <Card className="relative h-full overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-card-hover active:scale-[0.98]">
         {/* Cover placeholder with hover effect */}
         <div className="relative h-44 overflow-hidden rounded-t-lg bg-linear-to-br from-primary/10 via-primary/5 to-transparent transition-all duration-500 group-hover:scale-[1.02]">
           <div className="absolute inset-0 flex items-center justify-center">
