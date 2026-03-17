@@ -1,30 +1,22 @@
-import { BoardRepository } from "@/repositories/board.repository";
+import * as boardRepo from "@/repositories/board.repository";
 import { IBoard, IBoardMeta } from "@/types/board.types";
 
-export class BoardService {
-  private repository: BoardRepository;
+export const getBoardsService = async (): Promise<IBoardMeta[]> => {
+  return await boardRepo.getBoards();
+};
 
-  constructor() {
-    this.repository = new BoardRepository();
-  }
+export const getBoardByIdService = async (id: string): Promise<IBoard | null> => {
+  return await boardRepo.getBoardById(id);
+};
 
-  async getBoards(): Promise<IBoardMeta[]> {
-    return await this.repository.findAll();
-  }
+export const createBoardService = async (data: Partial<IBoard>): Promise<IBoard> => {
+  return await boardRepo.createBoard(data);
+};
 
-  async getBoardById(id: string): Promise<IBoard | null> {
-    return await this.repository.findById(id);
-  }
+export const updateBoardService = async (id: string, data: Partial<IBoard>): Promise<IBoard | null> => {
+  return await boardRepo.updateBoard(id, data);
+};
 
-  async createBoard(data: Partial<IBoard>): Promise<IBoard> {
-    return await this.repository.create(data);
-  }
-
-  async updateBoard(id: string, data: Partial<IBoard>): Promise<IBoard | null> {
-    return await this.repository.update(id, data);
-  }
-
-  async deleteBoard(id: string): Promise<IBoard | null> {
-    return await this.repository.delete(id);
-  }
-}
+export const deleteBoardService = async (id: string): Promise<IBoard | null> => {
+  return await boardRepo.deleteBoard(id);
+};

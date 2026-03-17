@@ -55,7 +55,9 @@ export const noteColumns: ColumnDef<INoteListItem>[] = [
               : ""
           }
         >
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+          <span className="font-mono text-[10px] uppercase tracking-wider">
+            {status}
+          </span>
         </Badge>
       );
     },
@@ -75,7 +77,7 @@ export const noteColumns: ColumnDef<INoteListItem>[] = [
       <DataTableColumnHeader column={column} label="Date" />
     ),
     cell: ({ row }) => (
-      <span className="text-muted-foreground">
+      <span className="font-mono text-xs text-muted-foreground">
         {new Date(row.getValue("createdAt") as string).toLocaleDateString()}
       </span>
     ),
@@ -120,7 +122,7 @@ export const noteColumns: ColumnDef<INoteListItem>[] = [
             <Eye className="h-4 w-4" />
             <span className="sr-only">Edit Content</span>
           </Button>
-          <NoteForm initialData={note as any} />
+          <NoteForm initialData={note} />
           <Button
             variant="ghost"
             size="icon"

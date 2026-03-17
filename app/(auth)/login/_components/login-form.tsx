@@ -38,7 +38,7 @@ export function LoginForm() {
           <div className="flex items-center gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-4 text-xs text-destructive animate-in fade-in slide-in-from-top-1 duration-300">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <p className="font-medium">
-              {(error as any).message || "Invalid credentials. Please try again."}
+              {error instanceof Error ? error.message : "Invalid credentials. Please try again."}
             </p>
           </div>
         )}

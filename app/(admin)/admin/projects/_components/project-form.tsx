@@ -109,7 +109,6 @@ export function ProjectForm({
     >
       <Form {...form}>
         <form
-          // @ts-ignore
           onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-6"
         >

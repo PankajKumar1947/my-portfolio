@@ -4,8 +4,10 @@ import * as React from "react";
 import { ProjectCard } from "@/components/common/project-card";
 import { TagFilter } from "./tag-filter";
 
+import { IProject } from "@/types/project.types";
+
 interface ProjectListWithFilterProps {
-  projects: any[];
+  projects: IProject[];
 }
 
 export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) {
@@ -48,10 +50,11 @@ export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) 
             Featured Projects
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
+            {featuredProjects.map((project, index) => (
               <ProjectCard
                 key={`featured-${project._id}`}
                 project={project}
+                index={index}
               />
             ))}
           </div>
@@ -74,8 +77,12 @@ export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) 
         </div>
         {filteredProjects.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project._id.toString()} project={project} />
+            {filteredProjects.map((project, index) => (
+              <ProjectCard
+                key={project._id.toString()}
+                project={project}
+                index={index}
+              />
             ))}
           </div>
         ) : (

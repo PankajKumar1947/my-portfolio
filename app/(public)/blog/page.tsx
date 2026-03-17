@@ -16,8 +16,7 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   await connectDB();
-  const blogs = await getPublishedBlogsService();
-  const publishedPosts = JSON.parse(JSON.stringify(blogs));
+  const publishedPosts = await getPublishedBlogsService();
 
   return (
     <>
@@ -30,8 +29,8 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
         {publishedPosts.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {publishedPosts.map((post: any) => (
-              <BlogCard key={post._id.toString()} post={post} />
+            {publishedPosts.map((post: any, index: number) => (
+              <BlogCard key={post._id.toString()} post={post} index={index} />
             ))}
           </div>
         ) : (

@@ -23,7 +23,7 @@ export const createNote = async (data: CreateNoteDTO): Promise<INote> => {
   }
 
   const insertedPages = await NotePageModel.insertMany(pageDocsToInsert);
-  note.pages = insertedPages.map((p) => p._id as any);
+  note.pages = insertedPages.map((p) => p._id as Types.ObjectId);
   await note.save();
 
   const populatedNote = await NoteModel.findById(note._id).populate({
@@ -44,7 +44,9 @@ export const updateNote = async (
   if (pages) {
     // Sync Note Pages
     const currentPages = await NotePageModel.find({ noteId });
-    const payloadIds = pages.map((p: any) => p._id?.toString()).filter(Boolean);
+    const payloadIds = pages
+      .map((p) => (typeof p === "object" && "_id" in p ? p._id?.toString() : p.toString()))
+      .filter(Boolean);
 
     // 1. Delete pages not in payload (ignoring new temp ids naturally)
     const pagesToDelete = currentPages.filter((p) => !payloadIds.includes(p._id.toString()));
@@ -56,15 +58,22 @@ export const updateNote = async (
 
     // 2. Upsert pages sent
     for (const pagePayload of pages) {
-      const p = pagePayload as any;
+      if (typeof pagePayload !== "object" || !("_id" in pagePayload)) {
+        // If it's just an ID, keep it as is
+        if (pagePayload) newPageRefs.push(new Types.ObjectId(pagePayload.toString()));
+        continue;
+      }
+
+      const p = pagePayload as Partial<INotePage>;
       if (!p._id) continue;
 
-      const isTemp = p._id.toString().startsWith("temp-");
+      const idStr = p._id.toString();
+      const isTemp = idStr.startsWith("temp-");
 
       if (!isTemp) {
         let pageDoc = await NotePageModel.findOne({ noteId, _id: p._id });
         if (pageDoc) {
-          // Update existing loosely
+          // Update existing
           const { _id, noteId: _, ...updateFields } = p;
           await NotePageModel.updateOne({ _id: pageDoc._id }, { $set: updateFields });
           newPageRefs.push(pageDoc._id as Types.ObjectId);
@@ -144,7 +153,7 @@ export const getNotePage = async (
   // Emulate legacy return shape (note embedding pages)
   const fullNote = note.toObject();
   fullNote.pages = [page.toObject()];
-  return fullNote as any;
+  return fullNote as unknown as INote;
 };
 
 export const getNotePageById = async (
@@ -159,7 +168,7 @@ export const getNotePageById = async (
 
   const fullNote = note.toObject();
   fullNote.pages = [page.toObject()];
-  return fullNote as any;
+  return fullNote as unknown as INote;
 };
 
 export const updateNotePage = async (
@@ -179,12 +188,12 @@ export const updateNotePage = async (
 
   if (!updatedPage) return null;
 
-  const note = await NoteModel.findById(noteId).select("_id title slug");
+  const note = await NoteModel.findById(noteId).select("_id title slug description status createdAt updatedAt");
   if (!note) return null;
 
   const fullNote = note.toObject();
   fullNote.pages = [updatedPage.toObject()];
-  return fullNote as any;
+  return fullNote as INote;
 };
 
 export const getNoteIdByPageId = async (

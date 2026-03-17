@@ -22,8 +22,8 @@ export const deleteProject = async (
   return await ProjectModel.findByIdAndDelete(projectId);
 };
 
-export const getProjects = async (): Promise<IProject[]> => {
-  return await ProjectModel.find({}).sort({ createdAt: -1 });
+export const getProjects = async (query: Record<string, unknown> = {}): Promise<IProject[]> => {
+  return await ProjectModel.find(query).sort({ createdAt: -1 });
 };
 
 export const getPublishedProjects = async (): Promise<IProject[]> => {

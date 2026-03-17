@@ -16,10 +16,10 @@ import { InfoSection } from "@/components/layout/info-section";
 import { toast } from "sonner";
 import { noteSchema, type NoteFormValues } from "@/validations/notes.schema";
 import { useCreateNote, useUpdateNote } from "@/hooks/mutation/use-note";
-import { INote, CreateNoteDTO, UpdateNoteDTO } from "@/types/note.types";
+import { INote, CreateNoteDTO, UpdateNoteDTO, INoteListItem } from "@/types/note.types";
 
 interface NoteFormProps {
-  initialData?: INote;
+  initialData?: INote | INoteListItem;
   onSubmit?: (data: NoteFormValues) => void;
   trigger?: React.ReactNode;
 }
@@ -87,7 +87,13 @@ export function NoteForm({
     }
 
     if (isEdit && initialData) {
-      updateNote(data as UpdateNoteDTO, {
+      const updateData: UpdateNoteDTO = {
+        title: data.title,
+        slug: data.slug,
+        description: data.description,
+        status: data.status,
+      };
+      updateNote(updateData, {
         onSuccess: () => {
           toast.success("Note updated successfully");
           setOpen(false);
@@ -97,7 +103,13 @@ export function NoteForm({
         }
       });
     } else {
-      createNote(data as CreateNoteDTO, {
+      const createData: CreateNoteDTO = {
+        title: data.title,
+        slug: data.slug,
+        description: data.description,
+        status: data.status,
+      };
+      createNote(createData, {
         onSuccess: (newNote) => {
           toast.success("Note created successfully");
           const firstPage = newNote.pages?.[0];

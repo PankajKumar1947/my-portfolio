@@ -20,8 +20,8 @@ export const deleteBlog = async (
   return await BlogModel.findByIdAndDelete(blogId);
 };
 
-export const getBlogs = async (): Promise<IBlog[]> => {
-  return await BlogModel.find({}).select("-content").sort({ createdAt: -1 });
+export const getBlogs = async (query: Record<string, unknown> = {}): Promise<IBlog[]> => {
+  return await BlogModel.find(query).select("-content").sort({ createdAt: -1 });
 };
 
 export const getPublishedBlogs = async (): Promise<IBlog[]> => {

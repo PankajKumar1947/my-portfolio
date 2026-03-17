@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createNoteService, getNotesService } from "@/services/note.service";
 import { noteSchema } from "@/validations/notes.schema";
 import { apiHandler } from "@/lib/api-handler";
+import { CreateNoteDTO } from "@/types/note.types";
 
 export const GET = apiHandler(async () => {
   const notes = await getNotesService();
@@ -19,6 +20,6 @@ export const POST = apiHandler(async (req: Request) => {
     );
   }
 
-  const note = await createNoteService(parsed.data as any);
+  const note = await createNoteService(parsed.data as CreateNoteDTO);
   return NextResponse.json(note, { status: 201 });
 });

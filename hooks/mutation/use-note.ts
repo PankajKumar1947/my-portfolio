@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/services/api/axios";
 import { noteQueries } from "@/react-query/note";
 import { CreateNoteDTO, UpdateNoteDTO, INote, INotePage } from "@/types/note.types";
+import { AxiosError } from "axios";
 
 export const useCreateNote = () => {
   const queryClient = useQueryClient();
@@ -14,7 +15,7 @@ export const useCreateNote = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noteQueries.all.key });
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       console.error("Failed to create note", error);
     },
   });

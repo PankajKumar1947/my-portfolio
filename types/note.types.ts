@@ -13,7 +13,7 @@ export interface INote {
   title: string;
   slug: string;
   description: string;
-  pages: INotePage[];
+  pages: (INotePage | Types.ObjectId)[];
   status: "draft" | "published";
   createdAt: Date;
   updatedAt: Date;
@@ -33,7 +33,9 @@ export interface INoteListItem {
 
 export type CreateNoteDTO = Pick<
   INote,
-  "title" | "slug" | "description" | "status" | "pages"
->;
+  "title" | "slug" | "description" | "status"
+> & { pages?: Partial<INotePage>[] };
 
-export type UpdateNoteDTO = Partial<Omit<CreateNoteDTO, "pages"> & { pages: (INotePage | string | Types.ObjectId)[] }>;
+export type UpdateNoteDTO = Partial<Omit<CreateNoteDTO, "pages"> & { 
+  pages?: (Partial<INotePage> | string | Types.ObjectId)[] 
+}>;

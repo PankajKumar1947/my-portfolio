@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/services/api/axios";
 import { blogQueries } from "@/react-query/blog";
 import { CreateBlogDTO, UpdateBlogDTO, IBlog } from "@/types/blog.types";
+import { AxiosError } from "axios";
 
 export const useCreateBlog = () => {
   const queryClient = useQueryClient();
@@ -15,7 +16,7 @@ export const useCreateBlog = () => {
       queryClient.invalidateQueries({ queryKey: blogQueries.all.key });
       console.log("Blog post created successfully");
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       console.error("Failed to create blog post", error);
     },
   });
@@ -37,7 +38,7 @@ export const useUpdateBlog = (id: string) => {
       queryClient.invalidateQueries({ queryKey: blogQueries.details(data.slug).key });
       console.log("Blog post updated successfully");
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       console.error("Failed to update blog post", error);
     },
   });
@@ -53,7 +54,7 @@ export const useDeleteBlog = () => {
       queryClient.invalidateQueries({ queryKey: blogQueries.all.key });
       console.log("Blog post deleted successfully");
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       console.error("Failed to delete blog post", error);
     },
   });

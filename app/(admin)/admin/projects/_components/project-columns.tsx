@@ -87,7 +87,9 @@ export const projectColumns: ColumnDef<IProject>[] = [
               : ""
           }
         >
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+          <span className="font-mono text-[10px] uppercase tracking-wider">
+            {status}
+          </span>
         </Badge>
       );
     },
@@ -110,7 +112,7 @@ export const projectColumns: ColumnDef<IProject>[] = [
       <DataTableColumnHeader column={column} label="Date" />
     ),
     cell: ({ row }) => (
-      <span className="text-muted-foreground">
+      <span className="font-mono text-xs text-muted-foreground">
         {new Date(row.getValue("createdAt") as string).toLocaleDateString()}
       </span>
     ),

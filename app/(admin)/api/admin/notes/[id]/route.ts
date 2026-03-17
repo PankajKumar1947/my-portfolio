@@ -7,6 +7,7 @@ import {
 import { updateNoteSchema } from "@/validations/notes.schema";
 import { apiHandler } from "@/lib/api-handler";
 import { Types } from "mongoose";
+import { UpdateNoteDTO } from "@/types/note.types";
 
 export const GET = apiHandler(async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -38,7 +39,7 @@ export const PATCH = apiHandler(async (req: Request, { params }: { params: Promi
     );
   }
 
-  const note = await updateNoteService(new Types.ObjectId(id), parsed.data as any);
+  const note = await updateNoteService(new Types.ObjectId(id), parsed.data as UpdateNoteDTO);
   if (!note) {
     return NextResponse.json({ error: "Note not found" }, { status: 404 });
   }

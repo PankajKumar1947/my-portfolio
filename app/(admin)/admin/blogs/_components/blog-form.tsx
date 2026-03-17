@@ -14,7 +14,7 @@ import { FormSelect } from "@/components/form-field/form-select";
 import { InfoGrid } from "@/components/layout/info-grid";
 import { InfoSection } from "@/components/layout/info-section";
 import { blogSchema, type BlogFormValues } from "@/validations/blogs.schema";
-import { IBlog } from "@/types/blog.types";
+import { IBlog, CreateBlogDTO, UpdateBlogDTO } from "@/types/blog.types";
 import { useCreateBlog, useUpdateBlog } from "@/hooks/mutation/use-blog";
 
 interface BlogFormProps {
@@ -98,17 +98,32 @@ export function BlogForm({
       return;
     }
 
-    const data = values as any;
-
-    if (isEdit) {
-      updateBlog(data, {
+    if (isEdit && initialData) {
+      const updateData: UpdateBlogDTO = { 
+        ...values,
+        coverImg: values.coverImg || "",
+        readTime: values.readTime || "",
+        content: values.content || "",
+        author: values.author || "Admin",
+      };
+      updateBlog(updateData, {
         onSuccess: (updatedBlog) => {
           setOpen(false);
           router.push(`/admin/blogs/edit/${updatedBlog._id}`);
         }
       });
     } else {
-      createBlog(data, {
+      const createData: CreateBlogDTO = { 
+        title: values.title,
+        slug: values.slug,
+        excerpt: values.excerpt,
+        status: values.status,
+        coverImg: values.coverImg || "",
+        readTime: values.readTime || "",
+        content: values.content || "",
+        author: values.author || "Admin",
+      };
+      createBlog(createData, {
         onSuccess: (newBlog) => {
           setOpen(false);
           router.push(`/admin/blogs/edit/${newBlog._id}`);
@@ -146,7 +161,6 @@ export function BlogForm({
     >
       <Form {...form}>
         <form
-          // @ts-ignore
           onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-6"
         >

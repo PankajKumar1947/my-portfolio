@@ -17,8 +17,6 @@ import {
 import { toast } from "sonner";
 import { Loader } from "@/components/common/loader";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-
-// Shared Components
 import { EditorHeader } from "../_components/editor-header";
 import { EditorToolbar } from "../_components/editor-toolbar";
 import { PageContentEditor } from "../_components/page-content-editor";
@@ -86,7 +84,7 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
   React.useEffect(() => {
     if (note) {
       if (note.pages && note.pages.length > 0) {
-        setPages(note.pages);
+        setPages(note.pages as INotePage[]);
       } else {
         setPages([{ _id: `temp-${Date.now()}`, title: "Page 1", content: "", order: 1 }]);
       }
@@ -174,7 +172,8 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
     if (!dirtyFieldsRef.current[pId]) {
       dirtyFieldsRef.current[pId] = {};
     }
-    dirtyFieldsRef.current[pId][field] = value as any;
+    const fieldName = field as keyof Partial<INotePage>;
+    dirtyFieldsRef.current[pId][fieldName] = value as never;
 
     setPages((prev) => {
       const newPages = prev.map((p, i) => {

@@ -17,7 +17,6 @@ export const metadata: Metadata = {
 export default async function ProjectsPage() {
   await connectDB();
   const projects = await getPublishedProjectsService();
-  const serializedProjects = JSON.parse(JSON.stringify(projects));
 
   return (
     <>
@@ -28,7 +27,7 @@ export default async function ProjectsPage() {
       />
 
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
-        <ProjectListWithFilter projects={serializedProjects} />
+        <ProjectListWithFilter projects={projects} />
       </div>
     </>
   );
