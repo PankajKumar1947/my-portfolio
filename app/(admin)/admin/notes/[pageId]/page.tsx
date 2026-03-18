@@ -216,6 +216,7 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
         currentPage={currentPage}
         onUpdate={updateCurrentPage}
         isLoading={isLoadingPageContent}
+        noteSlug={note.slug}
       />
 
       <PageOverviewStrip

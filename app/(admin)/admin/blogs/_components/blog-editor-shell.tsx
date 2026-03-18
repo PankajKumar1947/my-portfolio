@@ -142,6 +142,7 @@ export function BlogEditorShell({ id }: BlogEditorShellProps) {
         <CardContent>
           <Editor
             initialContent={blog.content}
+            folder={`blogs/${blog.slug}`}
             onChange={(val) => {
               if (val !== content) {
                 setSaveStatus("unsaved");

@@ -21,19 +21,20 @@ export const deleteBlog = async (
 };
 
 export const getBlogs = async (query: Record<string, unknown> = {}): Promise<IBlog[]> => {
-  return await BlogModel.find(query).select("-content").sort({ createdAt: -1 });
+  return await BlogModel.find(query).select("-content").sort({ createdAt: -1 }).lean();
 };
 
 export const getPublishedBlogs = async (): Promise<IBlog[]> => {
   return await BlogModel.find({ status: "published" })
     .select("-content")
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .lean();
 };
 
 export const getBlog = async (
   blogId: Types.ObjectId
 ): Promise<IBlog | null> => {
-  return await BlogModel.findById(blogId);
+  return await BlogModel.findById(blogId).lean();
 };
 
 export const getBlogBySlug = async (slug: string): Promise<IBlog | null> => {

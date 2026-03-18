@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -19,13 +21,21 @@ export function BlogCard({ post, index }: BlogCardProps) {
     >
       <Link href={`/blog/${post.slug}`} className="group h-full">
         <Card className="relative h-full overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-card-hover active:scale-[0.98]">
-          {/* Cover placeholder with hover effect */}
-          <div className="relative h-44 overflow-hidden rounded-t-lg bg-linear-to-br from-primary/10 via-primary/5 to-transparent transition-all duration-500 group-hover:scale-[1.02]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-6xl font-bold text-primary/10 transition-all duration-500 group-hover:scale-110 group-hover:text-primary/15">
-                {post.title.charAt(0)}
-              </span>
-            </div>
+          {/* Cover image or placeholder with hover effect */}
+          <div className="-mt-6 relative h-44 overflow-hidden rounded-t-lg bg-linear-to-br from-primary/10 via-primary/5 to-transparent transition-all duration-500 group-hover:scale-[1.02]">
+            {post.coverImg ? (
+              <img
+                src={post.coverImg}
+                alt={post.title}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-6xl font-bold text-primary/10 transition-all duration-500 group-hover:scale-110 group-hover:text-primary/15">
+                  {post.title.charAt(0)}
+                </span>
+              </div>
+            )}
           </div>
 
           <CardHeader className="pb-3 px-6">

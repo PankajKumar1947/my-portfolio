@@ -10,12 +10,14 @@ interface PageContentEditorProps {
   currentPage: INotePage;
   onUpdate: (field: keyof INotePage, value: string | number) => void;
   isLoading: boolean;
+  noteSlug: string;
 }
 
 export function PageContentEditor({
   currentPage,
   onUpdate,
   isLoading,
+  noteSlug,
 }: PageContentEditorProps) {
   return (
     <Card className="border-border bg-card">
@@ -47,6 +49,7 @@ export function PageContentEditor({
                 onUpdate("content", val);
               }
             }}
+            folder={`notes/${noteSlug}/${currentPage.title.slice(0, 10).trim().replace(/\s+/g, "-")}`}
           />
         )}
       </CardContent>

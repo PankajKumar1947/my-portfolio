@@ -29,9 +29,22 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
         {publishedPosts.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {publishedPosts.map((post: any, index: number) => (
-              <BlogCard key={post._id.toString()} post={post} index={index} />
-            ))}
+            {publishedPosts.map((post: any, index: number) => {
+              // Convert Mongoose/Date objects to plain strings/objects for Client Components
+              const serializedPost = {
+                ...post,
+                _id: post._id.toString(),
+                createdAt: post.createdAt?.toISOString(),
+                updatedAt: post.updatedAt?.toISOString(),
+              };
+              return (
+                <BlogCard
+                  key={serializedPost._id}
+                  post={serializedPost}
+                  index={index}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="flex h-64 items-center justify-center text-muted-foreground">

@@ -7,13 +7,16 @@ import "@blocknote/shadcn/style.css";
 import { PartialBlock } from "@blocknote/core";
 import { useTheme } from "next-themes";
 
+import { uploadFile } from "@/lib/upload-utils";
+
 interface EditorProps {
   initialContent?: string;
   onChange?: (value: string) => void;
   editable?: boolean;
+  folder?: string;
 }
 
-export default function Editor({ initialContent, onChange, editable = true }: EditorProps) {
+export default function Editor({ initialContent, onChange, editable = true, folder }: EditorProps) {
   const { resolvedTheme } = useTheme();
 
   const initialBlocks: PartialBlock[] | undefined = (() => {
@@ -28,6 +31,10 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
 
   const editor = useCreateBlockNote({
     initialContent: initialBlocks,
+    uploadFile: async (file: File) => {
+      const url = await uploadFile(file, folder);
+      return url;
+    }
   });
 
   return (
