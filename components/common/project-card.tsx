@@ -21,11 +21,11 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.4, 0, 0.2, 1] }}
-      className="flex h-full"
+      className="flex h-full w-full"
     >
-      <Card className="card-glow group flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]">
+      <Card className="relative h-full w-full overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-card-hover active:scale-[0.98]">
         {/* Image placeholder */}
-        <div className="relative h-48 overflow-hidden bg-linear-to-br from-primary/20 to-primary/5 transition-transform duration-500 group-hover:scale-105">
+        <div className="relative -mt-6 h-48 overflow-hidden bg-linear-to-br from-primary/20 to-primary/5 transition-transform duration-500 group-hover:scale-105">
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-4xl font-bold text-primary/20 transition-all duration-500 group-hover:text-primary/30 group-hover:scale-110">
               {project.title.charAt(0)}
@@ -38,14 +38,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           )}
         </div>
 
-        <CardHeader className="pb-3">
+        <CardHeader>
           <h3 className="line-clamp-1 text-lg font-bold tracking-tight transition-colors group-hover:text-primary">
             {project.title}
           </h3>
         </CardHeader>
 
-        <CardContent className="flex-1 pb-3">
-          <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground/80 group-hover:text-muted-foreground">
+        <CardContent className="flex-1 -mt-6">
+          <p className="mb-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground/80 group-hover:text-muted-foreground">
             {project.description}
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -65,7 +65,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
         </CardContent>
 
-        <CardFooter className="gap-2 pt-0 pb-6 h-18">
+        <CardFooter className="gap-2 pt-0 pb-2">
           <Button variant="outline" size="sm" asChild className="flex-1 rounded-xl">
             <a
               href={project.githubUrl}
@@ -76,18 +76,16 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               Code
             </a>
           </Button>
-          {project.liveUrl && (
-            <Button size="sm" asChild className="flex-1 rounded-xl shadow-md transition-all hover:shadow-primary/20">
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-                Live
-              </a>
-            </Button>
-          )}
+          <Button size="sm" asChild className="flex-1 rounded-xl shadow-md transition-all hover:shadow-primary/20">
+            <a
+              href={project.liveUrl || project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
+              Live
+            </a>
+          </Button>
         </CardFooter>
       </Card>
     </motion.div>

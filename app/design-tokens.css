@@ -108,25 +108,31 @@
 
 /* ---- Dark Mode ---- */
 .dark {
-  --background: #1e1e1e; /* VS Code Default Dark+ Background */
-  --foreground: #d4d4d4; /* VS Code Default Foreground */
+  --background: #1e1e1e;
+  /* VS Code Default Dark+ Background */
+  --foreground: #d4d4d4;
+  /* VS Code Default Foreground */
 
-  --card: #252526; /* VS Code Sidebar/Editor Background */
+  --card: #252526;
+  /* VS Code Sidebar/Editor Background */
   --card-foreground: #d4d4d4;
 
   --popover: #252526;
   --popover-foreground: #d4d4d4;
 
-  --primary: #007acc; /* VS Code Blue */
+  --primary: #007acc;
+  /* VS Code Blue */
   --primary-foreground: #ffffff;
 
-  --secondary: #333333; /* VS Code Activity Bar Background */
+  --secondary: #333333;
+  /* VS Code Activity Bar Background */
   --secondary-foreground: #ffffff;
 
   --muted: #2d2d2d;
   --muted-foreground: #858585;
 
-  --accent: #37373d;
+  --accent: #f59e0b;
+  /* Consistent Orange for Dark Mode */
   --accent-foreground: #ffffff;
 
   --destructive: #f14c4c;
@@ -145,12 +151,12 @@
   --sidebar-border: #3e3e42;
   --sidebar-ring: #007acc;
 
-  --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.4);
-  --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 15px rgba(0, 122, 204, 0.1);
-  --shadow-glow-strong: 0 0 30px rgba(0, 122, 204, 0.2);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 12px 24px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 15px rgba(0, 122, 204, 0.2);
+  --shadow-glow-strong: 0 0 30px rgba(0, 122, 204, 0.35);
 
-  --gradient-text: none;
-  --gradient-primary: none;
-  --gradient-mesh: none;
+  --gradient-text: linear-gradient(135deg, #007acc, #4fc1ff);
+  --gradient-primary: linear-gradient(135deg, #007acc, #005a9e, #f59e0b);
+  --gradient-subtle: linear-gradient(135deg, rgba(0, 122, 204, 0.1), rgba(0, 90, 158, 0.1));
 }

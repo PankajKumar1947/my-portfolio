@@ -29,11 +29,11 @@ export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) 
   const filteredProjects = React.useMemo(() => {
     return selectedTag
       ? projects.filter((p) =>
-          (p.tags || "")
-            .split(",")
-            .map((t: string) => t.trim())
-            .includes(selectedTag)
-        )
+        (p.tags || "")
+          .split(",")
+          .map((t: string) => t.trim())
+          .includes(selectedTag)
+      )
       : projects;
   }, [projects, selectedTag]);
 
@@ -42,14 +42,14 @@ export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) 
   }, [projects]);
 
   return (
-    <>
+    <div className="w-full">
       {/* Featured Projects Section (Show only when no tag is filtered) */}
       {!selectedTag && featuredProjects.length > 0 && (
         <div className="mb-16">
           <h2 className="mb-8 text-2xl font-bold tracking-tight sm:text-3xl">
             Featured Projects
           </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2">
             {featuredProjects.map((project, index) => (
               <ProjectCard
                 key={`featured-${project._id}`}
@@ -76,7 +76,7 @@ export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) 
           />
         </div>
         {filteredProjects.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2">
             {filteredProjects.map((project, index) => (
               <ProjectCard
                 key={project._id.toString()}
@@ -91,6 +91,6 @@ export function ProjectListWithFilter({ projects }: ProjectListWithFilterProps) 
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
