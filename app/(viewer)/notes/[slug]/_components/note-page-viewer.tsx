@@ -18,8 +18,12 @@ import { useNotePage } from "@/hooks/query/use-note";
 import { Loader } from "@/components/common/loader";
 import { Editor } from "@/components/text-editor/dynamic-editor";
 
+interface PopulatedNote extends Omit<INote, "pages"> {
+  pages: INotePage[];
+}
+
 interface NotePageViewerProps {
-  note: INote;
+  note: PopulatedNote;
 }
 
 export function NotePageViewer({ note }: NotePageViewerProps) {
