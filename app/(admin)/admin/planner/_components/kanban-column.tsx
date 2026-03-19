@@ -30,7 +30,7 @@ export function KanbanColumn({
   });
 
   return (
-    <div className="flex w-72 shrink-0 flex-col gap-3">
+    <div className="flex flex-1 min-w-70 flex-col gap-3">
       <div className="flex h-10 items-center justify-between px-2">
         <div className="flex items-center gap-2.5">
           <h3 className="font-bold">

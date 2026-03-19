@@ -5,7 +5,7 @@ export interface ITodo {
   date: string; // ISO date string (YYYY-MM-DD)
   completed: boolean;
   priority: "low" | "medium" | "high";
-  status?: "planned_today" | "ongoing" | "completed" | "tomorrow_plan";
+  status?: "planned_today" | "completed" | "tomorrow_plan";
   createdAt: string;
   updatedAt: string;
 }

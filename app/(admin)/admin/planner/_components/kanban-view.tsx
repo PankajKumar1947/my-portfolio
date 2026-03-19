@@ -41,7 +41,6 @@ interface KanbanViewProps {
 
 const COLUMNS: { id: NonNullable<ITodo["status"]> | "remarks"; title: string; draggable: boolean }[] = [
   { id: "planned_today", title: "Planned Today", draggable: true },
-  { id: "ongoing", title: "Ongoing", draggable: true },
   { id: "completed", title: "Completed", draggable: true },
   { id: "tomorrow_plan", title: "Tomorrow Plan", draggable: true },
   { id: "remarks", title: "Remarks", draggable: false },
@@ -80,7 +79,6 @@ export function KanbanView({ date, todos: monthTodos }: KanbanViewProps) {
   const groupedTodos = useMemo(() => {
     const groups: Record<string, ITodo[]> = {
       planned_today: [],
-      ongoing: [],
       completed: [],
       tomorrow_plan: [],
     };
@@ -89,8 +87,8 @@ export function KanbanView({ date, todos: monthTodos }: KanbanViewProps) {
       // Only show todos for the current date
       if (todo.date !== dateStr) return;
 
-      // Default to "planned_today" if status is missing
-      const status = todo.status || "planned_today";
+      // Default to "planned_today" if status is missing or is "ongoing"
+      const status = ((todo.status as any) === "ongoing" || !todo.status) ? "planned_today" : todo.status;
       
       if (groups[status]) {
         groups[status].push(todo);

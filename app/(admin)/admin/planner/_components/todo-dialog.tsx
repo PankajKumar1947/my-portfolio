@@ -28,7 +28,7 @@ interface TodoDialogProps {
   onOpenChange: (open: boolean) => void;
   selectedDay: Date | null;
   todos: ITodo[];
-  initialStatus?: "planned_today" | "ongoing" | "completed" | "tomorrow_plan";
+  initialStatus?: "planned_today" | "completed" | "tomorrow_plan";
 }
 
 export function TodoDialog({
@@ -41,7 +41,7 @@ export function TodoDialog({
   const [newTodoTitle, setNewTodoTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<"low" | "medium" | "high">("medium");
-  const [status, setStatus] = useState<"planned_today" | "ongoing" | "completed" | "tomorrow_plan" | undefined>(initialStatus);
+  const [status, setStatus] = useState<"planned_today" | "completed" | "tomorrow_plan" | undefined>(initialStatus);
 
   const { mutate: createTodo, isPending: isCreating } = useCreateTodo();
   const { mutate: deleteTodo } = useDeleteTodo();
@@ -152,7 +152,6 @@ export function TodoDialog({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="planned_today">Planned Today</SelectItem>
-                    <SelectItem value="ongoing">Ongoing</SelectItem>
                     <SelectItem value="completed">Completed</SelectItem>
                     <SelectItem value="tomorrow_plan">Tomorrow Plan</SelectItem>
                   </SelectContent>
