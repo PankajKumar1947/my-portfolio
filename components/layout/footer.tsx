@@ -12,8 +12,8 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 bg-background/50">
-      <div className="mx-auto max-w-(--max-width) px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="">
+      <div className="mx-auto max-w-(--max-width) border-t border-border/40 px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
           {/* Logo & tagline */}
           <div className="text-center md:text-left">
@@ -47,9 +47,8 @@ export function Footer() {
 
         <Separator className="my-6 opacity-50" />
 
-        <p className="text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} {profile.name}. Built with
-          Next.js & shadcn/ui.
+        <p className="text-center text-sm p-4 rounded-lg bg-muted/50">
+          &copy; {new Date().getFullYear()} {profile.name}. Built by <Link target="_blank" className="text-yellow-500" href={"https://github.com/pankajkumar1947"}>Pankaj Kumar</Link>
         </p>
       </div>
     </footer>

@@ -38,11 +38,10 @@ export function ContactForm() {
   }
   return (
     <Card className="border-border/50 bg-card overflow-hidden">
-      <CardContent className="p-8">
+      <CardContent className="p-4 sm:p-6">
         {isSuccess ? (
           <ContactSuccessView onReset={() => setIsSuccess(false)} />
         ) : (
-// ... rest of the form
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {error && (
@@ -53,24 +52,21 @@ export function ContactForm() {
                   </p>
                 </div>
               )}
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <FormInput
-                  name="name"
-                  label="Name"
-                  placeholder="Your name"
-                  disabled={isPending}
-                  className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
-                />
-                <FormInput
-                  name="email"
-                  label="Email"
-                  type="email"
-                  placeholder="Your email address"
-                  disabled={isPending}
-                  className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
-                />
-              </div>
+              <FormInput
+                name="name"
+                label="Name"
+                placeholder="Your name"
+                disabled={isPending}
+                className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
+              />
+              <FormInput
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="Your email address"
+                disabled={isPending}
+                className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
+              />
 
               <FormInput
                 name="subject"

@@ -127,17 +127,22 @@ export const getNotes = async (): Promise<INoteListItem[]> => {
 export const getPublishedNotes = async (): Promise<INote[]> => {
   return await NoteModel.find({ status: "published" })
     .populate({ path: "pages", select: "-content", options: { sort: { order: 1 } } })
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .lean();
 };
 
 export const getNote = async (
   noteId: Types.ObjectId
 ): Promise<INote | null> => {
-  return await NoteModel.findById(noteId).populate({ path: "pages", select: "-content", options: { sort: { order: 1 } } });
+  return await NoteModel.findById(noteId)
+    .populate({ path: "pages", select: "-content", options: { sort: { order: 1 } } })
+    .lean();
 };
 
 export const getNoteBySlug = async (slug: string): Promise<INote | null> => {
-  return await NoteModel.findOne({ slug }).populate({ path: "pages", select: "-content", options: { sort: { order: 1 } } });
+  return await NoteModel.findOne({ slug })
+    .populate({ path: "pages", select: "-content", options: { sort: { order: 1 } } })
+    .lean();
 };
 
 export const getNotePage = async (

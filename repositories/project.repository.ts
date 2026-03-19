@@ -23,13 +23,15 @@ export const deleteProject = async (
 };
 
 export const getProjects = async (query: Record<string, unknown> = {}): Promise<IProject[]> => {
-  return await ProjectModel.find(query).sort({ createdAt: -1 });
+  return await ProjectModel.find(query).sort({ createdAt: -1 }).lean();
 };
 
 export const getPublishedProjects = async (): Promise<IProject[]> => {
-  return await ProjectModel.find({ status: "published" }).sort({
-    createdAt: -1,
-  });
+  return await ProjectModel.find({ status: "published" })
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
 };
 
 export const getProject = async (

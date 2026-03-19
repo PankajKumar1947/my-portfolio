@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-
 export default function HomePage() {
 
   return (
@@ -31,7 +30,7 @@ export default function HomePage() {
         <div className="relative mx-auto w-full max-w-(--max-width) px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             {/* Left Column: Text Content */}
-            <div className="max-w-2xl">
+            <div className="max-w-2xl order-2 lg:order-1">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/50 bg-muted/50 px-4 py-1.5">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
@@ -79,14 +78,14 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: Profile Picture */}
-            <div className="relative mx-auto lg:ml-auto lg:mr-0 max-w-112.5">
+            <div className="relative mx-auto lg:ml-auto lg:mr-0 max-w-72 sm:max-w-96 lg:max-w-112.5 order-1 lg:order-2">
               <div className="relative aspect-square">
                 {/* Decorative background elements for image */}
-                <div className="absolute -inset-4 rounded-[2rem] bg-linear-to-tr from-primary/20 via-transparent to-primary/10 blur-2xl" />
-                <div className="absolute inset-0 rounded-3xl border border-primary/10 bg-muted/30" />
+                <div className="absolute -inset-4 rounded-full bg-linear-to-tr from-primary/20 via-transparent to-primary/10 blur-2xl" />
+                <div className="absolute inset-0 rounded-full border border-primary/10 bg-muted/30" />
 
                 {/* Main Image Container */}
-                <div className="relative h-full w-full overflow-hidden rounded-3xl border-2 border-border/50 bg-card shadow-2xl">
+                <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-border/50 bg-card shadow-2xl">
                   <img
                     src={profile.profileImage}
                     alt={profile.name}
@@ -159,8 +158,8 @@ export default function HomePage() {
       </section>
 
       {/* ─── Skills Section ─── */}
-      <section className="bg-muted/30 py-20">
-        <div className="mx-auto max-w-(--max-width) px-4 sm:px-6 lg:px-8">
+      <section className="py-20">
+        <div className="mx-auto max-w-(--max-width) rounded-2xl bg-muted/30 px-4 py-8 sm:px-6 lg:px-8">
           <SectionHeading
             title="Tech Stack"
             subtitle="Technologies I work with daily"
@@ -211,7 +210,7 @@ export default function HomePage() {
             subtitle="Have a project in mind or just want to say hi? I'd love to hear from you."
           />
 
-          <div className="mt-12 grid gap-12 lg:grid-cols-2">
+          <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:items-center">
             {/* Left Column: Contact Info */}
             <div className="space-y-8">
               <div className="max-w-md">

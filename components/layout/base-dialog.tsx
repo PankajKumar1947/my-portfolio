@@ -36,7 +36,7 @@ export function BaseDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className={cn("sm:max-w-2xl max-h-[90vh] flex flex-col p-0", className)}>
+      <DialogContent className={cn("sm:max-w-2xl max-h-[90vh] flex flex-col p-0 bg-secondary", className)}>
         <DialogHeader className="p-6 pb-2">
           <DialogTitle className="text-center">{title}</DialogTitle>
           {description && <DialogDescription className="text-center">{description}</DialogDescription>}

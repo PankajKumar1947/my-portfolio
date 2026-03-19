@@ -22,8 +22,8 @@ export function Navbar() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <header className="glass fixed top-0 right-0 left-0 z-50 border-b border-border/40 bg-background/80">
-      <nav className="mx-auto flex h-16 max-w-(--max-width) items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 right-0 left-0 z-50 bg-background">
+      <nav className="mx-auto flex py-2 mt-1 max-w-(--max-width) items-center justify-between px-4 sm:px-6 lg:px-8 glass rounded-2xl">
         {/* Logo */}
         <Link
           href="/"

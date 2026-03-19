@@ -1,11 +1,9 @@
 "use client";
 
-import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { Loader } from "@/components/common/loader";
 import { UseQueryResult } from "@tanstack/react-query";
 
@@ -56,7 +54,6 @@ export function DataTableShell<TData>({
 
       <DataTable table={table}>
         <DataTableToolbar table={table}>
-          <DataTableSortList table={table} />
         </DataTableToolbar>
       </DataTable>
     </div>

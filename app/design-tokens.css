@@ -61,95 +61,83 @@
   --nav-height: 4rem;
 
   /* ---- Theme Variables (Light) ---- */
-  --radius: 0.75rem;
-
-  --background: #eef0f4;
-  --foreground: #020817;
-
-  --card: #ffffff;
-  --card-foreground: #020817;
-  --popover: #ffffff;
-  --popover-foreground: #020817;
-
-  --primary: #003566;
-  --primary-foreground: #ffffff;
-
-  --secondary: #0c3370;
-  --secondary-foreground: #ffffff;
-
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-
-  --accent: #faa40b;
-  --accent-foreground: #ffffff;
-
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #003566;
-
-  --chart-1: #e76e50;
-  --chart-2: #2a9d8f;
-  --chart-3: #264653;
-  --chart-4: #f4a261;
-  --chart-5: #e9c46a;
-
-  --sidebar: #e6e9ef;
-  --sidebar-foreground: #020817;
-  --sidebar-primary: #003566;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
-  --sidebar-accent-foreground: #003566;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #003566;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.1450 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.1450 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1450 0 0);
+  --primary: oklch(0.2050 0 0);
+  --primary-foreground: oklch(0.9850 0 0);
+  --secondary: oklch(0.9700 0 0);
+  --secondary-foreground: oklch(0.2050 0 0);
+  --muted: oklch(0.9700 0 0);
+  --muted-foreground: oklch(0.5560 0 0);
+  --accent: oklch(0.9700 0 0);
+  --accent-foreground: oklch(0.2050 0 0);
+  --destructive: oklch(0.5770 0.2450 27.3250);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.9220 0 0);
+  --input: oklch(0.9220 0 0);
+  --ring: oklch(0.7080 0 0);
+  --chart-1: oklch(0.8100 0.1000 252);
+  --chart-2: oklch(0.6200 0.1900 260);
+  --chart-3: oklch(0.5500 0.2200 263);
+  --chart-4: oklch(0.4900 0.2200 264);
+  --chart-5: oklch(0.4200 0.1800 266);
+  --sidebar: oklch(0.9850 0 0);
+  --sidebar-foreground: oklch(0.1450 0 0);
+  --sidebar-primary: oklch(0.2050 0 0);
+  --sidebar-primary-foreground: oklch(0.9850 0 0);
+  --sidebar-accent: oklch(0.9700 0 0);
+  --sidebar-accent-foreground: oklch(0.2050 0 0);
+  --sidebar-border: oklch(0.9220 0 0);
+  --sidebar-ring: oklch(0.7080 0 0);
+  --radius: 0.625rem;
+  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
+  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
+  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
 }
 
 /* ---- Dark Mode ---- */
 .dark {
-  --background: #1e1e1e;
-  /* VS Code Default Dark+ Background */
-  --foreground: #d4d4d4;
-  /* VS Code Default Foreground */
-
-  --card: #252526;
-  /* VS Code Sidebar/Editor Background */
-  --card-foreground: #d4d4d4;
-
-  --popover: #252526;
-  --popover-foreground: #d4d4d4;
-
-  --primary: #007acc;
-  /* VS Code Blue */
-  --primary-foreground: #ffffff;
-
-  --secondary: #333333;
-  /* VS Code Activity Bar Background */
-  --secondary-foreground: #ffffff;
-
-  --muted: #2d2d2d;
-  --muted-foreground: #858585;
-
-  --accent: #f59e0b;
-  /* Consistent Orange for Dark Mode */
-  --accent-foreground: #ffffff;
-
-  --destructive: #f14c4c;
-  --destructive-foreground: #ffffff;
-
-  --border: #3e3e42;
-  --input: #3c3c3c;
-  --ring: #007acc;
-
-  --sidebar: #252526;
-  --sidebar-foreground: #cccccc;
-  --sidebar-primary: #007acc;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #37373d;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #3e3e42;
-  --sidebar-ring: #007acc;
+  --background: oklch(0.1450 0 0);
+  --foreground: oklch(0.9850 0 0);
+  --card: oklch(0.2050 0 0);
+  --card-foreground: oklch(0.9850 0 0);
+  --popover: oklch(0.2690 0 0);
+  --popover-foreground: oklch(0.9850 0 0);
+  --primary: oklch(0.9220 0 0);
+  --primary-foreground: oklch(0.2050 0 0);
+  --secondary: oklch(0.2690 0 0);
+  --secondary-foreground: oklch(0.9850 0 0);
+  --muted: oklch(0.2690 0 0);
+  --muted-foreground: oklch(0.7080 0 0);
+  --accent: oklch(0.3710 0 0);
+  --accent-foreground: oklch(0.9850 0 0);
+  --destructive: oklch(0.7040 0.1910 22.2160);
+  --destructive-foreground: oklch(0.9850 0 0);
+  --border: oklch(0.2750 0 0);
+  --input: oklch(0.3250 0 0);
+  --ring: oklch(0.5560 0 0);
+  --chart-1: oklch(0.8100 0.1000 252);
+  --chart-2: oklch(0.6200 0.1900 260);
+  --chart-3: oklch(0.5500 0.2200 263);
+  --chart-4: oklch(0.4900 0.2200 264);
+  --chart-5: oklch(0.4200 0.1800 266);
+  --sidebar: oklch(0.2050 0 0);
+  --sidebar-foreground: oklch(0.9850 0 0);
+  --sidebar-primary: oklch(0.4880 0.2430 264.3760);
+  --sidebar-primary-foreground: oklch(0.9850 0 0);
+  --sidebar-accent: oklch(0.2690 0 0);
+  --sidebar-accent-foreground: oklch(0.9850 0 0);
+  --sidebar-border: oklch(0.2750 0 0);
+  --sidebar-ring: oklch(0.4390 0 0);
 
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-card-hover: 0 12px 24px rgba(0, 0, 0, 0.6);
@@ -159,4 +147,4 @@
   --gradient-text: linear-gradient(135deg, #007acc, #4fc1ff);
   --gradient-primary: linear-gradient(135deg, #007acc, #005a9e, #f59e0b);
   --gradient-subtle: linear-gradient(135deg, rgba(0, 122, 204, 0.1), rgba(0, 90, 158, 0.1));
-}
+}
