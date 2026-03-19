@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Trash2, Layout } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -93,6 +93,15 @@ export const noteColumns: ColumnDef<INoteListItem>[] = [
       const note = row.original;
       const { mutate: deleteNote } = useDeleteNote();
 
+      const handleViewOnSite = () => {
+        const firstPageId = note.firstPageId;
+        if (firstPageId) {
+          window.open(`/notes/${note.slug}/${firstPageId}`, "_blank");
+        } else {
+          toast.error("No pages found for this note");
+        }
+      };
+
       const handleEditContent = () => {
         const firstPageId = note.firstPageId;
         if (firstPageId) {
@@ -117,10 +126,19 @@ export const noteColumns: ColumnDef<INoteListItem>[] = [
             variant="ghost"
             size="icon"
             className="h-8 w-8 text-muted-foreground hover:text-primary"
-            onClick={handleEditContent}
+            onClick={handleViewOnSite}
           >
             <Eye className="h-4 w-4" />
-            <span className="sr-only">Edit Content</span>
+            <span className="sr-only">View on Site</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-primary"
+            onClick={handleEditContent}
+          >
+            <Layout className="h-4 w-4" />
+            <span className="sr-only">Content Editor</span>
           </Button>
           <NoteForm initialData={note} />
           <Button
@@ -130,6 +148,7 @@ export const noteColumns: ColumnDef<INoteListItem>[] = [
             onClick={handleDelete}
           >
             <Trash2 className="h-4 w-4" />
+            <span className="sr-only">Delete Note</span>
           </Button>
         </div>
       );

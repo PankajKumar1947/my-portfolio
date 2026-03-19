@@ -204,6 +204,7 @@ export const updateNotePage = async (
 export const getNoteIdByPageId = async (
   pageId: string
 ): Promise<Types.ObjectId | null> => {
+  if (!Types.ObjectId.isValid(pageId)) return null;
   const page = await NotePageModel.findById(pageId).select("noteId");
   if (!page) return null;
   return page.noteId as Types.ObjectId;

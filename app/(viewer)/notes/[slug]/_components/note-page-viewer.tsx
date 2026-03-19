@@ -1,9 +1,8 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -24,18 +23,28 @@ interface PopulatedNote extends Omit<INote, "pages"> {
 
 interface NotePageViewerProps {
   note: PopulatedNote;
+  initialPageId: string;
 }
 
-export function NotePageViewer({ note }: NotePageViewerProps) {
+export function NotePageViewer({ note, initialPageId }: NotePageViewerProps) {
+  const router = useRouter();
   const sortedPages = [...note?.pages].sort((a, b) => a.order - b.order);
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const currentPage = sortedPages[currentIndex] as INotePage;
+
+  const currentIndex = sortedPages.findIndex(p => p._id?.toString() === initialPageId);
+  const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+
+  const currentPage = sortedPages[safeIndex] as INotePage;
   const totalPages = sortedPages.length;
 
   const { data: pageContent, isLoading: isLoadingPage } = useNotePage(
     note?.slug,
     currentPage?._id as string
   );
+
+  const handlePageChange = (index: number) => {
+    const pageId = sortedPages[index]._id?.toString();
+    router.push(`/notes/${note.slug}/${pageId}`);
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -57,8 +66,8 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
           {/* Right: Page selector + theme toggle */}
           <div className="flex items-center gap-3">
             <Select
-              value={String(currentIndex)}
-              onValueChange={(val) => setCurrentIndex(Number(val))}
+              value={String(safeIndex)}
+              onValueChange={(val) => handlePageChange(Number(val))}
             >
               <SelectTrigger className="w-48">
                 <SelectValue />
@@ -88,25 +97,25 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
               <Button
                 variant="outline"
                 size="sm"
-                disabled={currentIndex === 0}
-                onClick={() => setCurrentIndex((prev) => prev - 1)}
+                disabled={safeIndex === 0}
+                onClick={() => handlePageChange(safeIndex - 1)}
                 className="gap-1.5"
               >
                 <ChevronLeft className="h-4 w-4" />
                 <span className="hidden sm:inline">
-                  {currentIndex > 0 ? sortedPages[currentIndex - 1].title : ""}
+                  {safeIndex > 0 ? sortedPages[safeIndex - 1].title : ""}
                 </span>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                disabled={currentIndex === totalPages - 1}
-                onClick={() => setCurrentIndex((prev) => prev + 1)}
+                disabled={safeIndex === totalPages - 1}
+                onClick={() => handlePageChange(safeIndex + 1)}
                 className="gap-1.5"
               >
                 <span className="hidden sm:inline">
-                  {currentIndex < totalPages - 1
-                    ? sortedPages[currentIndex + 1].title
+                  {safeIndex < totalPages - 1
+                    ? sortedPages[safeIndex + 1].title
                     : ""}
                 </span>
                 <ChevronRight className="h-4 w-4" />
@@ -115,27 +124,40 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
           </div>
 
           {/* Page content */}
-          <div className="mt-8 min-h-64 flex flex-col justify-start overflow-hidden">
+          <div className="mt-8 min-h-[50vh] flex flex-col justify-start overflow-hidden">
             {isLoadingPage ? (
-              <div className="flex h-full items-center justify-center p-8">
+              <div className="flex h-64 items-center justify-center p-8">
                 <Loader />
               </div>
-            ) : (
+            ) : pageContent?.content ? (
               <Editor
                 key={`viewer-${currentPage?._id}`}
-                initialContent={pageContent?.content || ""}
+                initialContent={pageContent?.content}
                 editable={false}
               />
+            ) : (
+              <div className="flex h-64 flex-col items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/5 p-12 text-center transition-colors hover:border-border/80">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted/10">
+                  <FileText className="h-6 w-6 text-muted-foreground/40" />
+                </div>
+                <h3 className="mb-2 font-heading text-lg font-semibold tracking-tight text-foreground/80">
+                  Note content not found
+                </h3>
+              </div>
             )}
           </div>
+        </div>
+      </main>
 
-          {/* Pagination */}
-          <div className="mt-8 flex items-center justify-center gap-2">
+      {/* Pagination at the bottom */}
+      <footer className="mt-auto py-10 border-t border-border/5 mx-auto max-w-(--max-width)">
+        <div className=" px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center gap-2">
             <Button
               variant="outline"
               size="sm"
-              disabled={currentIndex === 0}
-              onClick={() => setCurrentIndex((prev) => prev - 1)}
+              disabled={safeIndex === 0}
+              onClick={() => handlePageChange(safeIndex - 1)}
             >
               <ChevronLeft className="mr-1 h-4 w-4" />
               Prev
@@ -144,10 +166,10 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
             {sortedPages.map((_, index) => (
               <Button
                 key={index}
-                variant={index === currentIndex ? "default" : "outline"}
+                variant={index === safeIndex ? "default" : "outline"}
                 size="sm"
                 className="min-w-9"
-                onClick={() => setCurrentIndex(index)}
+                onClick={() => handlePageChange(index)}
               >
                 {index + 1}
               </Button>
@@ -156,15 +178,15 @@ export function NotePageViewer({ note }: NotePageViewerProps) {
             <Button
               variant="outline"
               size="sm"
-              disabled={currentIndex === totalPages - 1}
-              onClick={() => setCurrentIndex((prev) => prev + 1)}
+              disabled={safeIndex === totalPages - 1}
+              onClick={() => handlePageChange(safeIndex + 1)}
             >
               Next
               <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           </div>
         </div>
-      </main>
+      </footer>
     </div>
   );
 }
