@@ -136,9 +136,17 @@ export default function HomePage() {
                         {exp.duration}
                       </span>
                     </div>
-                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                      {exp.description}
-                    </p>
+                    {Array.isArray(exp.description) ? (
+                      <ul className="mt-3 space-y-2 text-sm text-muted-foreground leading-relaxed list-disc pl-4">
+                        {exp.description.map((point, index) => (
+                          <li key={index}>{point}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                        {exp.description}
+                      </p>
+                    )}
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {exp.technologies.map((tech) => (
                         <span

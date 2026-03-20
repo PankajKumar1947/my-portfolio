@@ -1,6 +1,7 @@
 import mongoose, { Mongoose } from "mongoose";
+import { env } from "@/config/env";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error("MONGODB_URI not defined");
@@ -24,7 +25,7 @@ export async function connectDB() {
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: "next-app",
+      dbName: env.DB_NAME,
     });
   }
 

@@ -1,4 +1,4 @@
-// File: app/api/upload-auth/route.ts
+import { env } from "@/config/env"
 import { getUploadAuthParams } from "@imagekit/next/server"
 
 export async function GET() {
@@ -7,11 +7,11 @@ export async function GET() {
   // If the user is not authenticated, you can return an error response
 
   const { token, expire, signature } = getUploadAuthParams({
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY as string, // Never expose this on client side
-    publicKey: process.env.IMAGEKIT_PUBLIC_KEY as string,
+    privateKey: env.IMAGEKIT_PRIVATE_KEY, // Never expose this on client side
+    publicKey: env.IMAGEKIT_PUBLIC_KEY,
     // expire: 30 * 60, // Optional, controls the expiry time of the token in seconds, maximum 1 hour in the future
     // token: "random-token", // Optional, a unique token for request
   })
 
-  return Response.json({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY })
+  return Response.json({ token, expire, signature, publicKey: env.IMAGEKIT_PUBLIC_KEY })
 }

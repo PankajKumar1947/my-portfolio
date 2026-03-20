@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken"
 import { JwtPayload } from "@/types/auth.types"
+import { env } from "@/config/env"
 
-const JWT_SECRET = process.env.JWT_SECRET as string
+const JWT_SECRET = env.JWT_SECRET
 
 export const signToken = (payload: JwtPayload): string => {
   return jwt.sign(payload, JWT_SECRET, {

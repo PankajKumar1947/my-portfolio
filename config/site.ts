@@ -6,12 +6,13 @@
  * ============================================================
  */
 
+import { env } from "./env";
 import { identity } from "./identity";
 import siteData from "../data/site.json";
 
 export const siteConfig = {
   /** Production URL (no trailing slash). Used for canonical URLs, OG, sitemap. */
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  url: env.NEXT_PUBLIC_SITE_URL,
 
   /** Site name shown in metadata and Open Graph (pulls from identity.json) */
   name: `${identity.name} | Full Stack Developer`,

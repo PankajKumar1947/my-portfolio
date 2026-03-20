@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { jwtVerify } from "jose"
+import { env } from "@/config/env"
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
+const JWT_SECRET = new TextEncoder().encode(env.JWT_SECRET)
 
 export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname
