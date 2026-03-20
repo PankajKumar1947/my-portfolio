@@ -94,7 +94,6 @@ export function BlogEditorShell({ id }: BlogEditorShellProps) {
                 {blog.status}
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground">{blog.excerpt}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -124,14 +123,6 @@ export function BlogEditorShell({ id }: BlogEditorShellProps) {
           <span className="text-muted-foreground">Read Time: </span>
           <span>{blog.readTime}</span>
         </div>
-        {blog.coverImg && (
-          <div className="text-sm">
-            <span className="text-muted-foreground">Cover: </span>
-            <span className="max-w-48 truncate font-mono text-xs">
-              {blog.coverImg}
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Content Editor */}

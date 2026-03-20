@@ -22,7 +22,7 @@ export async function generateMetadata({
   }
 
   const title = post.title;
-  const description = post.excerpt || `Read "${post.title}" by ${profile.name}`;
+  const description = `Read "${post.title}" by ${profile.name}`;
 
   return {
     title,
@@ -33,22 +33,11 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.createdAt?.toISOString(),
       authors: [profile.name],
-      ...(post.coverImg && {
-        images: [
-          {
-            url: post.coverImg,
-            width: 1200,
-            height: 630,
-            alt: title,
-          },
-        ],
-      }),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      ...(post.coverImg && { images: [post.coverImg] }),
     },
   };
 }
@@ -71,7 +60,6 @@ export default async function BlogDetailPage({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.excerpt,
     author: {
       "@type": "Person",
       name: profile.name,
@@ -79,7 +67,6 @@ export default async function BlogDetailPage({
     },
     datePublished: post.createdAt?.toISOString(),
     dateModified: post.updatedAt?.toISOString(),
-    ...(post.coverImg && { image: post.coverImg }),
     url: `${siteConfig.url}/blog/${slug}`,
     publisher: {
       "@type": "Person",

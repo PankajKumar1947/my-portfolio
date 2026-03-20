@@ -12,14 +12,6 @@ const blogSchema = new Schema<IBlog>(
       required: true,
       unique: true,
     },
-    excerpt: {
-      type: String,
-      required: true,
-    },
-    coverImg: {
-      type: String,
-      required: true,
-    },
     readTime: {
       type: String,
       required: true,
