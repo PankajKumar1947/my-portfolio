@@ -24,7 +24,7 @@ export function BlogCard({ post, index }: BlogCardProps) {
       className="group flex items-baseline gap-3 py-1"
     >
       <span className="text-muted-foreground/40">•</span>
-      <span className="shrink-0 font-mono italic text-muted-foreground/80">
+      <span className="italic tracking-tighter text-muted-foreground/80">
         {formattedDate}
       </span>
       <span className="text-muted-foreground/40">:</span>

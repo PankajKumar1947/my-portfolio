@@ -6,25 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { BaseDialog } from "@/components/layout/base-dialog";
+import { Form } from "@/components/ui/form";
+import { FormInput } from "@/components/form-field/form-input";
+import { FormTextarea } from "@/components/form-field/form-textarea";
 import { useCreateBoard } from "@/hooks/query/use-board";
 
 const boardSchema = z.object({
@@ -56,60 +41,39 @@ export function BoardForm() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <BaseDialog
+      open={open}
+      onOpenChange={setOpen}
+      trigger={
         <Button size="sm" className="gap-2">
           <Plus className="h-4 w-4" />
           New Board
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-106.25">
-        <DialogHeader>
-          <DialogTitle>Create Board</DialogTitle>
-          <DialogDescription>
-            Add a new whiteboarding board to your projects.
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Project Brainstorming" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Discussing architecture and flow..." 
-                      className="resize-none"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
-              <Button type="submit" disabled={isPending}>
-                {isPending ? "Creating..." : "Create Board"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+      }
+      title="Create Board"
+      description="Add a new whiteboarding board to your projects."
+      className="sm:max-w-md"
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
+          <FormInput
+            name="title"
+            label="Title"
+            placeholder="Project Brainstorming"
+          />
+          <FormTextarea
+            name="description"
+            label="Description"
+            placeholder="Discussing architecture and flow..."
+            className="h-32"
+          />
+          <div className="flex justify-end pt-4">
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Creating..." : "Create Board"}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </BaseDialog>
   );
 }

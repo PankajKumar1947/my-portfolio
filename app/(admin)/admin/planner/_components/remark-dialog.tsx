@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { useUpsertPlannerDay } from "@/hooks/mutation/use-planner-day";
+import { BaseDialog } from "@/components/layout/base-dialog";
+import { Form } from "@/components/ui/form";
+import { FormTextarea } from "@/components/form-field/form-textarea";
+
+const remarkSchema = z.object({
+  remark: z.string().min(1, "Remark is required"),
+});
+
+type RemarkFormValues = z.infer<typeof remarkSchema>;
 
 interface RemarkDialogProps {
   isOpen: boolean;
@@ -20,17 +23,29 @@ interface RemarkDialogProps {
 }
 
 export function RemarkDialog({ isOpen, onOpenChange, date }: RemarkDialogProps) {
-  const [remark, setRemark] = useState("");
-  const { mutate: appendRemark, isPending } = useUpsertPlannerDay();
+  const { mutate: upsertRemark, isPending } = useUpsertPlannerDay();
 
-  const handleSave = () => {
-    if (!remark.trim()) return;
+  const form = useForm<RemarkFormValues>({
+    resolver: zodResolver(remarkSchema),
+    defaultValues: {
+      remark: "",
+    },
+  });
 
-    appendRemark(
-      { date, remark: remark.trim() },
+  useEffect(() => {
+    if (isOpen) {
+      form.reset({
+        remark: "",
+      });
+    }
+  }, [isOpen, form]);
+
+  const handleSave = (data: RemarkFormValues) => {
+    upsertRemark(
+      { date, remark: data.remark.trim() },
       {
         onSuccess: () => {
-          setRemark("");
+          form.reset();
           onOpenChange(false);
         },
       }
@@ -38,35 +53,31 @@ export function RemarkDialog({ isOpen, onOpenChange, date }: RemarkDialogProps) 
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-106.25">
-        <DialogHeader>
-          <DialogTitle>Add Daily Remark</DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="remark" className="text-right">
-              Remark
-            </Label>
-            <Textarea
-              id="remark"
-              placeholder="What's on your mind for today?"
-              className="min-h-30 resize-none"
-              value={remark}
-              onChange={(e) => setRemark(e.target.value)}
-            />
+    <BaseDialog
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      trigger={null}
+      title="Add Daily Remark"
+      className="sm:max-w-md"
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSave)} className="space-y-4 pt-4">
+          <FormTextarea
+            name="remark"
+            label="Remark"
+            placeholder="What's on your mind for today?"
+            className="h-32"
+          />
+          <div className="flex justify-end pt-4">
+            <Button
+              type="submit"
+              disabled={isPending}
+            >
+              {isPending ? "Posting..." : "Post Remark"}
+            </Button>
           </div>
-        </div>
-        <DialogFooter>
-          <Button
-            type="submit"
-            onClick={handleSave}
-            disabled={!remark.trim() || isPending}
-          >
-            {isPending ? "Posting..." : "Post Remark"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </form>
+      </Form>
+    </BaseDialog>
   );
 }

@@ -1,27 +1,27 @@
-"use client";
-
-import { useState } from "react";
+import { useEffect } from "react";
 import { format, isSameDay, parseISO } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { ITodo } from "@/types/todo.types";
 import { TodoItem } from "./todo-item";
 import { useCreateTodo, useDeleteTodo } from "@/hooks/mutation/use-todo";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { BaseDialog } from "@/components/layout/base-dialog";
+import { Form } from "@/components/ui/form";
+import { FormInput } from "@/components/form-field/form-input";
+import { FormTextarea } from "@/components/form-field/form-textarea";
+import { FormSelect } from "@/components/form-field/form-select";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+
+const todoSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
+  priority: z.enum(["low", "medium", "high"]),
+  status: z.enum(["planned_today", "completed", "tomorrow_plan"]),
+});
+
+type TodoFormValues = z.infer<typeof todoSchema>;
 
 interface TodoDialogProps {
   isOpen: boolean;
@@ -36,34 +36,44 @@ export function TodoDialog({
   onOpenChange,
   selectedDay,
   todos,
-  initialStatus,
+  initialStatus = "planned_today",
 }: TodoDialogProps) {
-  const [newTodoTitle, setNewTodoTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<"low" | "medium" | "high">("medium");
-  const [status, setStatus] = useState<"planned_today" | "completed" | "tomorrow_plan" | undefined>(initialStatus);
-
   const { mutate: createTodo, isPending: isCreating } = useCreateTodo();
   const { mutate: deleteTodo } = useDeleteTodo();
 
-  const handleCreateTodo = () => {
-    if (!newTodoTitle.trim() || !selectedDay) return;
+  const form = useForm<TodoFormValues>({
+    resolver: zodResolver(todoSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      priority: "medium",
+      status: initialStatus,
+    },
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      form.reset({
+        title: "",
+        description: "",
+        priority: "medium",
+        status: initialStatus,
+      });
+    }
+  }, [isOpen, initialStatus, form]);
+
+  const handleCreateTodo = (data: TodoFormValues) => {
+    if (!selectedDay) return;
 
     createTodo(
       {
-        title: newTodoTitle,
-        description,
+        ...data,
         date: format(selectedDay, "yyyy-MM-dd"),
         completed: false,
-        priority,
-        status,
       },
       {
         onSuccess: () => {
-          setNewTodoTitle("");
-          setDescription("");
-          setPriority("medium");
-          setStatus(initialStatus);
+          form.reset();
           onOpenChange(false);
         },
       }
@@ -75,121 +85,76 @@ export function TodoDialog({
     : [];
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-106.25">
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            <span>
-              {selectedDay ? format(selectedDay, "MMMM d, yyyy") : "Add Todo"}
-            </span>
-          </DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label
-                htmlFor="title"
-                className="text-xs uppercase tracking-wider text-muted-foreground"
-              >
-                Title
-              </Label>
-              <Input
-                id="title"
-                placeholder="What needs to be done?"
-                value={newTodoTitle}
-                onChange={(e) => setNewTodoTitle(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleCreateTodo()}
-                className="bg-muted/50 border-0 focus-visible:ring-1"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label
-                htmlFor="description"
-                className="text-xs uppercase tracking-wider text-muted-foreground"
-              >
-                Description
-              </Label>
-              <Textarea
-                id="description"
-                placeholder="Add more details..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="bg-muted/50 border-0 focus-visible:ring-1 min-h-20"
-              />
-            </div>
-
+    <BaseDialog
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      trigger={null}
+      title={selectedDay ? format(selectedDay, "MMMM d, yyyy") : "Add Todo"}
+      className="sm:max-w-md"
+    >
+      <div className="space-y-6">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleCreateTodo)}
+            className="space-y-4"
+          >
+            <FormInput
+              name="title"
+              label="Title"
+              placeholder="What needs to be done?"
+            />
+            <FormTextarea
+              name="description"
+              label="Description"
+              placeholder="Add more details..."
+            />
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Priority
-                </Label>
-                <Select
-                  value={priority}
-                  onValueChange={(value: ITodo["priority"]) => setPriority(value)}
-                >
-                  <SelectTrigger className="bg-muted/50 border-0 focus:ring-1">
-                    <SelectValue placeholder="Select priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Status
-                </Label>
-                <Select
-                  value={status || "planned_today"}
-                  onValueChange={(value: NonNullable<ITodo["status"]>) => setStatus(value)}
-                >
-                  <SelectTrigger className="bg-muted/50 border-0 focus:ring-1">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="planned_today">Planned Today</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="tomorrow_plan">Tomorrow Plan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <FormSelect
+                name="priority"
+                label="Priority"
+                options={[
+                  { label: "Low", value: "low" },
+                  { label: "Medium", value: "medium" },
+                  { label: "High", value: "high" },
+                ]}
+              />
+              <FormSelect
+                name="status"
+                label="Status"
+                options={[
+                  { label: "Planned Today", value: "planned_today" },
+                  { label: "Completed", value: "completed" },
+                  { label: "Tomorrow Plan", value: "tomorrow_plan" },
+                ]}
+              />
             </div>
-
-            <Button
-              className="w-full"
-              onClick={handleCreateTodo}
-              disabled={isCreating}
-            >
+            <Button className="w-full" type="submit" disabled={isCreating}>
               {isCreating ? "Creating..." : "Create Task"}
             </Button>
-          </div>
+          </form>
+        </Form>
 
-          <div className="pt-4 border-t border-border/50">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-3 block">
-              Tasks for this day
-            </Label>
-            <div className="space-y-2 max-h-[30vh] overflow-y-auto pr-1">
-              {dayTodos.map((todo) => (
-                <TodoItem
-                  key={todo._id}
-                  todo={todo}
-                  variant="detail"
-                  onDelete={() => deleteTodo(todo._id)}
-                />
-              ))}
-              {dayTodos.length === 0 && (
-                <p className="text-xs text-center text-muted-foreground py-4 italic">
-                  No tasks yet.
-                </p>
-              )}
-            </div>
+        <div className="pt-4 border-t border-border/50">
+          <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-3 block font-semibold">
+            Tasks for this day
+          </Label>
+          <div className="space-y-2 max-h-[30vh] overflow-y-auto pr-1">
+            {dayTodos.map((todo) => (
+              <TodoItem
+                key={todo._id}
+                todo={todo}
+                variant="detail"
+                onDelete={() => deleteTodo(todo._id)}
+              />
+            ))}
+            {dayTodos.length === 0 && (
+              <p className="text-xs text-center text-muted-foreground py-4 italic">
+                No tasks yet for this day.
+              </p>
+            )}
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </BaseDialog>
   );
 }
