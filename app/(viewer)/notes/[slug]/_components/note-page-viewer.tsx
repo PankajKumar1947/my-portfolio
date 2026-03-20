@@ -50,7 +50,7 @@ export function NotePageViewer({ note, initialPageId }: NotePageViewerProps) {
     <div className="flex min-h-screen flex-col">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-(--max-width) items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-(--max-width) items-center justify-between px-2">
           {/* Left: Back button + Note title */}
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" asChild>
@@ -65,6 +65,15 @@ export function NotePageViewer({ note, initialPageId }: NotePageViewerProps) {
 
           {/* Right: Page selector + theme toggle */}
           <div className="flex items-center gap-3">
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
+      {/* Page title + prev/next navigation */}
+      <div className="mt-4 flex flex-col items-center gap-2 mx-auto max-w-(--max-width) px-2 w-full">
+        <div className="flex w-full items-center justify-between gap-4">
+          <div className="flex-1 flex justify-start">
             <Select
               value={String(safeIndex)}
               onValueChange={(val) => handlePageChange(Number(val))}
@@ -80,19 +89,13 @@ export function NotePageViewer({ note, initialPageId }: NotePageViewerProps) {
                 ))}
               </SelectContent>
             </Select>
-            <ThemeToggle />
           </div>
-        </div>
-      </header>
 
-      {/* Body */}
-      <main className="flex-1 py-8">
-        <div className="mx-auto max-w-(--max-width) px-4 sm:px-6 lg:px-8">
-          {/* Page title + prev/next navigation */}
-          <div className="mb-6 flex items-center justify-between gap-4">
-            <h2 className="text-2xl font-bold tracking-tight">
-              {currentPage?.title}
-            </h2>
+          <h2 className="hidden sm:block flex-1 text-center text-lg font-semibold tracking-tight">
+            {currentPage?.title}
+          </h2>
+
+          <div className="flex-1 flex justify-end">
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
@@ -122,9 +125,19 @@ export function NotePageViewer({ note, initialPageId }: NotePageViewerProps) {
               </Button>
             </div>
           </div>
+        </div>
 
+        {/* Mobile Page Title */}
+        <h2 className="sm:hidden text-center text-base font-bold tracking-tight mt-1">
+          {currentPage?.title}
+        </h2>
+      </div>
+
+      {/* Body */}
+      <main className="flex-1 m-2">
+        <div className="mx-auto max-w-(--max-width) p-6 sm:p-8 lg:p-10 bg-card rounded-lg">
           {/* Page content */}
-          <div className="mt-8 min-h-[50vh] flex flex-col justify-start overflow-hidden">
+          <div className="min-h-[50vh] flex flex-col justify-start overflow-hidden">
             {isLoadingPage ? (
               <div className="flex h-64 items-center justify-center p-8">
                 <Loader />
