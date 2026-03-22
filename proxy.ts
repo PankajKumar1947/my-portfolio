@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { jwtVerify } from "jose"
 import { env } from "@/config/env"
 
-const JWT_SECRET = new TextEncoder().encode(env.JWT_SECRET)
+const JWT_SECRET_STR = env.JWT_SECRET
+const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_STR)
 
 export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname
@@ -14,7 +15,7 @@ export async function proxy(req: NextRequest) {
       try {
         await jwtVerify(token, JWT_SECRET)
         return NextResponse.redirect(new URL("/admin", req.url))
-      } catch {
+      } catch (error) {
         // Invalid token, let them stay on login
         return NextResponse.next()
       }
@@ -33,7 +34,7 @@ export async function proxy(req: NextRequest) {
   try {
     await jwtVerify(token, JWT_SECRET)
     return NextResponse.next()
-  } catch {
+  } catch (error) {
     if (path.startsWith("/api/")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
@@ -50,3 +51,5 @@ export const config = {
     "/login"
   ]
 }
+
+export default proxy

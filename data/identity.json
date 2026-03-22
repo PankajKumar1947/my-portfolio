@@ -1,17 +1,17 @@
 {
   "name": "Pankaj",
-  "tagline": "Full Stack Web Developer",
-  "email": "hello@pankaj.dev",
-  "phone": "+91 12345 67890",
-  "address": "123, Tech Park, Bangalore, India",
+  "tagline": "Full Stack Developer",
+  "email": "pankaj.ky3007@gmail.com",
+  "phone": "+91 8101865933",
+  "address": "Asansol, West Bengal, India",
   "location": "India",
   "logoText": "Pankaj",
   "profileImage": "/profile-picture.png",
-  "bio": "Passionate full-stack developer with expertise in building scalable web applications. I love turning complex problems into simple, elegant solutions using modern technologies.",
+  "bio": "I'm a Web developer and here is my Portfolio website. Here you'll learn about my journery as web developer and a Software Developer..",
   "socials": {
-    "github": "https://github.com/pankaj",
-    "linkedin": "https://linkedin.com/in/pankaj",
-    "twitter": "https://twitter.com/pankaj"
+    "github": "https://github.com/pankajkumar1947",
+    "linkedin": "https://www.linkedin.com/in/pankaj-kumar-5bbb44268/",
+    "twitter": "https://twitter.com/pankajrkry"
   },
   "jobTitle": "Full Stack Web Developer"
 }

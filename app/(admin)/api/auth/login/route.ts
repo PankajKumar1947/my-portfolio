@@ -17,10 +17,10 @@ export const POST = apiHandler(async (req: Request) => {
     throw new ApiError("Invalid credentials", 401);
   }
 
-  const token = signToken({
+  const token = await signToken({
     userId: "admin",
-    email: adminEmail,
-    name: env.ADMIN_NAME
+    email: adminEmail as string,
+    name: env.ADMIN_NAME as string
   })
 
   const response = NextResponse.json({ success: true })

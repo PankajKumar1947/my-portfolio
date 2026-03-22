@@ -20,7 +20,8 @@
         { "name": "Bootstrap" },
         { "name": "Express" },
         { "name": "NestJS" },
-        { "name": "TanStack Query" }
+        { "name": "TanStack Query" },
+        { "name": "Redux Toolkit" }
       ]
     },
     {
@@ -29,7 +30,9 @@
         { "name": "Node.js" },
         { "name": "PostgreSQL" },
         { "name": "MongoDB" },
-        { "name": "MySQL" }
+        { "name": "MySQL" },
+        { "name": "Google Maps API" },
+        { "name": "Razorpay" }
       ]
     },
     {
@@ -41,36 +44,67 @@
         { "name": "GitHub" },
         { "name": "NPM" },
         { "name": "Docker" },
-        { "name": "Turborepo" }
+        { "name": "Turborepo" },
+        { "name": "Firebase" },
+        { "name": "Vercel" }
       ]
     }
   ],
   "experiences": [
     {
       "id": "1",
-      "role": "Full Stack Developer",
-      "company": "Tech Company",
-      "duration": "Jan 2024 — Present",
-      "description": "Building scalable web applications with React, Next.js, and NestJS. Leading frontend architecture decisions and implementing CI/CD pipelines with Docker and Turborepo.",
-      "technologies": ["React", "Next.js", "NestJS", "PostgreSQL", "Docker"]
+      "role": "Software Developer Intern",
+      "company": "PLANTROOT NEXTGEN TECHNOLOGIES PRIVATE LIMITED",
+      "duration": "Aug 2025 — Present",
+      "description": [
+        "Contributed to a large-scale HRMS platform managing employees, projects, vendors, and clients, supporting end-to-end organizational workflows.",
+        "Developed workforce and operations modules including time-off management, timesheets, weekly status reports (WSR), and asset tracking with role-based access control.",
+        "Engineered scalable and maintainable frontend features using Next.js and Tailwind CSS, with reusable UI components built using shadcn/ui and tablecn.",
+        "Handled large datasets and API integrations using TanStack Table and TanStack Query, implementing optimized queries, mutations, pagination, filtering, and caching strategies."
+      ],
+      "technologies": ["Next.js", "Tailwind CSS", "TypeScript", "TanStack Table", "TanStack Query", "shadcn/ui", "tablecn"]
     },
     {
       "id": "2",
-      "role": "Frontend Developer",
-      "company": "Startup Inc.",
-      "duration": "Jun 2023 — Dec 2023",
-      "description": "Developed responsive user interfaces using React and Tailwind CSS. Implemented state management and API integrations with TanStack Query.",
-      "technologies": ["React", "Tailwind CSS", "TypeScript", "TanStack Query"]
+      "role": "Software Engineering Intern",
+      "company": "GrowthPurple Technologies",
+      "duration": "Mar 2025 — Aug 2025",
+      "description": [
+        "Built a GenAI-powered full-stack platform Pluton which generate deployable React, Next.js, and Vue code from prompts, rendered live with WebContainers for an IDE-like browser experience.",
+        "Designed a personal cloud storage system to manage and reuse image assets across projects, reducing duplication by 60% and improving delivery speed.",
+        "Integrated PostgreSQL, cron jobs, and Dodo Payments to support scalable data workflows, automated tasks, and seamless transactions.",
+        "Enabled users to create, preview, deploy, and sell AI-generated web apps through a built-in marketplace with full end-to-end flow."
+      ],
+      "technologies": ["React", "Next.js", "PostgreSQL", "GenAI", "Dodo Payments", "WebContainers"]
+    },
+    {
+      "id": "3",
+      "role": "Software Developer Intern",
+      "company": "United Art Private Limited (UAPL)",
+      "duration": "May 2024 — Feb 2025",
+      "description": [
+        "Worked as a Frontend Developer at UAPL, where I built the frontend from scratch using ReactJS, Redux Toolkit, React-hook-form, and Tailwind CSS.",
+        "Developed the UAPL products, including Same Day Delivery, Crate Factory, Fine Art Logistics, and Art Safe.",
+        "Collaborated with Swagger for backend integration and translated Figma designs into functional UI.",
+        "Integrated the Google Maps API to fetch precise locations within a specified range and implemented Razorpay for seamless order processing."
+      ],
+      "technologies": ["React", "Tailwind CSS", "Redux Toolkit", "React-hook-form", "Google Maps API", "Razorpay", "Swagger"]
     }
-
   ],
   "educations": [
     {
       "id": "1",
-      "degree": "B.Tech in Computer Science",
-      "institution": "University of Technology",
-      "duration": "2020 — 2024",
-      "description": "Specialized in software engineering with focus on web technologies, data structures, and algorithms."
+      "degree": "B.Tech in Computer Science and Engineering",
+      "institution": "Asansol Engineering College, Asansol",
+      "duration": "2022 — 2026",
+      "description": "Focusing on full-stack development, software engineering, and modern web technologies."
+    },
+    {
+      "id": "2",
+      "degree": "Senior Secondary (Science)",
+      "institution": "B L Indo Anglian Public School",
+      "duration": "2019 — 2021",
+      "description": "Completed high school with a focus on Physics, Chemistry, and Mathematics."
     }
   ]
 }

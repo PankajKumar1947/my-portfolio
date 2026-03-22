@@ -20,7 +20,7 @@ export default function AuthLayout({
         <div className="absolute inset-0 bg-background/5 backdrop-blur-[2px]" />
       </div>
 
-      <div className="relative z-10 w-full max-w-5xl p-4">
+      <div className="relative z-10 w-full max-w-7xl p-4">
         {children}
       </div>
     </div>
