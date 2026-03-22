@@ -27,6 +27,19 @@ import { profile } from "@/config/profile";
 export function AdminHeader() {
   const pathname = usePathname();
   const { data: session, isLoading } = useAuthSession();
+  const [overrides, setOverrides] = React.useState<Record<string, string>>({});
+
+  React.useEffect(() => {
+    const handleUpdate = (e: any) => {
+      const { segment, label } = e.detail;
+      if (segment && label) {
+        setOverrides((prev) => ({ ...prev, [segment]: label }));
+      }
+    };
+
+    window.addEventListener("breadcrumb-update", handleUpdate);
+    return () => window.removeEventListener("breadcrumb-update", handleUpdate);
+  }, []);
 
   const user = {
     name: session?.user?.name || "Loading...",
@@ -39,11 +52,12 @@ export function AdminHeader() {
     .split("/")
     .filter(Boolean)
     .map((seg, index, arr) => {
-      // Check sessionStorage for note/blog title when on "new" pages
-      let label = seg.charAt(0).toUpperCase() + seg.slice(1);
+      // Check overrides first
+      let label = overrides[seg] || seg.charAt(0).toUpperCase() + seg.slice(1);
 
+      // Check sessionStorage for note/blog title when on "new" pages
       if (seg === "new") {
-        // Try to get title from sessionStorage for context
+        // ... (existing sessionStorage logic)
         if (typeof window !== "undefined") {
           const parentSeg = arr[index - 1];
           if (parentSeg === "notes") {

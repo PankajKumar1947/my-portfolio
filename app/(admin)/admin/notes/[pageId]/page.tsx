@@ -17,7 +17,6 @@ import {
 import { toast } from "sonner";
 import { Loader } from "@/components/common/loader";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import { EditorHeader } from "../_components/editor-header";
 import { EditorToolbar } from "../_components/editor-toolbar";
 import { PageContentEditor } from "../_components/page-content-editor";
 import { PageOverviewStrip } from "../_components/page-overview-strip";
@@ -97,6 +96,16 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
       window.history.replaceState(null, "", `/admin/notes/${currentPageId}`);
     }
   }, [currentIndex, pages, pageId]);
+
+  React.useEffect(() => {
+    if (note?.title) {
+      window.dispatchEvent(
+        new CustomEvent("breadcrumb-update", {
+          detail: { segment: pageId, label: note.title },
+        })
+      );
+    }
+  }, [note?.title, pageId]);
 
   if (isLoadingNote || !note) {
     return <Loader />;
@@ -195,11 +204,6 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
 
   return (
     <div className="space-y-5">
-      <EditorHeader
-        title={note.title}
-        onBack={() => router.push("/admin/notes")}
-      />
-
       <EditorToolbar
         pages={pages}
         currentIndex={currentIndex}
