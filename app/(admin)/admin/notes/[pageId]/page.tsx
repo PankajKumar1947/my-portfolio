@@ -219,7 +219,7 @@ export default function NoteContentEditorPage({ params }: RouteParams) {
       <PageContentEditor
         currentPage={currentPage}
         onUpdate={updateCurrentPage}
-        isLoading={isLoadingPageContent}
+        isLoading={isLoadingPageContent || (activePageData !== undefined && currentPage.content !== activePageData.content)}
         noteSlug={note.slug}
       />
 
