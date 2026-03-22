@@ -1,15 +1,25 @@
 "use client";
 
-import "@blocknote/core/fonts/inter.css";
+import { BlockNoteSchema, PartialBlock } from "@blocknote/core";
+import { defaultBlockSpecs, createCodeBlockSpec } from "@blocknote/core/blocks";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
-import { PartialBlock } from "@blocknote/core";
 import { useTheme } from "next-themes";
+import { codeBlockOptions } from "@blocknote/code-block";
+import * as React from "react";
 
-import { uploadFile } from "@/lib/upload-utils";
+import { uploadFile as uploadFileUtil } from "@/lib/upload-utils";
 
-interface EditorProps {
+// Define the custom schema with syntax highlighting
+const schema = BlockNoteSchema.create({
+  blockSpecs: {
+    ...defaultBlockSpecs,
+    codeBlock: createCodeBlockSpec(codeBlockOptions),
+  },
+});
+
+export interface EditorProps {
   initialContent?: string;
   onChange?: (value: string) => void;
   editable?: boolean;
@@ -30,9 +40,10 @@ export default function Editor({ initialContent, onChange, editable = true, fold
   })();
 
   const editor = useCreateBlockNote({
+    schema,
     initialContent: initialBlocks,
     uploadFile: async (file: File) => {
-      const url = await uploadFile(file, folder);
+      const url = await uploadFileUtil(file, folder);
       return url;
     }
   });
