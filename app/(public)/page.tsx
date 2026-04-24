@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Mail, MapPin, Download, Briefcase, GraduationCap, Phone, Send } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Briefcase, GraduationCap, Phone, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SectionHeading } from "@/components/common/section-heading";
@@ -50,11 +50,11 @@ export default function HomePage() {
                 {profile.tagline}
               </p>
 
-              <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg leading-relaxed">
+              <p className="mt-4 max-w-lg text-muted-foreground ">
                 {profile.bio}
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Button size="lg" asChild>
                   <Link href="/projects">
                     View Projects
@@ -67,13 +67,11 @@ export default function HomePage() {
                     Get in Touch
                   </a>
                 </Button>
-              </div>
-
-              <div className="mt-6 flex items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5" />
+                
+                <div className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-border/50 bg-muted/30 text-sm text-muted-foreground transition-colors hover:bg-muted/50">
+                  <MapPin className="h-4 w-4 text-primary" />
                   {profile.location}
-                </span>
+                </div>
               </div>
             </div>
 
@@ -99,7 +97,9 @@ export default function HomePage() {
                 {/* Optional: Design accent */}
                 <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full border border-primary/20 bg-background/50 backdrop-blur-md hidden lg:flex items-center justify-center p-6">
                   <div className="text-center">
-                    <p className="text-2xl font-bold gradient-text">4+</p>
+                    <p className="text-2xl font-bold gradient-text">
+                      {profile.yearsOfExperience}
+                    </p>
                     <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider leading-tight">Years Exp.</p>
                   </div>
                 </div>
@@ -110,25 +110,25 @@ export default function HomePage() {
       </section>
 
       {/* ─── Experience Section ─── */}
-      <section className="py-20">
+      <section className="pt-20">
         <div className="mx-auto max-w-(--max-width) px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="Experience"
             subtitle="My professional journey in software development"
           />
-          <div className="relative space-y-6 pl-6 before:absolute before:top-0 before:bottom-0 before:left-0 before:w-px before:bg-border">
+          <div className="relative space-y-6 sm:pl-6 sm:before:absolute sm:before:top-0 sm:before:bottom-0 sm:before:left-0 sm:before:w-px sm:before:bg-border">
             {experiences.map((exp) => (
               <div key={exp.id} className="relative">
-                <div className="absolute -left-6 top-1 flex h-4 w-4 items-center justify-center">
-                  <div className="h-2.5 w-2.5 rounded-full border-2 border-primary bg-background" />
+                <div className="absolute -left-2 sm:-left-8 top-1.5 hidden h-5 w-5 items-center justify-center sm:flex">
+                  <div className="h-3 w-3 rounded-full border-2 border-primary bg-background" />
                 </div>
-                <Card className="border-border/50 bg-card">
-                  <CardContent className="p-5">
+                <Card className="border-border/50 bg-card overflow-hidden">
+                  <CardContent >
                     <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                       <div>
-                        <h3 className="font-semibold">{exp.role}</h3>
-                        <p className="flex items-center gap-1.5 text-sm text-primary">
-                          <Briefcase className="h-3.5 w-3.5" />
+                        <h3 className="font-semibold text-lg">{exp.role}</h3>
+                        <p className="flex items-start gap-2 text-sm text-primary font-medium mt-1">
+                          <Briefcase className="h-4 w-4 mt-0.5 shrink-0" />
                           {exp.company}
                         </p>
                       </div>
@@ -151,7 +151,7 @@ export default function HomePage() {
                       {exp.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                          className="rounded-md bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary/90 border border-primary/5"
                         >
                           {tech}
                         </span>
@@ -166,8 +166,8 @@ export default function HomePage() {
       </section>
 
       {/* ─── Skills Section ─── */}
-      <section className="py-20">
-        <div className="mx-auto max-w-(--max-width) rounded-2xl bg-muted/30 px-4 py-8 sm:px-6 lg:px-8">
+      <section className="pt-20">
+        <div className="mx-auto max-w-(--max-width) px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="Tech Stack"
             subtitle="Technologies I work with daily"
@@ -186,7 +186,7 @@ export default function HomePage() {
           <div className="space-y-4">
             {educations.map((edu) => (
               <Card key={edu.id} className="border-border/50 bg-card">
-                <CardContent className="p-5">
+                <CardContent>
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <h3 className="font-semibold">{edu.degree}</h3>
@@ -209,92 +209,93 @@ export default function HomePage() {
         </div>
       </section>
 
-
       {/* ─── Contact Section ─── */}
-      <section id="contact" className="py-20 lg:py-32">
+      <section id="contact" className="py-20">
         <div className="mx-auto max-w-(--max-width) px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="Get in Touch"
             subtitle="Have a project in mind or just want to say hi? I'd love to hear from you."
+            className="mb-8"
           />
 
-          <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:items-center">
-            {/* Left Column: Contact Info */}
-            <div className="space-y-8">
-              <div className="max-w-md">
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  I&apos;m currently available for freelance work and full-time opportunities.
-                  Feel free to reach out via the form or my contact details below.
-                </p>
+          <Card className="border-border/50 bg-card overflow-hidden">
+            <CardContent className="p-0">
+              <div className="grid lg:grid-cols-2 lg:items-stretch">
+                {/* Left Side: Contact Info */}
+                <div className="p-6 lg:p-10  lg:border-b-0 lg:border-r border-border/50 space-y-8 order-2 lg:order-1">
+
+                  <div className="">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      I&apos;m currently available for freelance work and full-time opportunities.
+                      Feel free to reach out via the form or my contact details below.
+                    </p>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4 group">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <Mail className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Email</p>
+                        <a
+                          href={`mailto:${profile.email}`}
+                          className="font-semibold text-sm hover:text-primary transition-colors"
+                        >
+                          {profile.email}
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 group">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <Phone className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Phone</p>
+                        <a
+                          href={`tel:${profile.phone}`}
+                          className="font-semibold text-sm hover:text-primary transition-colors"
+                        >
+                          {profile.phone}
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 group">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <Github className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Address</p>
+                        <a
+                          href={profile.socials.github}
+                          target="_blank"
+                          className="font-semibold text-sm hover:text-primary transition-colors"
+                        >
+                          Github
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 group">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <MapPin className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Address</p>
+                        <p className="font-semibold text-base">{profile.address}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Side: Contact Form */}
+                <div className="p-4 lg:p-8 order-1 lg:order-2">
+                  <ContactForm />
+                </div>
               </div>
-
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 group">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                    <Mail className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Email</p>
-                    <a
-                      href={`mailto:${profile.email}`}
-                      className="text-lg font-semibold hover:text-primary transition-colors"
-                    >
-                      {profile.email}
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 group">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                    <Phone className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Phone</p>
-                    <a
-                      href={`tel:${profile.phone}`}
-                      className="text-lg font-semibold hover:text-primary transition-colors"
-                    >
-                      {profile.phone}
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 group">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Address</p>
-                    <p className="text-lg font-semibold">{profile.address}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Socials - Optional but nice */}
-              <div className="pt-8 border-t border-border/50">
-                <p className="text-sm font-medium text-muted-foreground mb-4">Follow Me</p>
-                <div className="flex gap-4">
-                  {Object.entries(profile.socials).map(([name, url]) => (
-                    <a
-                      key={name}
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/50 bg-muted/30 text-muted-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all capitalize"
-                    >
-                      <span className="sr-only">{name}</span>
-                      {name === "github" && <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>}
-                      {name === "linkedin" && <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>}
-                      {name === "twitter" && <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Contact Form */}
-            <ContactForm />
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </>

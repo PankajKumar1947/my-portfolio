@@ -78,9 +78,8 @@
   }
 
   ::selection {
-    background-color: #264f78;
-    /* VS Code Default Selection */
-    color: inherit;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
 
   /* Custom scrollbar - VS Code style */

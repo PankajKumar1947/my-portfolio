@@ -1,18 +1,19 @@
 {
-  "name": "Pankaj",
-  "tagline": "Full Stack Developer",
+  "name": "Pankaj Kumar",
+  "tagline": "Full-Stack Developer",
   "email": "pankaj.ky3007@gmail.com",
   "phone": "+91 8101865933",
   "address": "Asansol, West Bengal, India",
   "location": "India",
   "logoText": "Pankaj",
   "profileImage": "/profile-picture.png",
-  "bio": "I'm a Web developer and here is my Portfolio website. Here you'll learn about my journery as web developer and a Software Developer..",
+  "bio": "I am a software engineer who loves building clean and fast web applications. I have experience working with Next.js, AI, and enterprise systems to solve real-world problems with simple and effective code.",
   "socials": {
     "github": "https://github.com/pankajkumar1947",
     "linkedin": "https://www.linkedin.com/in/pankaj-kumar-5bbb44268/",
     "twitter": "https://twitter.com/pankajrkry"
   },
   "hashnodeHost": "pankajkry.hashnode.dev",
-  "jobTitle": "Full Stack Web Developer"
+  "jobTitle": "Full Stack Web Developer",
+  "yearsOfExperience": "1+"
 }

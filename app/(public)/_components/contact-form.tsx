@@ -37,21 +37,22 @@ export function ContactForm() {
     });
   }
   return (
-    <Card className="border-border/50 bg-card overflow-hidden">
-      <CardContent className="p-4 sm:p-6">
-        {isSuccess ? (
-          <ContactSuccessView onReset={() => setIsSuccess(false)} />
-        ) : (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {error && (
-                <div className="flex items-center gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-4 text-xs text-destructive animate-in fade-in slide-in-from-top-1 duration-300">
-                  <AlertCircle className="h-4 w-4 shrink-0" />
-                  <p className="font-medium">
-                    {(error as any).response?.data?.error || "Failed to send message. Please try again."}
-                  </p>
-                </div>
-              )}
+    <div className="w-full">
+      {isSuccess ? (
+        <ContactSuccessView onReset={() => setIsSuccess(false)} />
+      ) : (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {error && (
+              <div className="flex items-center gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-4 text-xs text-destructive animate-in fade-in slide-in-from-top-1 duration-300">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <p className="font-medium">
+                  {(error as any).response?.data?.error || "Failed to send message. Please try again."}
+                </p>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <FormInput
                 name="name"
                 label="Name"
@@ -67,41 +68,41 @@ export function ContactForm() {
                 disabled={isPending}
                 className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
               />
+            </div>
 
-              <FormInput
-                name="subject"
-                label="Subject"
-                placeholder="What is this about?"
-                disabled={isPending}
-                className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
-              />
+            <FormInput
+              name="subject"
+              label="Subject"
+              placeholder="What is this about?"
+              disabled={isPending}
+              className="bg-muted/30 border-border/50 focus-visible:ring-primary h-11"
+            />
 
-              <FormTextarea
-                name="message"
-                label="Message"
-                placeholder="Your message details..."
-                rows={6}
-                disabled={isPending}
-                className="bg-muted/30 border-border/50 focus-visible:ring-primary h-auto py-3"
-              />
+            <FormTextarea
+              name="message"
+              label="Message"
+              placeholder="Your message details..."
+              rows={6}
+              disabled={isPending}
+              className="bg-muted/30 border-border/50 focus-visible:ring-primary h-auto py-3"
+            />
 
-              <Button type="submit" size="lg" className="w-full h-12 shadow-sm" disabled={isPending}>
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </form>
-          </Form>
-        )}
-      </CardContent>
-    </Card>
+            <Button type="submit" size="lg" className="w-full h-12 shadow-sm" disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  Send Message
+                </>
+              )}
+            </Button>
+          </form>
+        </Form>
+      )}
+    </div>
   );
 }

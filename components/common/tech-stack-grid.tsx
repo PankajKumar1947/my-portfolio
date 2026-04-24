@@ -27,9 +27,9 @@ interface TechStackGridProps {
 
 export function TechStackGrid({ categories }: TechStackGridProps) {
   return (
-    <div className="grid gap-8 md:grid-cols-2">
+    <div className="grid gap-2 md:grid-cols-2">
       {categories.map((category) => (
-        <div key={category.category} className="space-y-3">
+        <div key={category.category} className="space-y-2 bg-card rounded-2xl p-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             {category.category}
             <span className="ml-2 inline-block h-px w-6 bg-primary align-middle" />
