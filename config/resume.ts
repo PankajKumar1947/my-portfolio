@@ -23,7 +23,7 @@ export interface Experience {
   role: string;
   company: string;
   duration: string;
-  description: string;
+  description: string | string[];
   technologies: string[];
 }
 

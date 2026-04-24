@@ -12,7 +12,7 @@ export const GET = apiHandler(async () => {
   }
 
   try {
-    const user = verifyToken(token);
+    const user = await verifyToken(token);
     return NextResponse.json({ user });
   } catch (error) {
     return NextResponse.json({ user: null });

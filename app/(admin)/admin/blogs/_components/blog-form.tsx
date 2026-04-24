@@ -16,8 +16,7 @@ import { InfoSection } from "@/components/layout/info-section";
 import { blogSchema, type BlogFormValues } from "@/validations/blogs.schema";
 import { IBlog, CreateBlogDTO, UpdateBlogDTO } from "@/types/blog.types";
 import { useCreateBlog, useUpdateBlog } from "@/hooks/mutation/use-blog";
-import { uploadFile } from "@/lib/upload-utils";
-import { ImageIcon, Loader2, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 interface BlogFormProps {
   initialData?: IBlog;
@@ -31,8 +30,6 @@ export function BlogForm({
   trigger,
 }: BlogFormProps) {
   const [open, setOpen] = React.useState(false);
-  const [isUploading, setIsUploading] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const router = useRouter();
   const isEdit = !!initialData;
   const { mutate: updateBlog, isPending: isUpdating } = useUpdateBlog(initialData?._id.toString() || "");
@@ -43,8 +40,6 @@ export function BlogForm({
     defaultValues: {
       title: initialData?.title || "",
       slug: initialData?.slug || "",
-      excerpt: initialData?.excerpt || "",
-      coverImg: initialData?.coverImg || "",
       readTime: initialData?.readTime || "",
       status: initialData?.status || "draft",
       content: initialData?.content || "",
@@ -52,23 +47,6 @@ export function BlogForm({
     },
   });
  
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
- 
-    try {
-      setIsUploading(true);
-      const slug = form.getValues("slug") || "temp";
-      const url = await uploadFile(file, `blogs/${slug}`);
-      form.setValue("coverImg", url);
-    } catch (error) {
-      console.error("Upload failed", error);
-    } finally {
-      setIsUploading(false);
-      // Reset input
-      if (e.target) e.target.value = "";
-    }
-  };
 
   // Reset form when dialog opens
   React.useEffect(() => {
@@ -77,8 +55,6 @@ export function BlogForm({
         form.reset({
           title: initialData.title,
           slug: initialData.slug,
-          excerpt: initialData.excerpt,
-          coverImg: initialData.coverImg,
           readTime: initialData.readTime,
           status: initialData.status,
           content: initialData.content || "",
@@ -88,8 +64,6 @@ export function BlogForm({
         form.reset({
           title: "",
           slug: "",
-          excerpt: "",
-          coverImg: "",
           readTime: "",
           status: "draft",
           content: "",
@@ -123,7 +97,6 @@ export function BlogForm({
     if (isEdit && initialData) {
       const updateData: UpdateBlogDTO = { 
         ...values,
-        coverImg: values.coverImg || "",
         readTime: values.readTime || "",
         content: values.content || "",
         author: values.author || "Admin",
@@ -138,9 +111,7 @@ export function BlogForm({
       const createData: CreateBlogDTO = { 
         title: values.title,
         slug: values.slug,
-        excerpt: values.excerpt,
         status: values.status,
-        coverImg: values.coverImg || "",
         readTime: values.readTime || "",
         content: values.content || "",
         author: values.author || "Admin",
@@ -202,89 +173,25 @@ export function BlogForm({
                   placeholder="url-friendly-slug"
                 />
               </InfoGrid>
-              <InfoGrid cols={1} className="mt-4">
-                <FormTextarea
-                  name="excerpt"
-                  label="Excerpt"
-                  placeholder="Brief description of the blog post..."
-                />
-              </InfoGrid>
             </InfoSection>
 
             <InfoSection title="Settings">
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <FormInput
-                      name="coverImg"
-                      label="Cover Image URL"
-                      placeholder="https://..."
-                    />
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        className="hidden"
-                        accept="image/*"
-                        onChange={handleFileUpload}
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="w-full h-9"
-                        disabled={isUploading}
-                        onClick={() => fileInputRef.current?.click()}
-                      >
-                        {isUploading ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <ImageIcon className="mr-2 h-4 w-4" />
-                        )}
-                        {isUploading ? "Uploading..." : "Upload Image"}
-                      </Button>
-                      {form.watch("coverImg") && (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 text-destructive hover:text-destructive hover:bg-destructive/10"
-                          onClick={() => form.setValue("coverImg", "")}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                  <FormInput
-                    name="readTime"
-                    label="Read Time"
-                    placeholder="e.g. 5 min read"
-                  />
-                </div>
-
-                {form.watch("coverImg") && (
-                  <div className="relative aspect-21/9 w-full overflow-hidden rounded-xl border border-border bg-muted/50">
-                    <img
-                      src={form.watch("coverImg")}
-                      alt="Cover preview"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                )}
-
-                <div className="mt-4">
-                  <FormSelect
-                    name="status"
-                    label="Status"
-                    placeholder="Select status"
-                    options={[
-                      { label: "Draft", value: "draft" },
-                      { label: "Published", value: "published" },
-                      { label: "Inactive", value: "inactive" },
-                    ]}
-                  />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormInput
+                  name="readTime"
+                  label="Read Time"
+                  placeholder="e.g. 5 min read"
+                />
+                <FormSelect
+                  name="status"
+                  label="Status"
+                  placeholder="Select status"
+                  options={[
+                    { label: "Draft", value: "draft" },
+                    { label: "Published", value: "published" },
+                    { label: "Inactive", value: "inactive" },
+                  ]}
+                />
               </div>
             </InfoSection>
           </InfoGrid>

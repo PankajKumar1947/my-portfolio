@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function NotesPage() {
   await connectDB();
   const notes = await getPublishedNotesService();
@@ -28,9 +30,9 @@ export default async function NotesPage() {
         gradient
       />
 
-      <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
         {publishedNotes.length > 0 ? (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {publishedNotes.map((note) => (
               <NoteCard key={note._id.toString()} note={note} />
             ))}

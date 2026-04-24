@@ -66,9 +66,6 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
-              <SheetTitle className="gradient-text text-lg font-bold">
-                Navigation
-              </SheetTitle>
               <div className="mt-6 flex flex-col gap-2">
                 {navItems.map((item) => (
                   <Link

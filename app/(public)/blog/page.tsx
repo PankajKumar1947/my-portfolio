@@ -28,7 +28,7 @@ export default async function BlogPage() {
 
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
         {publishedPosts.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-1">
             {publishedPosts.map((post: any, index: number) => {
               // Convert Mongoose/Date objects to plain strings/objects for Client Components
               const serializedPost = {

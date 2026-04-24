@@ -7,7 +7,7 @@ export const getCurrentUser = async () => {
   if (!token) return null
 
   try {
-    return verifyToken(token)
+    return await verifyToken(token)
   } catch {
     return null
   }

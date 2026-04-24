@@ -102,7 +102,7 @@ export function PlannerShell() {
         />
       </div>
 
-      <div className="flex-1 overflow-hidden rounded-xl border border-border/50 bg-background shadow-2xl relative dark:bg-card/5">
+      <div className="flex-1 overflow-hidden bg-background relative dark:bg-card/5">
         {view === "month" ? (
           <CalendarGrid
             calendarDays={calendarDays}
