@@ -7,8 +7,7 @@
         { "name": "C" },
         { "name": "JavaScript" },
         { "name": "TypeScript" },
-        { "name": "HTML" },
-        { "name": "CSS" }
+        { "name": "SQL" }
       ]
     },
     {
@@ -16,21 +15,26 @@
       "skills": [
         { "name": "React" },
         { "name": "Next.js" },
-        { "name": "Tailwind CSS" },
-        { "name": "Bootstrap" },
+        { "name": "Node.js" },
         { "name": "Express" },
         { "name": "NestJS" },
+        { "name": "Expo" },
+        { "name": "Turborepo" },
+        { "name": "BullMQ" },
         { "name": "TanStack Query" },
-        { "name": "Redux Toolkit" }
+        { "name": "Tailwind CSS" },
+        { "name": "shadcn/ui" }
       ]
     },
     {
       "category": "Technologies & Databases",
       "skills": [
-        { "name": "Node.js" },
         { "name": "PostgreSQL" },
         { "name": "MongoDB" },
-        { "name": "MySQL" },
+        { "name": "Mistral AI" },
+        { "name": "WebContainers" },
+        { "name": "OSRM" },
+        { "name": "Nominatim" },
         { "name": "Google Maps API" },
         { "name": "Razorpay" }
       ]
@@ -39,14 +43,14 @@
       "category": "Developer Tools",
       "skills": [
         { "name": "VS Code" },
-        { "name": "Postman" },
+        { "name": "OpenCode" },
+        { "name": "Antigravity" },
+        { "name": "OpenAI Codex" },
         { "name": "Git" },
         { "name": "GitHub" },
-        { "name": "NPM" },
         { "name": "Docker" },
-        { "name": "Turborepo" },
-        { "name": "Firebase" },
-        { "name": "Vercel" }
+        { "name": "Postman" },
+        { "name": "NPM" }
       ]
     }
   ],
@@ -54,15 +58,16 @@
     {
       "id": "1",
       "role": "Software Developer Intern",
-      "company": "PLANTROOT NEXTGEN TECHNOLOGIES PRIVATE LIMITED",
+      "company": "Plantroot Nextgen Technologies Private Limited",
       "duration": "Aug 2025 — Present",
       "description": [
-        "Contributed to a large-scale HRMS platform managing employees, projects, vendors, and clients, supporting end-to-end organizational workflows.",
-        "Developed workforce and operations modules including time-off management, timesheets, weekly status reports (WSR), and asset tracking with role-based access control.",
-        "Engineered scalable and maintainable frontend features using Next.js and Tailwind CSS, with reusable UI components built using shadcn/ui and tablecn.",
-        "Handled large datasets and API integrations using TanStack Table and TanStack Query, implementing optimized queries, mutations, pagination, filtering, and caching strategies."
+        "Designed and orchestrated an AI-agentic development workflow that automates end-to-end feature implementation, reducing manual engineering overhead by 60% and accelerating module deployment.",
+        "Engineered a library of 25+ reusable UI components and form-controlled elements, reducing new page development time by 50% while maintaining strict design consistency.",
+        "Architected a dynamic Dashboard Grid system using Next.js and Motion, improving frontend flexibility and user interaction speed by 40%.",
+        "Developed workforce modules including time-off management, timesheets, and asset tracking with Role-Access Guards to enforce secure organizational workflows.",
+        "Optimized high-volume data handling using TanStack Table and TanStack Query, implementing caching and pagination strategies that reduced API-related UI lag by 30%."
       ],
-      "technologies": ["Next.js", "Tailwind CSS", "TypeScript", "TanStack Table", "TanStack Query", "shadcn/ui", "tablecn"]
+      "technologies": ["Next.js", "Motion", "TanStack Table", "TanStack Query", "AI Agents", "TypeScript"]
     },
     {
       "id": "2",
@@ -70,12 +75,12 @@
       "company": "GrowthPurple Technologies",
       "duration": "Mar 2025 — Aug 2025",
       "description": [
-        "Built a GenAI-powered full-stack platform Pluton which generate deployable React, Next.js, and Vue code from prompts, rendered live with WebContainers for an IDE-like browser experience.",
+        "Built Pluton, a GenAI-powered full-stack platform generating deployable React, Next.js, and Vue code from prompts, rendered live with WebContainers for an IDE-like browser experience.",
         "Designed a personal cloud storage system to manage and reuse image assets across projects, reducing duplication by 60% and improving delivery speed.",
         "Integrated PostgreSQL, cron jobs, and Dodo Payments to support scalable data workflows, automated tasks, and seamless transactions.",
-        "Enabled users to create, preview, deploy, and sell AI-generated web apps through a built-in marketplace with full end-to-end flow."
+        "Enabled users to create, preview, deploy, and sell AI-generated web apps through a built-in marketplace with a full end-to-end flow."
       ],
-      "technologies": ["React", "Next.js", "PostgreSQL", "GenAI", "Dodo Payments", "WebContainers"]
+      "technologies": ["React", "Next.js", "Vue", "WebContainers", "PostgreSQL", "GenAI", "Dodo Payments"]
     },
     {
       "id": "3",
@@ -95,16 +100,41 @@
     {
       "id": "1",
       "degree": "B.Tech in Computer Science and Engineering",
-      "institution": "Asansol Engineering College, Asansol",
+      "institution": "Asansol Engineering College",
       "duration": "2022 — 2026",
-      "description": "Focusing on full-stack development, software engineering, and modern web technologies."
+      "description": "CGPA: 8.6. Focusing on full-stack development, software engineering, and modern web technologies."
     },
     {
       "id": "2",
-      "degree": "Senior Secondary (Science)",
+      "degree": "Senior Secondary (Science Stream)",
       "institution": "B L Indo Anglian Public School",
       "duration": "2019 — 2021",
       "description": "Completed high school with a focus on Physics, Chemistry, and Mathematics."
     }
+  ],
+  "projects": [
+    {
+      "id": "speaktra",
+      "title": "Speaktra",
+      "description": "A scalable monorepo architecture for web, mobile, and backend services with AI-powered challenge generation.",
+      "technologies": ["Next.js", "NestJS", "Expo", "Turborepo", "MongoDB", "BullMQ", "Mistral AI"],
+      "githubUrl": "https://github.com/PankajKumar1947/speaktra"
+    },
+    {
+      "id": "turismo",
+      "title": "Turismo",
+      "description": "AI-powered travel planning platform generating personalized, budget-aware itineraries using multi-agent architecture.",
+      "technologies": ["React", "Node.js", "Express", "MongoDB", "Mistral AI", "OSRM", "Nominatim"],
+      "githubUrl": "https://github.com/PankajKumar1947/Turismo-AI-Powered-Travel-Planning"
+    },
+    {
+      "id": "textlo",
+      "title": "TextLo",
+      "description": "A sleek, real-time collaborative text and code playground. Share snippets, ideas, or collaborative notes instantly by just typing a URL.",
+      "technologies": ["React", "Socket.io", "Node.js", "Express", "Tailwind CSS"],
+      "githubUrl": "https://github.com/PankajKumar1947/Text-Lo",
+      "liveUrl": "https://text-lo.onrender.com"
+    }
   ]
 }
+

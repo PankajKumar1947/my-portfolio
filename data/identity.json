@@ -2,14 +2,14 @@
   "name": "Pankaj Kumar",
   "tagline": "Full-Stack Developer",
   "email": "pankaj.ky3007@gmail.com",
-  "phone": "+91 8101865933",
+  "phone": "+91-8101865933",
   "address": "Asansol, West Bengal, India",
   "location": "India",
   "logoText": "Pankaj",
   "profileImage": "/profile-picture.png",
-  "bio": "I am a software engineer who loves building clean and fast web applications. I have experience working with Next.js, AI, and enterprise systems to solve real-world problems with simple and effective code.",
+  "bio": "I am a software developer focused on building AI-agentic development workflows and high-performance full-stack applications. Experience in architecting scalable systems with Next.js, NestJS, and GenAI.",
   "socials": {
-    "github": "https://github.com/pankajkumar1947",
+    "github": "https://github.com/PankajKumar1947",
     "linkedin": "https://www.linkedin.com/in/pankaj-kumar-5bbb44268/",
     "twitter": "https://twitter.com/pankajrkry"
   },

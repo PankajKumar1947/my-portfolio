@@ -35,7 +35,17 @@ export interface Education {
   description: string;
 }
 
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  technologies: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+}
+
 // Data exports from JSON
 export const skillCategories = resumeData.skillCategories as SkillCategory[];
 export const experiences = resumeData.experiences as Experience[];
 export const educations = resumeData.educations as Education[];
+export const projects = resumeData.projects as Project[];

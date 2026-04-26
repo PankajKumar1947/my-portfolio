@@ -4,6 +4,7 @@ import { connectDB } from "@/lib/db";
 import { getPublishedProjectsService } from "@/services/project.service";
 import { ProjectListWithFilter } from "./_components/project-list-with-filter";
 import { siteConfig } from "@/config/site";
+import { projects as fallbackProjectsData } from "@/config/resume";
 
 export const metadata: Metadata = {
   title: siteConfig.projects.title,
@@ -18,8 +19,23 @@ export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
   await connectDB();
-  const projects = await getPublishedProjectsService();
-  const serializedProjects = JSON.parse(JSON.stringify(projects));
+  const dbProjects = await getPublishedProjectsService();
+  
+  // Transform data if DB is empty to use fallback projects from resume.json
+  const projects = dbProjects.length > 0 
+    ? JSON.parse(JSON.stringify(dbProjects))
+    : fallbackProjectsData.map(p => ({
+        _id: p.id,
+        title: p.title,
+        description: p.description,
+        tags: p.technologies.join(", "),
+        githubUrl: p.githubUrl,
+        liveUrl: p.liveUrl,
+        featured: false,
+        status: "published",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }));
 
   return (
     <>
@@ -30,8 +46,9 @@ export default async function ProjectsPage() {
       />
 
       <div className="mx-auto max-w-(--max-width) px-4 pb-20 sm:px-6 lg:px-8">
-        <ProjectListWithFilter projects={serializedProjects} />
+        <ProjectListWithFilter projects={projects} />
       </div>
     </>
   );
 }
+

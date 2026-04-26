@@ -56,10 +56,14 @@ export default function HomePage() {
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Button size="lg" asChild>
-                  <Link href="/projects">
-                    View Projects
+                  <a 
+                    href="https://drive.google.com/file/d/1O0VJfUAey8TV20q2-a189AukFDUX4MBD/view" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    View Resume
                     <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                  </a>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <a href={`mailto:${profile.email}`}>
